@@ -198,24 +198,6 @@ export default function Home() {
             </Link>
           </div>
         </section>
-
-        {/* CTA Section */}
-        <section className="bg-primary text-primary-foreground py-16 md:py-20">
-          <div className="font-body max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h3 className="text-4xl md:text-5xl font-serif font-bold mb-6">
-              Sẵn sàng tạo nến thơm theo ý bạn?
-            </h3>
-            <p className="text-lg opacity-90 mb-8">
-              Trải nghiệm quy trình tùy chỉnh nến thơm của Préci và tạo một sản phẩm hoàn toàn độc nhất
-            </p>
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-primary-foreground text-primary font-semibold rounded-lg hover:bg-opacity-90 transition-all"
-            >
-              Bắt đầu tùy chỉnh <ArrowRight size={20} />
-            </Link>
-          </div>
-        </section>
       </main>
 
       <Footer />
