@@ -9,13 +9,21 @@ import { ArrowRight, Sparkles } from 'lucide-react'
 export default function Home() {
   const [activeTab, setActiveTab] = useState('candles')
 
-  // 1. DANH SÁCH ẢNH NẾN THƠM (8 cái)
-  // Sau này bạn thay '/path/to/candle-1.jpg' vào chỗ image
-  const candleImages = Array(8).fill(null).map((_, i) => ({
+  // 1. DANH SÁCH ẢNH NẾN THƠM (Đã cập nhật link ảnh thật)
+  // Lưu ý: Đảm bảo bạn đã chuyển ảnh vào thư mục 'public/assets/nen-thom'
+  const candleImages = [
+    '/assets/nen-thom/Picture2.png',
+    '/assets/nen-thom/Picture3.png',
+    '/assets/nen-thom/Picture4.png',
+    '/assets/nen-thom/Picture5.png',
+    '/assets/nen-thom/Picture6.png',
+    '/assets/nen-thom/Picture7.png',
+    '/assets/nen-thom/Picture8.png',
+    '/assets/nen-thom/Picture9.png',
+  ].map((img, i) => ({
     id: `c-${i}`,
     type: 'Nến thơm',
-    // Đây là ảnh mẫu, bạn thay link ảnh thật của bạn vào đây
-    image: '/assets/candle-placeholder.jpg'
+    image: img
   }))
 
   // 2. DANH SÁCH ẢNH PHỤ KIỆN (8 cái)
@@ -120,12 +128,24 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12 min-h-[400px]">
             {displayedProducts.map((item) => (
               <div key={item.id} className="animate-in fade-in zoom-in duration-500">
-                <div className="relative bg-[#f5f5f5] aspect-square overflow-hidden rounded-sm shadow-sm hover:shadow-md transition-shadow">
-                  {/* Placeholder hiển thị rõ loại ảnh */}
-                  <div className="absolute inset-0 flex items-center justify-center text-gray-400 bg-[#EFEBE7] flex-col gap-2">
-                    <div className={`w-16 h-16 rounded-full blur-xl opacity-30 ${activeTab === 'candles' ? 'bg-amber-500' : 'bg-blue-400'}`}></div>
-                    <span className="relative z-10 font-brand text-sm">Ảnh {item.type}</span>
-                  </div>
+                <div className="relative bg-[#f5f5f5] aspect-square overflow-hidden rounded-sm shadow-sm hover:shadow-md transition-shadow group">
+
+                  {/* LOGIC HIỂN THỊ ẢNH: */}
+                  {/* Nếu đường dẫn bắt đầu bằng '/' (tức là ảnh thật), thì hiện thẻ img */}
+                  {item.image && item.image.startsWith('/') ? (
+                    <img
+                      src={item.image}
+                      alt={item.type}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                  ) : (
+                    // Nếu chưa có ảnh (cho tab Phụ kiện) thì hiện khung placeholder cũ
+                    <div className="absolute inset-0 flex items-center justify-center text-gray-400 bg-[#EFEBE7] flex-col gap-2">
+                      <div className="w-16 h-16 rounded-full blur-xl opacity-30 bg-blue-400"></div>
+                      <span className="relative z-10 font-brand text-sm">Ảnh {item.type}</span>
+                    </div>
+                  )}
+
                 </div>
               </div>
             ))}
