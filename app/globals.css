@@ -8,7 +8,6 @@
 
 :root {
   --font-brand: "Mallong", serif;
-  --font-heading1: "Cormorant Garamond Italic", serif;
   --font-body: "Cormorant Garamond Light", serif;
 }
 
@@ -16,14 +15,13 @@ body {
   font-family: var(--font-body);
 }
 
-
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #fdf7f3;
+  --background: #fffdfa;
   --foreground: #2d1e14;
   --card: #fdf6f2;
   --card-foreground: #2d1e14;
@@ -31,7 +29,7 @@ body {
   --popover-foreground: #2d1e14;
   --primary: #765540;
   --primary-foreground: #fdf7f3;
-  --secondary: #ebd2c2;
+  --secondary: #dbbfa9;
   --secondary-foreground: #3c291d;
   --muted: #ebd2c2;
   --muted-foreground: #806d61;
@@ -96,10 +94,7 @@ body {
 @theme inline {
   /* Font Display – Brand */
   --font-brand: 'Mallong', serif;
-
-  /* Font chính – Nội dung / sản phẩm */
-  --font-heading1: 'Cormorant Garamond Italic', serif;
-
+  --font-body: 'Cormorant Garamond Light', serif;
   /* Sans fallback (chỉ dùng cho UI kỹ thuật nếu cần) */
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
 

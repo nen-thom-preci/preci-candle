@@ -5,37 +5,39 @@ export default function Footer() {
   return (
     <footer className="bg-secondary text-secondary-foreground border-t border-border font-[\'Cormorant Garamond\']">
       <div className="max-w-7xl mx-auto px-4 sm:px-14 lg:px-18 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {/* Brand Section */}
-          <div>
-            <Link href="/" className="flex items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+
+          {/* Brand Section - SỬA 2: Chiếm 2 cột (lg:col-span-2) */}
+          <div className="lg:col-span-2 pr-8">
+            <Link href="/" className="flex items-start">
               <img
                 src={`/assets/Logo.png`}
                 alt="Préci"
-                className="w-7 h-7 object-cover mb-4"
+                className="w-12 h-12 object-cover mr-3"
               />
-              <h3 className="text-2xl ml-2 mb-3 font-brand font-bold text-primary">Préci</h3>
+              <h3 className="text-5xl ml-2 mb-3 font-brand">Préci</h3>
             </Link>
-            <p className="font-heading1 text-sm leading-relaxed">
+            {/* Giới hạn chiều rộng chữ để không bị tràn quá dài khó đọc */}
+            <p className="font-body text-sm leading-relaxed max-w-md">
               Préci (trong tiếng Pháp là précieux) nghĩa là trân quý. Việc lược bỏ hậu tố nhằm thể hiện tinh thần tinh tế, tối giản - đúng với định hướng của thương hiệu - nhưng vẫn giữ trọn tinh thần cốt lõi của từ gốc. Tên gọi này xuất phát dựa trên niềm tin rằng mỗi mối quan hệ đều có những giá trị cảm xúc riêng biệt, vì vậy điều này cần được giữ gìn một cách trân trọng.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-2xl mb-3 font-brand font-bold text-primary tracking-wide">Liên kết</h4>
+            <h4 className="text-5xl mb-3 font-brand text-primary tracking-wide">Liên kết</h4>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/about" className="font-heading1 hover:text-primary transition-colors">Về Préci</Link></li>
-              <li><Link href="/products" className="font-heading1 hover:text-primary transition-colors">Sản phẩm</Link></li>
-              <li><Link href="/blog" className="font-heading1 hover:text-primary transition-colors">Cẩm nang</Link></li>
-              <li><Link href="/contact" className="font-heading1 hover:text-primary transition-colors">Liên hệ</Link></li>
+              <li><Link href="/about" className="font-body hover:text-primary transition-colors">Về Préci</Link></li>
+              <li><Link href="/products" className="font-body hover:text-primary transition-colors">Sản phẩm</Link></li>
+              <li><Link href="/blog" className="font-body hover:text-primary transition-colors">Cẩm nang</Link></li>
+              <li><Link href="/contact" className="font-body hover:text-primary transition-colors">Liên hệ</Link></li>
             </ul>
           </div>
 
           {/* Contact & Social */}
           <div>
-            <h4 className="text-2xl mb-3 font-brand font-bold text-primary tracking-wide">Liên hệ</h4>
-            <ul className="space-y-2.5 font-heading1 text-sm">
+            <h4 className="text-5xl mb-3 font-brand text-primary tracking-wide">Liên hệ</h4>
+            <ul className="space-y-2.5 font-body text-sm">
               <li className="flex items-center gap-2">
                 <Phone size={16} />
                 <span>+84 (0)123 456 789</span>
