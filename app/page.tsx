@@ -79,20 +79,6 @@ export default function Home() {
           {/* Lớp phủ tối màu để chữ nổi bật hơn (Overlay) */}
           <div className="absolute inset-0 bg-black/10"></div>
 
-          {/* 2. NỘI DUNG TRÊN VIDEO (TEXT & BUTTON) */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-
-            {/* Tiêu đề nhỏ phía trên */}
-            <p className="font-brand text-lg md:text-xl text-white tracking-widest uppercase mb-4 opacity-90 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-              The Art of Scent
-            </p>
-
-            {/* Tiêu đề chính Préci */}
-            <h1 className="font-brand text-6xl md:text-8xl lg:text-9xl text-white mb-8 drop-shadow-md animate-in fade-in zoom-in duration-1000 delay-300">
-              Préci
-            </h1>
-          </div>
-
           {/* (Tùy chọn) Nút cuộn xuống dưới */}
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-white/70">
             <span className="text-sm font-brand tracking-widest">SCROLL</span>
