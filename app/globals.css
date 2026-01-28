@@ -2,7 +2,8 @@
 
 @font-face {
   font-family: "Mallong";
-  src: url("/fonts/Mallong-Regular.ttf") format("truetype");
+  /* SỬA LẠI ĐƯỜNG DẪN CHO ĐÚNG: Thêm /assets vào trước */
+  src: url("/assets/fonts/Mallong-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -10,7 +11,8 @@
 
 @font-face {
   font-family: "Cormorant Garamond Light";
-  src: url("/fonts/CormorantGaramond-Light.ttf") format("truetype");
+  /* SỬA LẠI ĐƯỜNG DẪN */
+  src: url("/assets/fonts/CormorantGaramond-Light.ttf") format("truetype");
   font-weight: 300 700;
   font-style: normal;
   font-display: swap;
@@ -18,7 +20,8 @@
 
 @font-face {
   font-family: "Cormorant Garamond Italic";
-  src: url("/fonts/CormorantGaramond-Italic.ttf") format("truetype");
+  /* SỬA LẠI ĐƯỜNG DẪN */
+  src: url("/assets/fonts/CormorantGaramond-Italic.ttf") format("truetype");
   font-weight: 300 700;
   font-style: normal;
   font-display: swap;
