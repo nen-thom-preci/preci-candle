@@ -1,0 +1,166 @@
+/* ===== FONTS ===== */
+
+@font-face {
+  font-family: "Mallong";
+  src: url("/fonts/Mallong-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond Light";
+  src: url("/fonts/CormorantGaramond-Light.ttf") format("truetype");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond Italic";
+  src: url("/fonts/CormorantGaramond-Italic.ttf") format("truetype");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===== TAILWIND ===== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-brand: "Mallong", serif;
+  --font-heading1: "Cormorant Garamond Italic", serif;
+  --font-body: "Cormorant Garamond Light", serif;
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #fdf7f3;
+  --foreground: #2d1e14;
+  --card: #fdf6f2;
+  --card-foreground: #2d1e14;
+  --popover: #fdf7f3;
+  --popover-foreground: #2d1e14;
+  --primary: #765540;
+  --primary-foreground: #fdf7f3;
+  --secondary: #ebd2c2;
+  --secondary-foreground: #3c291d;
+  --muted: #ebd2c2;
+  --muted-foreground: #806d61;
+  --accent: #ac7957;
+  --accent-foreground: #fdf7f3;
+  --destructive: #e7000b;
+  --destructive-foreground: #e7000b;
+  --border: #ede2db;
+  --input: #ede2db;
+  --ring: #765540;
+  --chart-1: #f54900;
+  --chart-2: #009689;
+  --chart-3: #104e64;
+  --chart-4: #ffb900;
+  --chart-5: #fe9a00;
+  --radius: 0.625rem;
+  --sidebar: #fafafa;
+  --sidebar-foreground: #0a0a0a;
+  --sidebar-primary: #171717;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #f5f5f5;
+  --sidebar-accent-foreground: #171717;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: rgb(161, 161, 161);
+}
+
+.dark {
+  --background: oklch(0.2 0.02 53.769);
+  --foreground: oklch(0.95 0.008 53.769);
+  --card: oklch(0.2 0.02 53.769);
+  --card-foreground: oklch(0.95 0.008 53.769);
+  --popover: oklch(0.2 0.02 53.769);
+  --popover-foreground: oklch(0.95 0.008 53.769);
+  --primary: oklch(0.75 0.08 53.769);
+  --primary-foreground: oklch(0.2 0.02 53.769);
+  --secondary: oklch(0.3 0.035 53.769);
+  --secondary-foreground: oklch(0.95 0.008 53.769);
+  --muted: oklch(0.3 0.035 53.769);
+  --muted-foreground: oklch(0.65 0.03 53.769);
+  --accent: oklch(0.7 0.08 53.769);
+  --accent-foreground: oklch(0.2 0.02 53.769);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.3 0.02 53.769);
+  --input: oklch(0.3 0.02 53.769);
+  --ring: oklch(0.75 0.08 53.769);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+@theme inline {
+  /* Font Display – Brand */
+  --font-brand: 'Mallong', serif;
+
+  /* Font chính – Nội dung / sản phẩm */
+  --font-heading1: 'Cormorant Garamond Italic', serif;
+
+  /* Sans fallback (chỉ dùng cho UI kỹ thuật nếu cần) */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+
+  --font-mono: 'Geist Mono', monospace;
+
+  /* giữ nguyên toàn bộ color & radius */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
