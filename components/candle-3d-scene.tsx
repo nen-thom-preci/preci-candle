@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, Suspense } from 'react'
 import { Canvas, useThree, useFrame } from '@react-three/fiber'
-import { OrbitControls, Environment, ContactShadows, Text as Text3D } from '@react-three/drei'
+import { OrbitControls, Environment, ContactShadows, Text as Text3D, Html, useProgress } from '@react-three/drei'
 import * as THREE from 'three'
 
 interface Candle3DProps {
@@ -11,7 +11,8 @@ interface Candle3DProps {
   sticker: boolean
   base: string
   message: string
-  engraving?: string // <--- THÊM DÒNG NÀY (Dấu ? nghĩa là có thể không có)
+  engraving?: string
+  isQRCode?: boolean;
 }
 
 // 1. BẢNG MÀU
@@ -29,8 +30,6 @@ const colorMap: Record<string, { wax: string; label: string }> = {
   forestgreen: { wax: '#224225', label: '#FFFDFA' },
   burgundy: { wax: '#800020', label: '#FFFDFA' },
 }
-
-// --- CÁC CẤU HÌNH BỊ THIẾU ---
 
 // Cấu hình bề mặt để tính toán vị trí khắc tên
 const SURFACE_CONFIG: Record<string, { radius: number, heightRange: [number, number], tilt?: number }> = {
@@ -140,7 +139,7 @@ function BaseCeramic() {
 }
 
 // 4. MAIN COMPONENT (Bản đầy đủ tính năng)
-function ProceduralsCandle({ shape, color, sticker, base, message, engraving }: Candle3DProps) {
+function ProceduralsCandle({ shape, color, sticker, base, message, engraving, isQRCode }: Candle3DProps) {
   const surface = SURFACE_CONFIG[shape] || SURFACE_CONFIG['round'];
   const stickerConfig = STICKER_CONFIG[shape] || STICKER_CONFIG['round'];
 
@@ -170,14 +169,47 @@ function ProceduralsCandle({ shape, color, sticker, base, message, engraving }: 
     ctx.fillText("Préci", 512, 380);
 
     // 3. Thông điệp người dùng (Cỡ chữ to & rõ)
-    if (message) {
+    // ... (Code cũ phần 1 và 2 giữ nguyên) ...
+    ctx.textAlign = 'center';
+    ctx.fillText("Préci", 512, 380);
+
+    // --- 3. BẮT ĐẦU ĐOẠN CODE MỚI ---
+
+    // Kiểm tra: Nếu là chế độ QR Code
+    if (isQRCode) {
+      // Vẽ mã QR giả lập (Hình vuông lớn + các điểm chấm)
+      const qrSize = 300;
+      const qrX = 512 - qrSize / 2;
+      const qrY = 450;
+
+      ctx.fillStyle = '#715136'; // Màu nâu
+
+      // Vẽ khung
+      ctx.lineWidth = 4;
+      ctx.strokeRect(qrX, qrY, qrSize, qrSize);
+
+      // Vẽ các chấm ngẫu nhiên để mô phỏng QR
+      for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+          // Random vẽ các ô vuông nhỏ
+          if (Math.random() > 0.5) {
+            ctx.fillRect(qrX + i * 30, qrY + j * 30, 25, 25);
+          }
+        }
+      }
+      // Chú thích dưới mã
+      ctx.font = 'bold 40px Arial';
+      ctx.fillText("SCAN TO LISTEN", 512, qrY + qrSize + 60);
+
+    } else if (message) {
+      // Logic cũ: Vẽ văn bản (Nếu không phải QR)
       ctx.fillStyle = '#715136';
-      ctx.font = 'bold 100px Mallong'; // Chữ to, đậm
+      ctx.font = 'bold 100px Mallong';
 
       const words = message.split(' ');
       let line = '';
       let y = 510;
-      const lineHeight = 100; // Khoảng cách dòng thoáng
+      const lineHeight = 100;
       const maxWidth = 800;
 
       words.forEach(word => {
@@ -192,8 +224,12 @@ function ProceduralsCandle({ shape, color, sticker, base, message, engraving }: 
       });
       ctx.fillText(line, 512, y);
     }
+    // --- KẾT THÚC ĐOẠN CODE MỚI ---
+
     return new THREE.CanvasTexture(canvas);
-  }, [message, color, sticker]);
+
+    // QUAN TRỌNG: Thêm isQRCode vào danh sách theo dõi ở cuối useMemo
+  }, [message, color, sticker, isQRCode]);
 
   return (
     <group>
@@ -221,16 +257,13 @@ function ProceduralsCandle({ shape, color, sticker, base, message, engraving }: 
         </mesh>
       )}
 
-      {/* --- LOGIC KHẮC TÊN AN TOÀN (SAFE RENDER) --- */}
+      {/* LOGIC KHẮC TÊN */}
       {base !== 'none' && engraving && (() => {
         const baseX = 0;
-        // Đế vàng mỏng nên đặt thấp hơn (-1.22), các đế khác (-1.2)
         const baseY = base === 'gold' ? -1.22 : -1.2;
-        // Cập nhật bán kính mới (để chữ bám sát đế sau khi chỉnh sửa đế Marble/Gốm)
         const baseR = base === 'wood' ? 0.95 : base === 'marble' ? 0.95 : base === 'ceramic' ? 1.0 : 0.85;
         const baseZ = baseR + 0.01;
 
-        // Tự động chỉnh cỡ chữ
         let fontSize = base === 'gold' ? 0.08 : 0.12;
         const threshold = 8;
         if (engraving.length > threshold) {
@@ -238,10 +271,7 @@ function ProceduralsCandle({ shape, color, sticker, base, message, engraving }: 
         }
 
         return (
-          // Thêm 'as any' vào position để sửa lỗi gạch đỏ TypeScript
           <group rotation={[0, 0, 0]} position={[baseX, baseY, baseZ] as any}>
-
-            {/* LỚP 1: VIỀN TỐI (Shadow) */}
             <Text3D
               position={[0, 0, -0.005]}
               fontSize={fontSize * 1.05}
@@ -254,7 +284,6 @@ function ProceduralsCandle({ shape, color, sticker, base, message, engraving }: 
               <meshBasicMaterial color="#3d2514" />
             </Text3D>
 
-            {/* LỚP 2: VÀNG SÁNG (Gold) */}
             <Text3D
               position={[0, 0, 0.005]}
               fontSize={fontSize}
@@ -276,7 +305,7 @@ function ProceduralsCandle({ shape, color, sticker, base, message, engraving }: 
         )
       })()}
 
-      {/* RENDER ĐẾ NẾN (Giữ nguyên) */}
+      {/* RENDER ĐẾ NẾN */}
       {base === 'wood' && <BaseWood />}
       {base === 'marble' && <BaseMarble />}
       {base === 'ceramic' && <BaseCeramic />}
@@ -284,29 +313,39 @@ function ProceduralsCandle({ shape, color, sticker, base, message, engraving }: 
   )
 }
 
+// 3. COMPONENT LOADER (Hiển thị % tải)
+function Loader() {
+  const { progress } = useProgress()
+  return <Html center><span style={{ color: '#715136', fontFamily: 'serif' }}>{progress.toFixed(0)}% loaded</span></Html>
+}
+
 export function Candle3D(props: Candle3DProps) {
   return (
     <Canvas className="w-full h-full" dpr={[1, 2]} shadows gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}>
-      <color attach="background" args={['#F5F2EB']} />
+      {/* 4. QUAN TRỌNG: Bao bọc mọi thứ trong Suspense */}
+      <Suspense fallback={<Loader />}>
+        <color attach="background" args={['#F5F2EB']} />
 
-      <directionalLight position={[4, 5, 3]} intensity={1.2} castShadow shadow-mapSize={[2048, 2048]} />
-      <directionalLight position={[-3, 2, 3]} intensity={0.6} color="#ffffff" />
-      <directionalLight position={[2, 1, -4]} intensity={0.4} color="#f0e6d2" />
-      <directionalLight position={[0, 3, -5]} intensity={0.3} color="#ffffff" />
+        <directionalLight position={[4, 5, 3]} intensity={1.2} castShadow shadow-mapSize={[2048, 2048]} />
+        <directionalLight position={[-3, 2, 3]} intensity={0.6} color="#ffffff" />
+        <directionalLight position={[2, 1, -4]} intensity={0.4} color="#f0e6d2" />
+        <directionalLight position={[0, 3, -5]} intensity={0.3} color="#ffffff" />
 
-      <Environment preset="studio" {...({ environmentIntensity: 0.8 } as any)} />
+        <Environment preset="studio" {...({ environmentIntensity: 0.8 } as any)} />
 
-      <ProceduralsCandle {...props} />
+        <ProceduralsCandle {...props} />
 
-      <ContactShadows position={[0, -1.5, 0]} scale={3} blur={2.5} far={4} opacity={0.4} />
-      <OrbitControls
-        enableDamping
-        autoRotate
-        autoRotateSpeed={1.5}
-        rotateSpeed={2.5}
-        minDistance={2}
-        maxDistance={6}
-        enablePan={false}
-      />    </Canvas>
+        <ContactShadows position={[0, -1.5, 0]} scale={3} blur={2.5} far={4} opacity={0.4} />
+        <OrbitControls
+          enableDamping
+          autoRotate
+          autoRotateSpeed={1.5}
+          rotateSpeed={2.5}
+          minDistance={2}
+          maxDistance={6}
+          enablePan={false}
+        />
+      </Suspense>
+    </Canvas>
   )
 }

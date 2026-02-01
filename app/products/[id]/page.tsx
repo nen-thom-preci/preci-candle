@@ -3,60 +3,7 @@ import Footer from '@/components/footer'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import AddToCartClient from './AddToCartClient'
-
-const products: Record<number, any> = {
-  7: {
-    name: 'Hộp Quà Nến Thơm',
-    price: '89.000 đ',
-    category: 'Phụ Kiện',
-    rating: 4.8,
-    reviews: 124,
-    description: 'Hộp quà sang trọng để đựng nến thơm hoặc quà tặng khác',
-    image: '/products/giftbox.jpg',
-    features: [
-      'Chất liệu cao cấp',
-      'Thiết kế sang trọng',
-      'Kích thước phù hợp cho nến thơm',
-      'Có dây buộc để trang trí',
-    ],
-    details: `Hộp quà của Préci được thiết kế để làm tăng giá trị của bất kỳ quà tặng nào. 
-      Được làm từ carton cao cấp với lớp phủ bền bỉ, hộp này vừa đẹp mắt vừa bền.`,
-  },
-  8: {
-    name: 'Dây Nến Sợi Linen',
-    price: '49.000 đ',
-    category: 'Phụ Kiện',
-    rating: 4.9,
-    reviews: 89,
-    description: 'Dây linen chất lượng cao cho nến thơm',
-    image: '/products/dây nến.jpg',
-    features: [
-      'Chất liệu linen tự nhiên',
-      'Cháy đều và sạch',
-      'Không tạo khí độc',
-      'Tương thích với hầu hết các nến',
-    ],
-    details: `Dây linen là lựa chọn tốt nhất cho nến thơm tự nhiên. 
-      Chúng cháy một cách đều đặn, không tạo ra khí độc hay fumigate.`,
-  },
-  9: {
-    name: 'Khuôn Nến Silicon',
-    price: '199.000 đ',
-    category: 'Phụ Kiện',
-    rating: 4.7,
-    reviews: 56,
-    description: 'Khuôn silicon chuyên nghiệp để tạo nến',
-    image: '/products/khuôn nến.jpg',
-    features: [
-      'Vật liệu silicon chất lượng cao',
-      'Nhiều hình dạng khác nhau',
-      'Dễ tách nến ra',
-      'Tái sử dụng được',
-    ],
-    details: `Khuôn silicon của Préci là công cụ hoàn hảo cho những ai muốn tự tạo nến. 
-      Được làm từ silicon thực phẩm, an toàn và tái sử dụng được hàng trăm lần.`,
-  },
-}
+import { getProductById } from '@/lib/products' // 1. IMPORT TỪ THƯ VIỆN CHUNG
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -64,17 +11,19 @@ interface PageProps {
 
 export default async function ProductDetailPage({ params }: PageProps) {
   const { id } = await params
-  const product = products[parseInt(id)]
+
+  // 2. LẤY DỮ LIỆU TỪ HÀM CHUNG (Thay vì khai báo cứng const products = ...)
+  const product = getProductById(parseInt(id))
 
   if (!product) {
     return (
-      <div className="min-h-screen flex flex-col bg-background">
+      <div className="min-h-screen flex flex-col bg-[#FFFDFA]">
         <Header />
-        <main className="flex-1 flex items-center justify-center">
+        <main className="flex-1 flex items-center justify-center py-20">
           <div className="text-center">
             <h1 className="text-2xl font-brand font-bold text-foreground mb-4">Sản phẩm không tìm thấy</h1>
             <Link href="/products" className="text-primary font-semibold hover:underline">
-              ← Quay lại sản phẩm
+              ← Quay lại cửa hàng
             </Link>
           </div>
         </main>
@@ -84,7 +33,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-[#FFFDFA]">
       <Header />
 
       <main className="flex-1">
@@ -97,105 +46,98 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Product Image */}
-            <div className="h-96 w-full rounded-lg overflow-hidden bg-secondary border border-border shadow-inner flex items-center justify-center">
-              {/* Kiểm tra nếu có đường dẫn ảnh thì hiện ảnh, nếu không hiện icon dự phòng */}
-              {product.image && product.image.startsWith('/') ? (
+            <div className="h-[500px] w-full rounded-lg overflow-hidden bg-[#F2EFE9] border border-[#E5E0D8] shadow-sm flex items-center justify-center relative">
+              {product.image ? (
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-full object-cover transition-all duration-700 hover:scale-105"
+                  className="w-full h-full object-contain p-8 hover:scale-105 transition-transform duration-700"
                 />
               ) : (
                 <div className="flex flex-col items-center gap-4">
                   <span className="text-8xl opacity-20">🎁</span>
-                  <p className="text-xs text-muted-foreground italic">Hình ảnh đang được cập nhật</p>
+                  <p className="text-xs text-muted-foreground italic">Hình ảnh đang cập nhật</p>
                 </div>
               )}
             </div>
 
-
             {/* Product Info */}
-            <div>
+            <div className="flex flex-col justify-center">
               <div className="mb-6">
-                <p className="font-brand text-sm font-semibold text-primary uppercase mb-2">{product.category}</p>
-                <h1 className="text-4xl font-body font-bold text-foreground mb-4">{product.name}</h1>
-                <p className="font-body text-lg text-muted-foreground mb-4">{product.description}</p>
+                <p className="font-heading1 text-sm font-bold text-primary uppercase mb-2 tracking-widest">
+                  {product.category === 'candles' ? 'Nến Thơm' : 'Phụ Kiện Préci'}
+                </p>
+                <h1 className="text-4xl md:text-5xl font-brand text-[#1a1a1a] mb-4">{product.name}</h1>
+                <p className="font-heading1 text-lg text-gray-500 mb-6 leading-relaxed">
+                  {product.description}
+                </p>
 
                 {/* Rating */}
                 <div className="flex items-center gap-2 mb-6">
-                  <div className="flex text-yellow-400">
+                  <div className="flex text-yellow-500">
                     {[...Array(5)].map((_, i) => (
-                      <span key={i}>★</span>
+                      <span key={i} className="text-lg">★</span>
                     ))}
                   </div>
-                  <span className="text-sm text-muted-foreground">{product.rating} ({product.reviews} reviews)</span>
+                  <span className="text-sm font-heading1 text-gray-400">
+                    {product.rating} ({product.reviews} đánh giá)
+                  </span>
                 </div>
               </div>
 
               {/* Price */}
-              <div className="mb-8 pb-8 border-b border-border">
-                <p className="font-brand font-bold text-sm text-muted-foreground mb-2">Giá</p>
-                <p className="text-4xl font-body font-bold text-primary">{product.price}</p>
+              <div className="mb-8 pb-8 border-b border-[#E5E0D8]">
+                <p className="text-4xl font-heading1 font-bold text-primary">
+                  {product.priceFormatted}
+                </p>
               </div>
 
-              {/* Features */}
-              <div className="mb-8">
-                <h3 className="font-body font-bold text-foreground mb-4">Đặc Điểm</h3>
-                <ul className="space-y-2">
-                  {product.features.map((feature: string, idx: number) => (
-                    <li key={idx} className="flex items-start gap-3 text-muted-foreground">
-                      <span className="font-body text-primary mt-1">✓</span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {/* Features (Xử lý phòng trường hợp dữ liệu cũ thiếu features) */}
+              {product.features && product.features.length > 0 && (
+                <div className="mb-8">
+                  <h3 className="font-brand font-bold text-xl text-[#1a1a1a] mb-4">Đặc Điểm Nổi Bật</h3>
+                  <ul className="space-y-3">
+                    {product.features.map((feature: string, idx: number) => (
+                      <li key={idx} className="flex items-start gap-3 text-gray-600">
+                        <span className="font-bold text-primary mt-1">✓</span>
+                        <span className="font-heading1">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               {/* Add to Cart */}
-              <AddToCartClient
-                productId={parseInt(id, 10)}
-                productName={product.name}
-                priceString={product.price}
-              />
+              <div className="space-y-4">
+                <AddToCartClient
+                  productId={product.id}
+                  productName={product.name}
+                  priceString={product.priceFormatted}
+                />
 
-              <button className="w-full px-8 py-4 border-2 border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-primary-foreground transition-all">
-                Tiếp Tục Mua Sắm
-              </button>
+                <Link href="/products" className="block w-full text-center py-4 border border-primary text-primary font-bold rounded-lg hover:bg-[#F2EFE9] transition-colors font-heading1">
+                  Tiếp Tục Mua Sắm
+                </Link>
+              </div>
             </div>
           </div>
 
           {/* Details Section */}
-          <div className="mt-16 pt-12 border-t border-border max-w-2xl">
-            <h2 className="text-2xl font-brand font-bold text-foreground mb-4">Chi Tiết Sản Phẩm</h2>
-            <p className="font-body text-muted-foreground leading-relaxed mb-6">{product.details}</p>
+          <div className="mt-16 pt-12 border-t border-[#E5E0D8] max-w-3xl">
+            <h2 className="text-3xl font-brand text-[#1a1a1a] mb-6">Chi Tiết Sản Phẩm</h2>
+            <div className="font-heading1 text-gray-600 leading-loose text-lg mb-8">
+              {product.details}
+            </div>
 
             {/* Shipping Info */}
-            <div className="bg-secondary rounded-lg p-6 space-y-4">
-              <h3 className="font-body font-semibold text-foreground">Vận chuyển & giao hàng</h3>
-              <div className="space-y-3 font-body text-sm text-muted-foreground">
-                <p>• Miễn phí vận chuyển cho đơn hàng từ 500.000 đ</p>
-                <p>• Giao hàng trong 2-3 ngày làm việc tại TP.HCM</p>
-                <p>• Đổi trả miễn phí trong 3 ngày</p>
+            <div className="bg-[#F2EFE9] rounded-lg p-8">
+              <h3 className="font-brand font-bold text-lg text-[#1a1a1a] mb-4">Chính sách Préci</h3>
+              <div className="space-y-3 font-heading1 text-gray-600">
+                <p>• Cam kết sản phẩm chính hãng 100%</p>
+                <p>• Đổi trả miễn phí trong 3 ngày nếu có lỗi sản xuất</p>
+                <p>• Giao hàng hỏa tốc 2h tại nội thành TP.HCM</p>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Related Products CTA */}
-        <section className="bg-secondary py-16 md:py-20">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h3 className="text-3xl font-brand font-bold text-foreground mb-6">
-              Khám phá thêm
-            </h3>
-            <p className="font-body text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Tìm những sản phẩm khác từ Préci để hoàn thành bộ sưu tập nến thơm của bạn
-            </p>
-            <Link
-              href="/products"
-              className="inline-block px-8 py-3 bg-primary text-primary-foreground font-body font-semibold rounded-lg hover:bg-opacity-90 transition-all"
-            >
-              Xem Tất Cả Sản Phẩm
-            </Link>
           </div>
         </section>
       </main>

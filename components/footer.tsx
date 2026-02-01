@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="lg:col-span-2 pr-8">
             <Link href="/" className="flex items-start">
               <img
-                src={`/assets/Logo.png`}
+                src={`/assets/Logo.webp`}
                 alt="Préci"
                 className="w-12 h-12 object-cover mr-3"
               />

@@ -43,7 +43,7 @@ export default function Header() {
           {/* 1. LOGO (BÊN TRÁI) */}
           <Link href="/" className="flex items-center group">
             <img
-              src="/assets/Logo.png"
+              src="/assets/Logo.webp"
               alt="Préci"
               className="w-10 h-10 object-contain group-hover:opacity-80 transition-opacity"
             />
