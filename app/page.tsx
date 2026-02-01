@@ -5,20 +5,28 @@ import Footer from '@/components/footer'
 import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Sparkles } from 'lucide-react'
+import {
+  ShieldCheck,
+  Leaf,
+  Globe,
+  Feather,
+  Recycle,
+  HeartHandshake
+} from 'lucide-react'
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('candles')
 
   // 1. DANH SÁCH NẾN THƠM
   const candleImages = [
-    '/assets/nen-thom/Picture2.png',
-    '/assets/nen-thom/Picture3.png',
-    '/assets/nen-thom/Picture4.png',
-    '/assets/nen-thom/Picture5.png',
-    '/assets/nen-thom/Picture6.png',
-    '/assets/nen-thom/Picture7.png',
-    '/assets/nen-thom/Picture8.png',
-    '/assets/nen-thom/Picture9.png',
+    '/nen-thom/Picture2.png',
+    '/nen-thom/Picture3.png',
+    '/nen-thom/Picture4.png',
+    '/nen-thom/Picture5.png',
+    '/nen-thom/Picture6.png',
+    '/nen-thom/Picture7.png',
+    '/nen-thom/Picture8.png',
+    '/nen-thom/Picture9.png',
   ].map((img, i) => ({
     id: `c-${i}`,
     type: 'Nến thơm',
@@ -30,14 +38,14 @@ export default function Home() {
 
   // 2. DANH SÁCH PHỤ KIỆN
   const accessoryImages = [
-    '/assets/phu-kien/diem.png',
-    '/assets/phu-kien/chuong-chup-tat-nen-thom.png',
-    '/assets/phu-kien/de-go-thong.png',
-    '/assets/phu-kien/khay-kim-loai.png',
-    '/assets/phu-kien/keo-cat-bac-nen.png',
-    '/assets/phu-kien/chong-chong.png',
-    '/assets/phu-kien/que-kho.png',
-    '/assets/phu-kien/combo.png',
+    '/phu-kien/hop-diem.png',
+    '/phu-kien/chuong-chup.png',
+    '/phu-kien/de-go-thong.png',
+    '/phu-kien/khay-kim-loai.png',
+    '/phu-kien/keo-cat-bac-nen.png',
+    '/phu-kien/chong-chong.png',
+    '/phu-kien/que-kho.png',
+    '/phu-kien/combo.png',
   ].map((img, i) => ({
     id: `a-${i}`,
     type: 'Phụ kiện',
@@ -79,7 +87,7 @@ export default function Home() {
 
       <main className="flex-1">
         {/* HERO VIDEO SECTION */}
-        <section className="relative w-full h-[50vh] overflow-hidden bg-[#e5e0d8]">
+        <section className="relative w-full h-[85vh] overflow-hidden bg-[#e5e0d8]">
           <video
             className="absolute top-0 left-0 w-full h-full object-cover"
             autoPlay
@@ -125,10 +133,14 @@ export default function Home() {
             </p>
           </div>
 
-          {/* LƯỚI ẢNH (Grid 4 cột) */}
+          {/* LƯỚI ẢNH (Grid 4 cột) - ĐÃ SỬA LINK */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12 min-h-[400px]">
             {displayedProducts.map((item) => (
-              <div key={item.id} className="animate-in fade-in zoom-in duration-500">
+              <Link
+                key={item.id}
+                href={item.link} // Dẫn đến đường dẫn /products/phu-kien-1 ...
+                className="animate-in fade-in zoom-in duration-500 block"
+              >
                 {/* Thẻ chứa ảnh */}
                 <div className="relative bg-[#f5f5f5] aspect-square overflow-hidden rounded-sm shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
 
@@ -152,15 +164,15 @@ export default function Home() {
                     <span className="relative z-10 font-brand text-sm">Préci {item.type}</span>
                   </div>
 
-                  {/* (Tùy chọn) Overlay tên sản phẩm khi hover */}
+                  {/* Overlay: Nút bấm Mua ngay */}
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className="bg-white/90 text-[#715136] px-4 py-2 font-brand text-sm rounded-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <span className="bg-white/90 text-[#715136] px-6 py-2 font-brand font-bold text-sm rounded-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                       Xem chi tiết
                     </span>
                   </div>
 
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -174,6 +186,140 @@ export default function Home() {
             </Link>
           </div>
 
+        </section>
+
+        {/* about */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+
+            {/* TIÊU ĐỀ CHÍNH */}
+            <div className="text-center mb-16 md:mb-24">
+              <p className="text-sm font-heading1 font-bold text-gray-500 uppercase tracking-widest mb-3">
+                Sản phẩm chủ đạo
+              </p>
+              <h1 className="text-4xl md:text-6xl font-brand text-primary uppercase">
+                Nến Thơm Từ Thiên Nhiên
+              </h1>
+            </div>
+
+            {/* NỘI DUNG CHÍNH: GRID 3 CỘT */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
+
+              {/* CỘT TRÁI (3 Mục) */}
+              <div className="space-y-12 md:space-y-16">
+
+                {/* Mục 1 */}
+                <div className="flex gap-4 md:gap-6 items-start">
+                  <div className="flex-shrink-0 mt-1">
+                    {/* Icon giả lập Badge 100% Natural */}
+                    <div className="w-12 h-12 border-2 border-primary rounded-full flex items-center justify-center text-primary">
+                      <span className="font-bold text-[10px] text-center leading-tight">100%<br />NATURAL</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-heading1 font-bold text-foreground mb-2">100% Sáp tự nhiên</h3>
+                    <p className="font-heading1 text-base text-muted-foreground leading-relaxed text-justify">
+                      Nến thơm được làm từ 100% sáp có nguồn gốc tự nhiên. Đặc biệt, thành phần sáp ong được khai thác từ trại nuôi ong bằng mật hoa nhãn tại Vĩnh Long, Việt Nam.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Mục 2 */}
+                <div className="flex gap-4 md:gap-6 items-start">
+                  <div className="flex-shrink-0 mt-1">
+                    <ShieldCheck size={48} strokeWidth={1.5} className="text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-heading1 font-bold text-foreground mb-2">Không độc hại</h3>
+                    <p className="font-heading1 text-base text-muted-foreground leading-relaxed text-justify">
+                      Nến thơm không tạo ra khói độc khi đốt, hương thơm nhẹ nhàng, là một liệu pháp thư giãn tinh thần hiệu quả.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Mục 3 */}
+                <div className="flex gap-4 md:gap-6 items-start">
+                  <div className="flex-shrink-0 mt-1">
+                    <Globe size={48} strokeWidth={1.5} className="text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-heading1 font-bold text-foreground mb-2">Hương thơm lành tính</h3>
+                    <p className="font-heading1 text-base text-muted-foreground leading-relaxed text-justify">
+                      Hương thơm được nhập khẩu từ những nhà hương uy tín hàng đầu thế giới, không chứa các chất gây ung thư, đầy đủ giấy tờ pháp lý.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* CỘT GIỮA (Hình ảnh) */}
+              <div className="flex justify-center items-center py-8 lg:py-0">
+                {/* LƯU Ý: Bạn cần thay đường dẫn ảnh bên dưới bằng ảnh cái hũ nến nghiêng của bạn.
+                   Nếu chưa có, tôi đang dùng tạm ảnh Picture2.png 
+                */}
+                <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                  <img
+                    src="/assets/nen-tach-nen.png"
+                    alt="Nến thơm thiên nhiên"
+                    className="w-full h-full object-contain drop-shadow-2xl rotate-12 hover:rotate-0 transition-transform duration-700"
+                  />
+                  {/* Hiệu ứng bóng mờ phía sau cho đẹp */}
+                  <div className="absolute inset-0 bg-orange-100 rounded-full blur-3xl opacity-30 -z-10"></div>
+                </div>
+              </div>
+
+              {/* CỘT PHẢI (3 Mục - Căn lề phải trên Desktop) */}
+              <div className="space-y-12 md:space-y-16">
+
+                {/* Mục 4 */}
+                <div className="flex flex-row lg:flex-row-reverse gap-4 md:gap-6 items-start lg:text-right">
+                  <div className="flex-shrink-0 mt-1">
+                    {/* Icon Pb (Lead free) */}
+                    <div className="w-12 h-12 border-2 border-primary rounded-full flex items-center justify-center text-primary relative">
+                      <span className="font-bold text-lg">Pb</span>
+                      <div className="absolute w-full h-[2px] bg-primary rotate-45"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-heading1 font-bold text-foreground mb-2">Bấc cotton không chì</h3>
+                    <p className="font-heading1 text-base text-muted-foreground leading-relaxed text-justify lg:text-right">
+                      Những sợi bấc được dệt từ cotton không chứa chì hay kim loại nặng khác.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Mục 5 */}
+                <div className="flex flex-row lg:flex-row-reverse gap-4 md:gap-6 items-start lg:text-right">
+                  <div className="flex-shrink-0 mt-1">
+                    <Recycle size={48} strokeWidth={1.5} className="text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-heading1 font-bold text-foreground mb-2">Sản xuất bền vững</h3>
+                    <p className="font-heading1 text-base text-muted-foreground leading-relaxed text-justify lg:text-right">
+                      Trong từng phân đoạn dù là sản xuất hay bán hàng, chúng tôi đều ưu tiên tái sử dụng, tái chế, phân hủy sinh học để phát triển bền vững.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Mục 6 */}
+                <div className="flex flex-row lg:flex-row-reverse gap-4 md:gap-6 items-start lg:text-right">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="w-12 h-12 border-2 border-primary rounded-full flex items-center justify-center text-primary p-2">
+                      <HeartHandshake size={32} strokeWidth={1.5} />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-heading1 font-bold text-foreground mb-2">Hoàn toàn thủ công</h3>
+                    <p className="font-heading1 text-base text-muted-foreground leading-relaxed text-justify lg:text-right">
+                      Từng sản phẩm được phối trộn, chiết rót hoàn toàn thủ công dưới đôi bàn tay khéo léo của những người thợ lành nghề tại địa phương.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
         </section>
 
         {/* Blog Preview (Giữ nguyên) */}

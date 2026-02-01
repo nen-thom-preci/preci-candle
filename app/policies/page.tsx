@@ -126,7 +126,7 @@ export default function PoliciesPage() {
                   <div className="px-6 py-6 space-y-6 bg-card border-t border-border">
                     {policy.sections.map((section, idx) => (
                       <div key={idx}>
-                        <h3 className="font-heading1 text-lg font-semibold text-foreground mb-2">
+                        <h3 className="font-body text-lg font-semibold text-foreground mb-2">
                           {section.heading}
                         </h3>
                         <p className="font-body text-muted-foreground leading-relaxed">
@@ -174,7 +174,7 @@ export default function PoliciesPage() {
                 },
               ].map((item, idx) => (
                 <div key={idx} className="border border-border rounded-lg p-6">
-                  <h3 className="font-heading1 font-bold text-foreground mb-2">{item.q}</h3>
+                  <h3 className="font-body font-bold text-foreground mb-2">{item.q}</h3>
                   <p className="font-body text-muted-foreground text-sm leading-relaxed">{item.a}</p>
                 </div>
               ))}
@@ -186,7 +186,7 @@ export default function PoliciesPage() {
             <h2 className="text-2xl font-brand font-bold text-foreground mb-4">
               Bạn còn câu hỏi khác?
             </h2>
-            <p className="font-heading1 text-muted-foreground mb-6">
+            <p className="font-body text-muted-foreground mb-6">
               Hãy liên hệ với chúng tôi qua email hoặc điện thoại. Đội ngũ hỗ trợ khách hàng của Préci sẵn sàng giúp bạn.
             </p>
             <a

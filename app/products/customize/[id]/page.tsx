@@ -1,21 +1,7 @@
 import Header from '@/components/header'
 import Footer from '@/components/footer'
-import ProductCustomizer from '@/components/product-customizer'
-
-const products: Record<number, { name: string; description: string }> = {
-  1: {
-    name: 'Nến Hương Hoa Lài',
-    description: 'Hương thơm tinh tế từ hoa lài tươi',
-  },
-  2: {
-    name: 'Nến Hương Thảo Mộc',
-    description: 'Mùi hương dễ chịu từ thảo mộc thiên nhiên',
-  },
-  3: {
-    name: 'Nến Hương Cổ Thơm',
-    description: 'Hương xưa nước ta, ấm áp và nhẹ nhàng',
-  },
-}
+import ProductCustomizer from '@/components/product-customizer' // Component bạn đã có
+import { getProductById } from '@/lib/products'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -23,20 +9,23 @@ interface PageProps {
 
 export default async function CustomizePage({ params }: PageProps) {
   const { id } = await params
-  const productId = parseInt(id)
-  const product = products[productId] || products[1]
+  const product = getProductById(parseInt(id));
+
+  if (!product) return <div>Sản phẩm không tìm thấy</div>;
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-[#FFFDFA]">
       <Header />
-
       <main className="flex-1">
-        {/* Customizer Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <ProductCustomizer productId={productId} productName={product.name} />
+        {/* Truyền đúng thông tin sản phẩm vào Customizer */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+          <ProductCustomizer
+            productId={product.id}
+            productName={product.name}
+          // Bạn có thể truyền thêm basePrice vào component Customizer nếu cần
+          />
         </section>
       </main>
-
       <Footer />
     </div>
   )

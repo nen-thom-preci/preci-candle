@@ -94,15 +94,26 @@ export default function BlogPage() {
       <Header />
 
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="bg-secondary py-16 md:py-24">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-5xl md:text-6xl font-brand text-foreground mb-6">
-              Cẩm nang & Cảm hứng
-            </h1>
-            <p className="font-body text-xl text-muted-foreground">
-              Khám phá những bài viết về nến thơm, lợi ích sức khỏe và các ý tưởng trang trí nhà cửa
-            </p>
+        {/* Hero Section (Banner mới) */}
+        <section className="relative w-full h-[400px] md:h-[400px] overflow-hidden">
+          {/* 1. Ảnh nền*/}
+          <img
+            src="/assets/banner-about.png"
+            alt="Về Préci"
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-white/20" />
+
+          {/* 2. Nội dung chữ phủ lên trên (Căn trái) */}
+          <div className="relative z-10 h-full max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col justify-center">
+            <div className="md:max-w-xl"> {/* Giới hạn chiều rộng để chữ không tràn sang phải */}
+              <h1 className="text-6xl md:text-8xl font-brand text-[#000000] mb-6">
+                Về Préci
+              </h1>
+              <p className="font-body text-xl md:text-xl text-[#000000] italic leading-relaxed">
+                Préci được sinh ra từ đam mê tạo ra những sản phẩm độc bản dành cho những người thân yêu, trân quý của mình.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -115,9 +126,9 @@ export default function BlogPage() {
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all ${activeCategory === cat.id
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-secondary text-foreground hover:bg-accent hover:text-accent-foreground'
+                  className={`text-lg font-brand font-bold uppercase px-6 py-2 rounded-full transition-all duration-300 ${activeCategory === cat.id
+                    ? 'bg-primary text-white shadow-md'
+                    : 'bg-transparent text-gray-500 hover:text-primary hover:bg-[#F2EFE9]'
                     }`}
                 >
                   {cat.label}
@@ -149,7 +160,7 @@ export default function BlogPage() {
                       <p className="font-brand font-bold text-xs text-muted-foreground">{post.date}</p>
                     </div>
 
-                    <h3 className="text-xl font-heading1 uppercase font-bold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                    <h3 className="text-xl font-body uppercase font-bold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
                       {post.title}
                     </h3>
 
@@ -175,7 +186,7 @@ export default function BlogPage() {
               <p className="font-body text-lg text-muted-foreground mb-4">Không có bài viết trong danh mục này</p>
               <button
                 onClick={() => setActiveCategory('all')}
-                className="font-heading1 text-primary font-semibold hover:underline"
+                className="font-body text-primary font-semibold hover:underline"
               >
                 Xem tất cả bài viết
               </button>
@@ -189,7 +200,7 @@ export default function BlogPage() {
             <h3 className="text-3xl font-brand font-bold mb-4">
               Không muốn bỏ lỡ bài viết nào
             </h3>
-            <p className="font-heading1 text-lg opacity-90 mb-6">
+            <p className="font-body text-lg opacity-90 mb-6">
               Đăng ký nhận tin tức mới nhất từ Préci
             </p>
             <form className="flex gap-2 max-w-md mx-auto">

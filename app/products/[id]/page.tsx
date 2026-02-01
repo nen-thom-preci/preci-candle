@@ -118,7 +118,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
             <div>
               <div className="mb-6">
                 <p className="font-brand text-sm font-semibold text-primary uppercase mb-2">{product.category}</p>
-                <h1 className="text-4xl font-heading1 font-bold text-foreground mb-4">{product.name}</h1>
+                <h1 className="text-4xl font-body font-bold text-foreground mb-4">{product.name}</h1>
                 <p className="font-body text-lg text-muted-foreground mb-4">{product.description}</p>
 
                 {/* Rating */}
@@ -135,12 +135,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
               {/* Price */}
               <div className="mb-8 pb-8 border-b border-border">
                 <p className="font-brand font-bold text-sm text-muted-foreground mb-2">Giá</p>
-                <p className="text-4xl font-heading1 font-bold text-primary">{product.price}</p>
+                <p className="text-4xl font-body font-bold text-primary">{product.price}</p>
               </div>
 
               {/* Features */}
               <div className="mb-8">
-                <h3 className="font-heading1 font-bold text-foreground mb-4">Đặc Điểm</h3>
+                <h3 className="font-body font-bold text-foreground mb-4">Đặc Điểm</h3>
                 <ul className="space-y-2">
                   {product.features.map((feature: string, idx: number) => (
                     <li key={idx} className="flex items-start gap-3 text-muted-foreground">
@@ -171,7 +171,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
             {/* Shipping Info */}
             <div className="bg-secondary rounded-lg p-6 space-y-4">
-              <h3 className="font-heading1 font-semibold text-foreground">Vận chuyển & giao hàng</h3>
+              <h3 className="font-body font-semibold text-foreground">Vận chuyển & giao hàng</h3>
               <div className="space-y-3 font-body text-sm text-muted-foreground">
                 <p>• Miễn phí vận chuyển cho đơn hàng từ 500.000 đ</p>
                 <p>• Giao hàng trong 2-3 ngày làm việc tại TP.HCM</p>
