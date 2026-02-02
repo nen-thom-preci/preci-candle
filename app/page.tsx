@@ -2,7 +2,7 @@
 
 import Header from '@/components/header'
 import Footer from '@/components/footer'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import {
@@ -10,11 +10,24 @@ import {
   Leaf,
   Globe,
   Feather,
-  Recycle,
+  SlidersHorizontal,
   HeartHandshake
 } from 'lucide-react'
 
 export default function Home() {
+  // State quản lý slide hiện tại
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const totalSlides = 4; // Số lượng ảnh
+
+  // Tự động chuyển slide sau mỗi 5 giây
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
+    }, 4000); // 5000ms = 5 giây
+
+    return () => clearInterval(timer); // Dọn dẹp timer khi component unmount
+  }, []);
+
   const [activeTab, setActiveTab] = useState('candles')
 
   // 1. DANH SÁCH NẾN THƠM
@@ -86,20 +99,50 @@ export default function Home() {
       <Header />
 
       <main className="flex-1">
-        {/* HERO VIDEO SECTION */}
-        <section className="relative w-full h-[85vh] overflow-hidden bg-[#e5e0d8]">
-          <video
-            className="absolute top-0 left-0 w-full h-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
+        {/* HERO SLIDER SECTION */}
+        <section className="relative w-full h-[85vh] overflow-hidden bg-[#e5e0d8] group">
+
+          {/* Container chứa các ảnh (Sử dụng Flex để xếp ngang và Translate để trượt) */}
+          <div
+            className="flex w-full h-full transition-transform duration-1000 ease-in-out"
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           >
-            <source src="/assets/hero-video.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-black/10"></div>
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-white/70">
-            <span className="text-sm font-brand tracking-widest">SCROLL</span>
+            {/* Danh sách ảnh */}
+            {[
+              '/assets/slider-1.webp',
+              '/assets/slider-2.webp',
+              '/assets/slider-3.webp',
+              '/assets/slider-4.webp',
+            ].map((src, index) => (
+              <div key={index} className="w-full h-full flex-shrink-0 relative">
+                <img
+                  src={src}
+                  alt={`Slide ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+                {/* Lớp phủ đen mờ để text (nếu có) dễ đọc hơn */}
+                <div className="absolute inset-0 bg-black/10"></div>
+              </div>
+            ))}
+          </div>
+
+          {/* Nút chỉ dẫn (Dots) ở dưới cùng */}
+          <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex gap-3 z-10">
+            {[0, 1, 2, 3].map((index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${currentSlide === index
+                  ? 'bg-white w-8' // Active: dài ra và màu trắng
+                  : 'bg-white/50 hover:bg-white/80' // Inactive: mờ
+                  }`}
+              />
+            ))}
+          </div>
+
+          {/* Nút Scroll cũ của bạn */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-white/80 z-10">
+            <span className="text-sm font-brand tracking-widest drop-shadow-md">SCROLL</span>
           </div>
         </section>
 
@@ -211,7 +254,7 @@ export default function Home() {
                   <div>
                     <h3 className="text-xl font-body font-bold text-foreground mb-2">100% Sáp tự nhiên</h3>
                     <p className="font-body text-base text-muted-foreground leading-relaxed text-justify">
-                      Nến thơm được làm từ 100% sáp có nguồn gốc tự nhiên. Đặc biệt, thành phần sáp ong được khai thác từ trại nuôi ong bằng mật hoa nhãn tại Vĩnh Long, Việt Nam.
+                      100% sáp ong có nguồn gốc tự nhiên được khai thác từ trại nuôi ong bằng mật hoa tại Vĩnh Phúc.
                     </p>
                   </div>
                 </div>
@@ -224,7 +267,7 @@ export default function Home() {
                   <div>
                     <h3 className="text-xl font-body font-bold text-foreground mb-2">Không độc hại</h3>
                     <p className="font-body text-base text-muted-foreground leading-relaxed text-justify">
-                      Nến thơm không tạo ra khói độc khi đốt, hương thơm nhẹ nhàng, là một liệu pháp thư giãn tinh thần hiệu quả.
+                      Khi đốt không tạo ra khí độc, là một liệu pháp thư giãn tinh thần hiệu quả.
                     </p>
                   </div>
                 </div>
@@ -237,7 +280,7 @@ export default function Home() {
                   <div>
                     <h3 className="text-xl font-body font-bold text-foreground mb-2">Hương thơm lành tính</h3>
                     <p className="font-body text-base text-muted-foreground leading-relaxed text-justify">
-                      Hương thơm được nhập khẩu từ những nhà hương uy tín hàng đầu thế giới, không chứa các chất gây ung thư, đầy đủ giấy tờ pháp lý.
+                      Hương thơm quen thuộc gắn liền với đời sống của người dân Việt Nam, không chứa các chất gây ung thư, đầy đủ giấy tờ pháp lý.
                     </p>
                   </div>
                 </div>
@@ -273,9 +316,9 @@ export default function Home() {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-xl font-body font-bold text-foreground mb-2">Bấc cotton không chì</h3>
+                    <h3 className="text-xl font-body font-bold text-foreground mb-2">Bấc không chứa chì</h3>
                     <p className="font-body text-base text-muted-foreground leading-relaxed text-justify lg:text-right">
-                      Những sợi bấc được dệt từ cotton không chứa chì hay kim loại nặng khác.
+                      Bấc cotton hoặc bấc gỗ không chứa chì hay kim loại nặng khác.
                     </p>
                   </div>
                 </div>
@@ -283,12 +326,12 @@ export default function Home() {
                 {/* Mục 5 */}
                 <div className="flex flex-row lg:flex-row-reverse gap-4 md:gap-6 items-start lg:text-right">
                   <div className="flex-shrink-0 mt-1">
-                    <Recycle size={48} strokeWidth={1.5} className="text-primary" />
+                    <SlidersHorizontal size={48} strokeWidth={1.5} className="text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-body font-bold text-foreground mb-2">Sản xuất bền vững</h3>
+                    <h3 className="text-xl font-body font-bold text-foreground mb-2">Thiết kế tùy chỉnh</h3>
                     <p className="font-body text-base text-muted-foreground leading-relaxed text-justify lg:text-right">
-                      Trong từng phân đoạn dù là sản xuất hay bán hàng, chúng tôi đều ưu tiên tái sử dụng, tái chế, phân hủy sinh học để phát triển bền vững.
+                      Công nghệ customize mẫu nến thơm theo nhu cầu với mô phỏng 3D thời gian thực.
                     </p>
                   </div>
                 </div>
@@ -303,7 +346,7 @@ export default function Home() {
                   <div>
                     <h3 className="text-xl font-body font-bold text-foreground mb-2">Hoàn toàn thủ công</h3>
                     <p className="font-body text-base text-muted-foreground leading-relaxed text-justify lg:text-right">
-                      Từng sản phẩm được phối trộn, chiết rót hoàn toàn thủ công dưới đôi bàn tay khéo léo của những người thợ lành nghề tại địa phương.
+                      Từng sản phẩm được phối trộn hoàn toàn thủ công dưới đôi bàn tay khéo léo của người thợ lành nghề.
                     </p>
                   </div>
                 </div>
@@ -317,7 +360,7 @@ export default function Home() {
         {/* Blog Preview (Giữ nguyên) */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div className="text-center mb-12">
-            <h3 className="font-brand text-5xl md:text-7xl text-[#5e5046] mb-8 font-light tracking-wide">
+            <h3 className="font-brand uppercase text-5xl md:text-7xl text-primary mb-8 font-light tracking-wide">
               Cẩm nang & Cảm hứng
             </h3>
             <p className="font-body text-muted-foreground max-w-2xl mx-auto">

@@ -38,7 +38,7 @@ export default function AboutPage() {
         <section className="relative w-full h-[400px] md:h-[400px] overflow-hidden">
           {/* 1. Ảnh nền*/}
           <img
-            src="/assets/banner-about.png"
+            src="/assets/banner-about.webp"
             alt="Về Préci"
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
@@ -148,9 +148,6 @@ export default function AboutPage() {
 
               {/* CỘT GIỮA (Hình ảnh) */}
               <div className="flex justify-center items-center py-8 lg:py-0">
-                {/* LƯU Ý: Bạn cần thay đường dẫn ảnh bên dưới bằng ảnh cái hũ nến nghiêng của bạn.
-                   Nếu chưa có, tôi đang dùng tạm ảnh Picture2.png 
-                */}
                 <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
                   <img
                     src="/assets/nen-tach-nen.png"
@@ -289,7 +286,7 @@ export default function AboutPage() {
                 <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
                   {/* Ảnh đại diện cho kết quả quy trình */}
                   <img
-                    src="/assets/nen-tach-nen.png"
+                    src="/assets/nen-tach-nen.webp"
                     alt="Nến thơm Préci"
                     className="w-full h-full object-contain drop-shadow-2xl rotate-12 hover:rotate-0 transition-transform duration-700"
                   />

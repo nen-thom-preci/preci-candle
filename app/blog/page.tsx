@@ -98,7 +98,7 @@ export default function BlogPage() {
         <section className="relative w-full h-[400px] md:h-[400px] overflow-hidden">
           {/* 1. Ảnh nền*/}
           <img
-            src="/assets/banner-about.png"
+            src="/assets/banner-blog.webp"
             alt="Về Préci"
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
@@ -108,10 +108,10 @@ export default function BlogPage() {
           <div className="relative z-10 h-full max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col justify-center">
             <div className="md:max-w-xl"> {/* Giới hạn chiều rộng để chữ không tràn sang phải */}
               <h1 className="text-6xl md:text-8xl font-brand text-[#000000] mb-6">
-                Về Préci
+                Cẩm nang
               </h1>
               <p className="font-body text-xl md:text-xl text-[#000000] italic leading-relaxed">
-                Préci được sinh ra từ đam mê tạo ra những sản phẩm độc bản dành cho những người thân yêu, trân quý của mình.
+                Cùng Préci khám phá thêm những điều hay ho nhé!
               </p>
             </div>
           </div>

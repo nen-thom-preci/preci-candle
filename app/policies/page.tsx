@@ -3,7 +3,7 @@
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import { useState } from 'react'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, HelpCircle, FileText, Phone } from 'lucide-react'
 
 export default function PoliciesPage() {
   const [expandedPolicy, setExpandedPolicy] = useState('purchase')
@@ -12,6 +12,7 @@ export default function PoliciesPage() {
     {
       id: 'purchase',
       title: 'Chính Sách Mua Hàng',
+      icon: <FileText size={20} />,
       sections: [
         {
           heading: 'Quyền Lợi Khách Hàng',
@@ -30,9 +31,10 @@ export default function PoliciesPage() {
     {
       id: 'payment',
       title: 'Chính Sách Thanh Toán',
+      icon: <FileText size={20} />,
       sections: [
         {
-          heading: 'Phương Thức Thanh Toán Được Chấp Nhận',
+          heading: 'Phương Thức Thanh Toán',
           content: 'Chúng tôi chấp nhận thanh toán khi nhận hàng (COD), chuyển khoản ngân hàng và các ví điện tử như MoMo, Zalo Pay.',
         },
         {
@@ -41,160 +43,205 @@ export default function PoliciesPage() {
         },
         {
           heading: 'Chính Sách Hoàn Tiền',
-          content: 'Nếu thanh toán không thành công, tiền của bạn sẽ được hoàn trả trong vòng 5-7 ngày làm việc.',
+          content: 'Nếu thanh toán không thành công hoặc đơn hàng bị hủy hợp lệ, tiền của bạn sẽ được hoàn trả trong vòng 5-7 ngày làm việc.',
         },
       ],
     },
     {
       id: 'shipping',
       title: 'Vận Chuyển & Giao Hàng',
+      icon: <FileText size={20} />,
       sections: [
         {
           heading: 'Phí Vận Chuyển',
-          content: 'Chúng tôi cung cấp vận chuyển miễn phí cho đơn hàng từ 500.000 đ. Các đơn hàng nhỏ hơn sẽ được tính phí vận chuyển 30.000 đ.',
+          content: 'Miễn phí vận chuyển cho đơn hàng từ 500.000đ. Các đơn hàng nhỏ hơn sẽ áp dụng mức phí tiêu chuẩn 30.000đ.',
         },
         {
           heading: 'Thời Gian Giao Hàng',
-          content: 'Thường xuyên, đơn hàng sẽ được giao trong vòng 2-3 ngày làm việc từ ngày đặt hàng tại TP.HCM. Các tỉnh thành khác có thể mất thêm 1-2 ngày.',
+          content: 'Khu vực TP.HCM: 1-2 ngày làm việc. Các tỉnh thành khác: 3-5 ngày làm việc tùy thuộc vào đơn vị vận chuyển.',
         },
         {
           heading: 'Theo Dõi Đơn Hàng',
-          content: 'Bạn sẽ nhận được mã theo dõi qua email sau khi đơn hàng được gửi đi. Bạn có thể sử dụng mã này để theo dõi trạng thái giao hàng.',
+          content: 'Mã vận đơn sẽ được gửi qua email ngay khi đơn hàng được bàn giao cho đơn vị vận chuyển.',
         },
       ],
     },
     {
       id: 'returns',
       title: 'Đổi Trả & Hoàn Tiền',
+      icon: <FileText size={20} />,
       sections: [
         {
-          heading: 'Chính Sách Đổi Trả',
-          content: 'Bạn có thể đổi trả hoặc hoàn tiền sản phẩm trong vòng 30 ngày từ ngày nhận hàng, với điều kiện sản phẩm còn nguyên vẹn, chưa sử dụng.',
+          heading: 'Điều Kiện Đổi Trả',
+          content: 'Áp dụng đổi trả trong vòng 30 ngày nếu sản phẩm còn nguyên vẹn, chưa qua sử dụng và còn tem mác.',
         },
         {
-          heading: 'Quy Trình Đổi Trả',
-          content: 'Để đổi trả sản phẩm, vui lòng liên hệ với chúng tôi qua email hoặc điện thoại. Chúng tôi sẽ hướng dẫn bạn quy trình chi tiết.',
+          heading: 'Quy Trình',
+          content: 'Liên hệ CSKH để đăng ký đổi trả. Sau khi chúng tôi nhận và kiểm tra sản phẩm, quy trình hoàn tiền/đổi hàng sẽ được kích hoạt.',
         },
         {
-          heading: 'Chi Phí Vận Chuyển Đổi Trả',
-          content: 'Phí vận chuyển cho việc đổi trả sẽ do khách hàng chịu, trừ trường hợp sản phẩm bị lỗi do nhà sản xuất.',
+          heading: 'Chi Phí',
+          content: 'Miễn phí đổi trả nếu lỗi từ nhà sản xuất. Khách hàng chịu phí vận chuyển nếu đổi trả theo nhu cầu cá nhân.',
         },
       ],
     },
   ]
 
+  const faqs = [
+    {
+      q: 'Làm thế nào để tùy chỉnh nến thơm?',
+      a: 'Truy cập trang "Tạo Nến Của Bạn", chọn hình dáng, màu sắc, mùi hương và phụ kiện. Hệ thống 3D sẽ giúp bạn hình dung sản phẩm thực tế.',
+    },
+    {
+      q: 'Nến thơm của Préci có an toàn không?',
+      a: 'Tuyệt đối an toàn. Chúng tôi sử dụng sáp thực vật (sáp đậu nành, sáp cọ) và tinh dầu thiên nhiên, không chứa Paraffin độc hại.',
+    },
+    {
+      q: 'Thời gian cháy của nến là bao lâu?',
+      a: 'Trung bình từ 40-60 giờ tùy kích cỡ nến. Hãy cắt bấc nến còn 0.5cm trước khi đốt để nến cháy bền hơn.',
+    },
+    {
+      q: 'Tôi có thể yêu cầu giao hàng hỏa tốc không?',
+      a: 'Có. Chúng tôi hỗ trợ giao hỏa tốc 2H trong nội thành TP.HCM. Vui lòng chọn phương thức này khi thanh toán.',
+    },
+    {
+      q: 'Làm thế nào để bảo quản nến?',
+      a: 'Bảo quản nơi khô ráo, tránh ánh nắng trực tiếp. Đậy nắp sau khi sử dụng để giữ mùi hương được lâu nhất.',
+    },
+    {
+      q: 'Quy trình xử lý đơn hàng mất bao lâu?',
+      a: 'Đơn hàng có sẵn được xử lý trong 24h. Đơn hàng tùy chỉnh (Custom) cần 2-3 ngày để hoàn thiện thủ công.',
+    },
+  ]
+
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-[#FFFDFA]">
       <Header />
 
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="bg-secondary py-16 md:py-24">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-5xl md:text-6xl font-brand text-foreground mb-6">
+        {/* 1. HERO SECTION - Đồng bộ style Banner */}
+        <section className="relative w-full h-[400px] md:h-[450px] overflow-hidden flex items-center justify-center">
+          <img
+            src="/assets/banner-policy.webp"
+            alt="Chính sách Préci"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {/* Lớp phủ tối màu để chữ Trắng nổi bật */}
+          <div className="absolute inset-0 bg-black/40" />
+
+          <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-7xl font-brand text-white mb-6 leading-tight animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
               Chính Sách
             </h1>
-            <p className="font-body text-xl text-muted-foreground">
-              Tìm hiểu các chính sách mua hàng, vận chuyển và đổi trả của Préci
+            <p className="font-body text-white/90 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
+              Chúng tôi cam kết minh bạch trong mọi hoạt động để mang lại trải nghiệm mua sắm an tâm nhất cho bạn.
             </p>
           </div>
         </section>
 
-        {/* Policies Section */}
-        <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="space-y-4">
+        {/* 2. POLICIES ACCORDION - Style gọn gàng */}
+        <section className="max-w-4xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+          <div className="space-y-6">
             {policies.map(policy => (
               <div
                 key={policy.id}
-                className="border border-border rounded-lg overflow-hidden"
+                className={`group border rounded-xl overflow-hidden transition-all duration-300 ${expandedPolicy === policy.id
+                  ? 'border-[#715136]/30 bg-white shadow-md'
+                  : 'border-[#E5E0D8] bg-transparent hover:border-[#715136]/30'
+                  }`}
               >
                 <button
                   onClick={() => setExpandedPolicy(expandedPolicy === policy.id ? '' : policy.id)}
-                  className="w-full px-6 py-4 flex items-center justify-between bg-secondary hover:bg-accent transition-colors"
+                  className="w-full px-6 py-5 flex items-center justify-between transition-colors"
                 >
-                  <h2 className="text-xl font-brand font-bold text-foreground">
-                    {policy.title}
-                  </h2>
+                  <div className="flex items-center gap-4">
+                    <div className={`p-2 rounded-full transition-colors ${expandedPolicy === policy.id ? 'bg-[#715136] text-white' : 'bg-[#F2EFE9] text-[#715136]'}`}>
+                      {policy.icon}
+                    </div>
+                    <h2 className={`text-xl font-brand font-bold text-left ${expandedPolicy === policy.id ? 'text-[#715136]' : 'text-gray-800'}`}>
+                      {policy.title}
+                    </h2>
+                  </div>
                   <ChevronDown
-                    size={24}
-                    className={`text-primary transition-transform ${expandedPolicy === policy.id ? 'transform rotate-180' : ''
+                    size={20}
+                    className={`text-[#715136] transition-transform duration-300 ${expandedPolicy === policy.id ? 'transform rotate-180' : ''
                       }`}
                   />
                 </button>
 
-                {expandedPolicy === policy.id && (
-                  <div className="px-6 py-6 space-y-6 bg-card border-t border-border">
+                <div
+                  className={`transition-all duration-300 ease-in-out overflow-hidden ${expandedPolicy === policy.id ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+                    }`}
+                >
+                  <div className="px-6 pb-8 pt-2 pl-[72px] space-y-8">
                     {policy.sections.map((section, idx) => (
-                      <div key={idx}>
-                        <h3 className="font-body text-lg font-semibold text-foreground mb-2">
+                      <div key={idx} className="relative">
+                        <div className="absolute -left-4 top-2 w-1.5 h-1.5 rounded-full bg-[#DCAE96]" />
+                        <h3 className="font-brand text-lg font-bold text-[#715136] mb-2">
                           {section.heading}
                         </h3>
-                        <p className="font-body text-muted-foreground leading-relaxed">
+                        <p className="font-body text-gray-600 leading-relaxed text-[15px]">
                           {section.content}
                         </p>
                       </div>
                     ))}
                   </div>
-                )}
+                </div>
               </div>
             ))}
           </div>
 
-          {/* FAQ Section */}
-          <div className="mt-16 pt-12 border-t border-border">
-            <h2 className="text-3xl font-brand text-foreground mb-8">
-              Câu hỏi thường gặp
-            </h2>
+          {/* 3. FAQ SECTION - Style Grid Card */}
+          <div className="mt-24 pt-16 border-t border-[#E5E0D8]">
+            <div className="text-center mb-12">
+              <span className="text-[#DCAE96] font-bold tracking-widest text-sm uppercase mb-2 block">Giải đáp thắc mắc</span>
+              <h2 className="text-3xl md:text-4xl font-brand text-[#715136]">
+                Câu hỏi thường gặp
+              </h2>
+            </div>
 
-            <div className="space-y-6">
-              {[
-                {
-                  q: 'Làm thế nào để tùy chỉnh nến thơm?',
-                  a: 'Truy cập trang sản phẩm, chọn nến thơm và nhấp vào "Tùy chỉnh". Bạn có thể chọn hình dáng, màu sắc, mùi hương và phụ kiện.',
-                },
-                {
-                  q: 'Nến thơm của Préci có độc hại không?',
-                  a: 'Không. Tất cả các sản phẩm của Préci được làm từ nguyên liệu thiên nhiên 100%, không chứa hóa chất độc hại hoặc paraffin.',
-                },
-                {
-                  q: 'Nến thơm có tuổi thọ bao lâu?',
-                  a: 'Tùy thuộc vào kích thước, nến thơm của chúng tôi thường có thể cháy từ 40-60 giờ.',
-                },
-                {
-                  q: 'Tôi có thể yêu cầu giao hàng nhanh không?',
-                  a: 'Có. Chúng tôi cung cấp dịch vụ giao hàng nhanh (same day) cho TP.HCM với phí bổ sung.',
-                },
-                {
-                  q: 'Làm thế nào để chăm sóc nến thơm?',
-                  a: 'Cắt bấc xuống 0,5cm trước mỗi lần sử dụng, tránh thổi bấc khi cháy, để nến ở nơi không có gió.',
-                },
-                {
-                  q: 'Préci có bao lâu để xử lý đơn hàng?',
-                  a: 'Chúng tôi xử lý đơn hàng trong vòng 24 giờ. Đối với nến tùy chỉnh, có thể mất 2-3 ngày làm việc.',
-                },
-              ].map((item, idx) => (
-                <div key={idx} className="border border-border rounded-lg p-6">
-                  <h3 className="font-body font-bold text-foreground mb-2">{item.q}</h3>
-                  <p className="font-body text-muted-foreground text-sm leading-relaxed">{item.a}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {faqs.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="bg-[#F9F7F5] border border-transparent hover:border-[#DCAE96]/50 rounded-xl p-6 transition-all duration-300 hover:shadow-sm"
+                >
+                  <div className="flex items-start gap-3 mb-3">
+                    <HelpCircle size={20} className="text-[#DCAE96] mt-1 shrink-0" />
+                    <h3 className="font-brand font-bold text-[#715136] text-lg leading-snug">
+                      {item.q}
+                    </h3>
+                  </div>
+                  <p className="font-body text-gray-600 text-sm leading-relaxed pl-8">
+                    {item.a}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Contact CTA */}
-          <div className="mt-16 pt-12 border-t border-border">
-            <h2 className="text-2xl font-brand font-bold text-foreground mb-4">
-              Bạn còn câu hỏi khác?
-            </h2>
-            <p className="font-body text-muted-foreground mb-6">
-              Hãy liên hệ với chúng tôi qua email hoặc điện thoại. Đội ngũ hỗ trợ khách hàng của Préci sẵn sàng giúp bạn.
-            </p>
-            <a
-              href="/contact"
-              className="inline-block px-8 py-3 bg-primary text-primary-foreground font-body font-semibold rounded-lg hover:bg-opacity-90 transition-all"
-            >
-              Liên Hệ Với Chúng Tôi
-            </a>
+          {/* 4. CONTACT CTA - Style tối giản */}
+          <div className="mt-20 bg-[#715136] rounded-2xl p-8 md:p-12 text-center text-white relative overflow-hidden">
+            {/* Pattern trang trí mờ */}
+            <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none bg-[url('/assets/noise.png')]"></div>
+
+            <div className="relative z-10">
+              <h2 className="text-2xl md:text-3xl font-brand font-bold mb-4">
+                Bạn vẫn còn thắc mắc?
+              </h2>
+              <p className="font-body text-white/80 mb-8 max-w-xl mx-auto">
+                Đừng ngần ngại liên hệ. Đội ngũ Préci luôn sẵn sàng lắng nghe và hỗ trợ bạn tìm ra giải pháp tốt nhất.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a
+                  href="/contact"
+                  className="inline-flex items-center gap-2 px-8 py-3 bg-white text-[#715136] font-bold rounded-full hover:bg-[#F2EFE9] transition-all transform hover:-translate-y-1 shadow-lg"
+                >
+                  <Phone size={18} />
+                  Liên Hệ Ngay
+                </a>
+              </div>
+            </div>
           </div>
         </section>
       </main>

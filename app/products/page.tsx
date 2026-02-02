@@ -32,7 +32,7 @@ function ProductContent() {
 
           {/* 1. Ảnh nền Banner */}
           <img
-            src="/assets/banner-products.png"
+            src="/assets/banner-products.webp"
             alt="Banner Sản Phẩm"
             className="absolute inset-0 w-full h-full object-cover"
           />
