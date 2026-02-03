@@ -10,26 +10,30 @@ export default function ContactPage() {
       <Header />
 
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative w-full h-[400px] md:h-[450px] overflow-hidden flex items-center justify-center">
+        {/* Hero Section (Banner mới) */}
+        <section className="relative w-full h-[400px] md:h-[400px] overflow-hidden">
+          {/* 1. Ảnh nền*/}
           <img
-            src="/assets/banner-policy.webp"
-            alt="Liên hệ Préci"
-            className="absolute inset-0 w-full h-full object-cover"
+            src="/assets/banner-about.webp"
+            alt="Về Préci"
+            className="absolute inset-0 w-full h-full object-cover object-center"
           />
-          {/* Lớp phủ tối màu */}
-          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-white/20" />
 
-          <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-            <span className="text-white/90 font-brand text-lg tracking-[0.2em] uppercase mb-4 block animate-in fade-in slide-in-from-bottom-4 duration-700">
-              Kết nối
-            </span>
-            <h1 className="text-5xl md:text-7xl font-brand text-white mb-6 leading-tight animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
-              Liên hệ với chúng tôi
-            </h1>
-            <p className="font-body text-white/90 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
-              Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn
-            </p>
+          {/* 2. Nội dung chữ phủ lên trên (Căn trái) */}
+          <div className="relative z-10 h-full max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col justify-center">
+            <div className="md:max-w-xl">
+              {/* TIÊU ĐỀ */}
+              <h1 className="text-6xl md:text-8xl font-brand text-[#3a3a3a] mb-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-forwards">
+                Liên hệ
+              </h1>
+
+              {/* ĐOẠN VĂN */}
+              {/* Thêm delay-200 để nó hiện sau tiêu đề một chút cho đẹp */}
+              <p className="font-body text-xl md:text-xl text-[#3a3a3a] italic leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 fill-mode-forwards">
+                Chúng mình luôn sẵn sàng lắng nghe và hỗ trợ bạn
+              </p>
+            </div>
           </div>
         </section>
 
