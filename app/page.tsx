@@ -13,6 +13,7 @@ import {
   SlidersHorizontal,
   HeartHandshake
 } from 'lucide-react'
+import { blogPosts, BLOG_CATEGORIES } from '@/lib/blog-data' // Import dữ liệu chuẩn
 
 export default function Home() {
   // State quản lý slide hiện tại
@@ -69,30 +70,6 @@ export default function Home() {
 
   // Logic chọn danh sách hiển thị
   const displayedProducts = activeTab === 'candles' ? candleImages : accessoryImages
-
-  const blogPosts = [
-    {
-      id: 1,
-      title: 'Lợi ích của nến thơm tự nhiên',
-      category: 'Lợi ích nến thơm',
-      excerpt: 'Khám phá các lợi ích sức khỏe tuyệt vời của nến thơm được làm từ nguyên liệu thiên nhiên.',
-      date: '15 Tháng 1',
-    },
-    {
-      id: 2,
-      title: 'Ý tưởng quà tặng hoàn hảo',
-      category: 'Ý tưởng quà tặng',
-      excerpt: 'Những gợi ý quà tặng độc đáo và ý nghĩa cho người thân yêu của bạn.',
-      date: '10 Tháng 1',
-    },
-    {
-      id: 3,
-      title: 'Mẹo chăm sóc nến thơm',
-      category: 'Mẹo hay từ Préci',
-      excerpt: 'Cách duy trì và sử dụng nến thơm để có tuổi thọ và mùi hương tốt nhất.',
-      date: '5 Tháng 1',
-    },
-  ]
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -212,7 +189,7 @@ export default function Home() {
           </div>
 
           {/* NÚT CTA THEO TAB */}
-          <div className="flex justify-end mt-8 border-t border-gray-200 pt-8">
+          <div className="flex justify-center mt-8 border-t border-gray-200 pt-8">
             <Link
               href={activeTab === 'candles' ? '/products?category=nen-thom' : '/products?category=phu-kien'}
               className="bg-primary text-white font-body font-bold text-lg px-8 py-3 rounded-md hover:bg-[#8C7E72] transition-colors shadow-sm animate-in fade-in duration-300"
@@ -357,44 +334,91 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Blog Preview (Giữ nguyên) */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="text-center mb-12">
-            <h3 className="font-brand uppercase text-5xl md:text-7xl text-primary mb-8 font-light tracking-wide">
-              Cẩm nang & Cảm hứng
-            </h3>
-            <p className="font-body text-muted-foreground max-w-2xl mx-auto">
-              Các bài viết giúp bạn tìm hiểu thêm về nến thơm và cách tận hưởng chúng
-            </p>
-          </div>
+        {/* Blog Preview Section */}
+        <section className="bg-[#FFFDFA] py-20 md:py-28 border-t border-[#E5E0D8]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
-              <Link key={post.id} href={`/blog/${post.id}`} className="group cursor-pointer">
-                <div className="border border-border rounded-lg p-6 hover:border-primary transition-colors hover:shadow-md">
-                  <div className="flex items-start justify-between mb-4">
-                    <p className="font-brand text-xs font-semibold text-primary uppercase">{post.category}</p>
-                    <p className="font-brand font-bold text-xs text-muted-foreground">{post.date}</p>
-                  </div>
-                  <h4 className="text-xl font-body font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                    {post.title}
-                  </h4>
-                  <p className="font-body text-sm text-muted-foreground mb-4">{post.excerpt}</p>
-                  <span className="font-brand text-primary font-bold text-sm group-hover:translate-x-1 inline-block transition-transform">
-                    Đọc tiếp →
-                  </span>
-                </div>
+            {/* Header */}
+            <div className="text-center mb-16">
+              <span className="text-gray-500 font-brand font-bold tracking-[0.2em] text-sm uppercase mb-4 block animate-in fade-in slide-in-from-bottom-4">
+                Préci Blog
+              </span>
+              <h3 className="font-brand uppercase text-4xl md:text-6xl text-primary mb-6 animate-in fade-in slide-in-from-bottom-6 delay-100">
+                Cảm nang & Cảm hứng
+              </h3>
+              <p className="font-body text-secondary-500 text-lg max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-8 delay-200">
+                Nơi Préci chia sẻ những kiến thức thú vị về nến thơm và cách tận hưởng chúng.
+              </p>
+            </div>
+
+            {/* Blog Grid (Lấy 3 bài mới nhất) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+              {blogPosts.slice(0, 3).map((post, index) => (
+                <Link
+                  key={post.id}
+                  href={`/blog/${post.slug}`}
+                  className="group cursor-pointer h-full block animate-in fade-in slide-in-from-bottom-8"
+                  style={{ animationDelay: `${index * 100}ms` }} // Hiệu ứng xuất hiện lần lượt
+                >
+                  <article className="flex flex-col h-full bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-500 border border-[#E5E0D8] group-hover:border-[#DCAE96] group-hover:-translate-y-2">
+
+                    {/* Featured Image */}
+                    <div className="relative h-56 overflow-hidden bg-[#F2EFE9]">
+                      {post.image.startsWith('/') ? (
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-[#F2EFE9] text-[#DCAE96]">
+                          <span className="text-4xl">🌿</span>
+                        </div>
+                      )}
+
+                      {/* Badge Category */}
+                      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-[#715136] uppercase tracking-wide shadow-sm">
+                        {BLOG_CATEGORIES.find(c => c.id === post.category)?.label}
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6 flex-1 flex flex-col">
+                      <div className="flex items-center gap-3 text-xs text-gray-400 mb-3 font-body">
+                        <span>{post.date}</span>
+                        <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                        <span>{post.readTime} đọc</span>
+                      </div>
+
+                      <h4 className="text-xl font-brand font-bold text-[#3a3a3a] mb-3 group-hover:text-[#715136] transition-colors leading-snug line-clamp-2">
+                        {post.title}
+                      </h4>
+
+                      <p className="font-body text-sm text-gray-500 mb-6 line-clamp-3 leading-relaxed flex-1">
+                        {post.excerpt}
+                      </p>
+
+                      <div className="flex items-center justify-between pt-4 border-t border-[#F2EFE9] mt-auto">
+                        <span className="text-[#715136] font-bold text-sm group-hover:translate-x-1 transition-transform flex items-center gap-2">
+                          Đọc chi tiết <ArrowRight size={16} />
+                        </span>
+                      </div>
+                    </div>
+                  </article>
+                </Link>
+              ))}
+            </div>
+
+            {/* View All Button */}
+            <div className="text-center">
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-transparent border-2 border-[#715136] text-[#715136] font-brand font-bold rounded-full hover:bg-[#715136] hover:text-white transition-all duration-300 group"
+              >
+                Xem tất cả bài viết
+                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </Link>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 px-8 py-3 border-2 border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-primary-foreground transition-all"
-            >
-              Xem tất cả bài viết
-            </Link>
+            </div>
           </div>
         </section>
       </main>
