@@ -38,21 +38,9 @@ export const metadata: Metadata = {
   description: 'Khám phá bộ sưu tập nến thơm tự nhiên và các phụ kiện cao cấp từ Préci',
   generator: 'v0.app',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/favicon.png', // Dấu / ở đầu nghĩa là tìm trong thư mục public
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
   },
 }
 
