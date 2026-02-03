@@ -48,11 +48,11 @@ function ProductContent() {
             <div className="text-center md:text-right">
 
               {/* Tiêu đề: Đã xóa 'md:self-center' và thêm 'mb-2' để tạo khoảng cách với mô tả dưới */}
-              <h1 className="text-6xl md:text-[7rem] font-brand text-[#1a1a1a] leading-none drop-shadow-sm mb-2 md:mb-4">
+              <h1 className="text-6xl md:text-[7rem] font-brand text-[#1a1a1a] leading-none drop-shadow-sm mb-2 md:mb-4 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
                 Sản phẩm
               </h1>
 
-              <p className="font-body text-base md:text-xl text-[#1a1a1a] font-medium italic tracking-wide ml-auto drop-shadow-sm">
+              <p className="font-body text-base md:text-xl text-[#1a1a1a] font-medium italic tracking-wide ml-auto drop-shadow-sm animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
                 Khám phá bộ sưu tập nến thơm và phụ kiện cao cấp được chế tác tỉ mỉ
               </p>
 

@@ -130,7 +130,7 @@ export default function PoliciesPage() {
           <div className="absolute inset-0 bg-black/40" />
 
           <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-brand text-white mb-6 leading-tight animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
+            <h1 className="text-6xl md:text-8xl font-brand text-white mb-6 leading-tight animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
               Chính Sách
             </h1>
             <p className="font-body text-white/90 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
@@ -194,7 +194,7 @@ export default function PoliciesPage() {
           {/* 3. FAQ SECTION - Style Grid Card */}
           <div className="mt-24 pt-16 border-t border-[#E5E0D8]">
             <div className="text-center mb-12">
-              <span className="text-[#DCAE96] font-bold tracking-widest text-sm uppercase mb-2 block">Giải đáp thắc mắc</span>
+              <span className="text-secondary font-brand uppercase font-bold tracking-widest text-sm uppercase mb-2 block">Giải đáp thắc mắc</span>
               <h2 className="text-3xl md:text-4xl font-brand text-[#715136]">
                 Câu hỏi thường gặp
               </h2>

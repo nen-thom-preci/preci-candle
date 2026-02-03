@@ -64,11 +64,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
             {/* Product Info */}
             <div className="flex flex-col justify-center">
               <div className="mb-6">
-                <p className="font-heading1 text-sm font-bold text-primary uppercase mb-2 tracking-widest">
+                <p className="font-body text-sm font-bold text-primary uppercase mb-2 tracking-widest">
                   {product.category === 'candles' ? 'Nến Thơm' : 'Phụ Kiện Préci'}
                 </p>
                 <h1 className="text-4xl md:text-5xl font-brand text-[#1a1a1a] mb-4">{product.name}</h1>
-                <p className="font-heading1 text-lg text-gray-500 mb-6 leading-relaxed">
+                <p className="font-body text-lg text-gray-500 mb-6 leading-relaxed">
                   {product.description}
                 </p>
 
@@ -79,7 +79,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                       <span key={i} className="text-lg">★</span>
                     ))}
                   </div>
-                  <span className="text-sm font-heading1 text-gray-400">
+                  <span className="text-sm font-body text-gray-400">
                     {product.rating} ({product.reviews} đánh giá)
                   </span>
                 </div>
@@ -87,7 +87,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
               {/* Price */}
               <div className="mb-8 pb-8 border-b border-[#E5E0D8]">
-                <p className="text-4xl font-heading1 font-bold text-primary">
+                <p className="text-4xl font-body font-bold text-primary">
                   {product.priceFormatted}
                 </p>
               </div>
@@ -100,7 +100,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     {product.features.map((feature: string, idx: number) => (
                       <li key={idx} className="flex items-start gap-3 text-gray-600">
                         <span className="font-bold text-primary mt-1">✓</span>
-                        <span className="font-heading1">{feature}</span>
+                        <span className="font-body">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -115,27 +115,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   priceString={product.priceFormatted}
                 />
 
-                <Link href="/products" className="block w-full text-center py-4 border border-primary text-primary font-bold rounded-lg hover:bg-[#F2EFE9] transition-colors font-heading1">
+                <Link href="/products" className="block w-full text-center py-4 border border-primary text-primary font-body uppercase rounded-lg hover:bg-[#F2EFE9] transition-colors font-body">
                   Tiếp Tục Mua Sắm
                 </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Details Section */}
-          <div className="mt-16 pt-12 border-t border-[#E5E0D8] max-w-3xl">
-            <h2 className="text-3xl font-brand text-[#1a1a1a] mb-6">Chi Tiết Sản Phẩm</h2>
-            <div className="font-heading1 text-gray-600 leading-loose text-lg mb-8">
-              {product.details}
-            </div>
-
-            {/* Shipping Info */}
-            <div className="bg-[#F2EFE9] rounded-lg p-8">
-              <h3 className="font-brand font-bold text-lg text-[#1a1a1a] mb-4">Chính sách Préci</h3>
-              <div className="space-y-3 font-heading1 text-gray-600">
-                <p>• Cam kết sản phẩm chính hãng 100%</p>
-                <p>• Đổi trả miễn phí trong 3 ngày nếu có lỗi sản xuất</p>
-                <p>• Giao hàng hỏa tốc 2h tại nội thành TP.HCM</p>
               </div>
             </div>
           </div>

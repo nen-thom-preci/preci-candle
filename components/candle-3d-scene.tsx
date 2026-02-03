@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useMemo, useRef, Suspense } from 'react'
+import { useEffect, useMemo, useRef, Suspense, useState } from 'react'
 import { Canvas, useThree, useFrame } from '@react-three/fiber'
 import { OrbitControls, Environment, ContactShadows, Text as Text3D, Html, useProgress } from '@react-three/drei'
 import * as THREE from 'three'
+import QRCode from 'qrcode'
 
 interface Candle3DProps {
   shape: string
@@ -151,85 +152,91 @@ function ProceduralsCandle({ shape, color, sticker, base, message, engraving, is
     clearcoatRoughness: 0.2
   };
 
-  const labelTexture = useMemo(() => {
-    if (!sticker) return null;
-    const canvas = document.createElement('canvas');
-    canvas.width = 1024; canvas.height = 1024;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return null;
+  // --- THAY THẾ KHỐI useMemo CŨ BẰNG ĐOẠN NÀY ---
 
-    // 1. Nền & Viền
-    ctx.fillStyle = '#FFFDFA'; ctx.beginPath(); ctx.roundRect(50, 200, 924, 624, 30); ctx.fill();
-    ctx.strokeStyle = '#715136'; ctx.lineWidth = 6; ctx.stroke();
+  // 1. Tạo biến State để lưu hình ảnh sau khi vẽ xong
+  const [labelTexture, setLabelTexture] = useState<THREE.CanvasTexture | null>(null);
 
-    // 2. Tên thương hiệu
-    ctx.fillStyle = '#715136';
-    ctx.font = 'bold 200px Mallong, serif';
-    ctx.textAlign = 'center';
-    ctx.fillText("Préci", 512, 380);
-
-    // 3. Thông điệp người dùng (Cỡ chữ to & rõ)
-    // ... (Code cũ phần 1 và 2 giữ nguyên) ...
-    ctx.textAlign = 'center';
-    ctx.fillText("Préci", 512, 380);
-
-    // --- 3. BẮT ĐẦU ĐOẠN CODE MỚI ---
-
-    // Kiểm tra: Nếu là chế độ QR Code
-    if (isQRCode) {
-      // Vẽ mã QR giả lập (Hình vuông lớn + các điểm chấm)
-      const qrSize = 300;
-      const qrX = 512 - qrSize / 2;
-      const qrY = 450;
-
-      ctx.fillStyle = '#715136'; // Màu nâu
-
-      // Vẽ khung
-      ctx.lineWidth = 4;
-      ctx.strokeRect(qrX, qrY, qrSize, qrSize);
-
-      // Vẽ các chấm ngẫu nhiên để mô phỏng QR
-      for (let i = 0; i < 10; i++) {
-        for (let j = 0; j < 10; j++) {
-          // Random vẽ các ô vuông nhỏ
-          if (Math.random() > 0.5) {
-            ctx.fillRect(qrX + i * 30, qrY + j * 30, 25, 25);
-          }
-        }
-      }
-      // Chú thích dưới mã
-      ctx.font = 'bold 40px Arial';
-      ctx.fillText("SCAN TO LISTEN", 512, qrY + qrSize + 60);
-
-    } else if (message) {
-      // Logic cũ: Vẽ văn bản (Nếu không phải QR)
-      ctx.fillStyle = '#715136';
-      ctx.font = 'bold 100px Mallong';
-
-      const words = message.split(' ');
-      let line = '';
-      let y = 510;
-      const lineHeight = 100;
-      const maxWidth = 800;
-
-      words.forEach(word => {
-        const testLine = line + word + ' ';
-        if (ctx.measureText(testLine).width > maxWidth) {
-          ctx.fillText(line, 512, y);
-          line = word + ' ';
-          y += lineHeight;
-        } else {
-          line = testLine;
-        }
-      });
-      ctx.fillText(line, 512, y);
+  // 2. Dùng useEffect để vẽ (Vì tạo QR là tác vụ bất đồng bộ)
+  useEffect(() => {
+    if (!sticker) {
+      setLabelTexture(null);
+      return;
     }
-    // --- KẾT THÚC ĐOẠN CODE MỚI ---
 
-    return new THREE.CanvasTexture(canvas);
+    const drawLabel = async () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1024; canvas.height = 1024;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
 
-    // QUAN TRỌNG: Thêm isQRCode vào danh sách theo dõi ở cuối useMemo
-  }, [message, color, sticker, isQRCode]);
+      // A. Vẽ Nền & Viền & Logo (Giữ nguyên như cũ)
+      ctx.fillStyle = '#FFFDFA';
+      ctx.beginPath(); ctx.roundRect(20, 20, 984, 984, 40); ctx.fill();
+      ctx.strokeStyle = '#715136'; ctx.lineWidth = 15; ctx.stroke();
+
+      ctx.fillStyle = '#715136';
+      ctx.font = 'bold 180px Mallong, serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText("Préci", 512, 200);
+
+      // B. XỬ LÝ VẼ QR THẬT HOẶC TEXT
+      if (isQRCode && message) {
+        try {
+          // --- TẠO MÃ QR THẬT TỪ MESSAGE (URL) ---
+          const qrDataUrl = await QRCode.toDataURL(message, {
+            errorCorrectionLevel: 'H', // Mức sửa lỗi cao nhất (để in rõ)
+            margin: 0,
+            width: 500,
+            color: {
+              dark: '#715136', // Màu mã (Nâu)
+              light: '#00000000' // Nền trong suốt
+            }
+          });
+
+          // Vẽ ảnh QR vừa tạo lên Canvas
+          const img = new Image();
+          img.src = qrDataUrl;
+          await new Promise((resolve) => { img.onload = resolve }); // Đợi ảnh load xong
+
+          // Vẽ ảnh vào vị trí trung tâm
+          const qrSize = 500;
+          const qrY = 350;
+          ctx.drawImage(img, 512 - qrSize / 2, qrY, qrSize, qrSize);
+
+          // Chú thích dưới mã
+          ctx.font = 'bold 40px Arial, sans-serif';
+          ctx.fillText("SCAN TO LISTEN", 512, qrY + qrSize + 80);
+
+        } catch (err) {
+          console.error("Lỗi tạo QR:", err);
+        }
+      } else if (message) {
+        // --- VẼ TEXT (Giữ nguyên code cũ) ---
+        ctx.fillStyle = '#715136';
+        ctx.font = 'bold 90px Mallong';
+        const words = message.split(' ');
+        let line = '';
+        let y = 450;
+        const lineHeight = 110;
+        const maxWidth = 900;
+        words.forEach(word => {
+          const testLine = line + word + ' ';
+          if (ctx.measureText(testLine).width > maxWidth) {
+            ctx.fillText(line, 512, y); line = word + ' '; y += lineHeight;
+          } else { line = testLine; }
+        });
+        ctx.fillText(line, 512, y);
+      }
+
+      // Cập nhật kết quả
+      setLabelTexture(new THREE.CanvasTexture(canvas));
+    };
+
+    drawLabel();
+
+  }, [sticker, message, isQRCode]); // Chạy lại khi các biến này thay đổi
 
   return (
     <group>

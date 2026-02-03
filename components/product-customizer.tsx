@@ -1,9 +1,9 @@
 'use client'
 
 import QRCode from "react-qr-code";
-import { useState, useEffect, useMemo, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, ChevronRight, Minus, Plus, Check, Mic, Square, Play, Pause, Trash2, RefreshCw } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Minus, Plus, Check, Mic, Square, Play, Pause, Trash2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 // Load 3D Scene
 const Candle3D = dynamic(
@@ -61,12 +61,12 @@ const BASE_OPTIONS = [
 ]
 
 const GIFT_BOXES = [
-  { id: 'box1', image: '/assets/boxes/box1.jpg' },
-  { id: 'box2', image: '/assets/boxes/box2.jpg' },
-  { id: 'box3', image: '/assets/boxes/box3.jpg' },
-  { id: 'box4', image: '/assets/boxes/box4.jpg' },
-  { id: 'box5', image: '/assets/boxes/box5.jpg' },
-  { id: 'box6', image: '/assets/boxes/box6.jpg' },
+  { id: 'box1', image: '/hop-qua/1.webp' },
+  { id: 'box2', image: '/hop-qua/2.webp' },
+  { id: 'box3', image: '/hop-qua/3.webp' },
+  { id: 'box4', image: '/hop-qua/4.webp' },
+  { id: 'box5', image: '/hop-qua/5.webp' },
+  { id: 'box6', image: '/hop-qua/6.webp' },
 ]
 
 // Component Icon Hình Dáng (Tách ra để code gọn hơn)
@@ -121,18 +121,17 @@ export default function ProductCustomizer({ productId, productName }: Customizer
   const [customization, setCustomization] = useState({
     shape: 'round',
     color: 'beige',
-    sticker: true, // Mặc định là true nếu muốn in thiệp
+    sticker: false, // <--- SỬA THÀNH FALSE (Mặc định không hiện thẻ)
     base: 'none',
     engraving: '',
     message: '',
     box: 'none',
-    messageType: 'text', // 'text' hoặc 'voice'
-    voiceData: null as Blob | null, // Nơi chứa file ghi âm
+    messageType: 'none', // <--- Mặc định là 'none'
+    voiceData: null as Blob | null,
   })
 
   // --- STATE CHO GHI ÂM ---
   const [isRecording, setIsRecording] = useState(false)
-  const [audioBlob, setAudioBlob] = useState<Blob | null>(null)
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [recordingTime, setRecordingTime] = useState(0)
@@ -167,7 +166,6 @@ export default function ProductCustomizer({ productId, productName }: Customizer
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunks, { type: 'audio/webm' })
         const url = URL.createObjectURL(blob)
-        setAudioBlob(blob)
         setAudioUrl(url)
         // Lưu vào customization để gửi đi
         setCustomization(prev => ({ ...prev, voiceData: blob }))
@@ -220,13 +218,14 @@ export default function ProductCustomizer({ productId, productName }: Customizer
 
   // Xử lý Xóa ghi âm
   const deleteRecording = () => {
-    setAudioBlob(null)
     setAudioUrl(null)
     setIsPlaying(false)
     setRecordingTime(0)
     setCustomization(prev => ({ ...prev, voiceData: null }))
     setQrConfirmed(false)
   }
+  // ... các state cũ
+  const [isUploading, setIsUploading] = useState(false); // Trạng thái đang tải lên
 
   // --- SỬA LỖI DEBOUNCE ---
   // Khi người dùng gõ, chỉ update tempEngraving.
@@ -240,6 +239,45 @@ export default function ProductCustomizer({ productId, productName }: Customizer
     }, 500)
     return () => clearTimeout(timer)
   }, [tempEngraving])
+
+  // Hàm upload file lên Cloudinary
+  const handleFinishAndUpload = async () => {
+    if (!customization.voiceData) {
+      alert("Chưa có file ghi âm!");
+      return;
+    }
+
+    setIsUploading(true); // Bật trạng thái đang tải
+
+    const formData = new FormData();
+    formData.append("file", customization.voiceData);
+    formData.append("upload_preset", "preci_audio"); // <--- THAY TÊN PRESET CỦA BẠN VÀO ĐÂY (VD: preci_audio)
+    formData.append("resource_type", "video"); // Cloudinary xử lý audio như video
+
+    try {
+      // Gọi API của Cloudinary (Thay YOUR_CLOUD_NAME bằng tên cloud của bạn)
+      const res = await fetch("https://api.cloudinary.com/v1_1/di6humtpc/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (data.secure_url) {
+        // Upload thành công!
+        setAudioUrl(data.secure_url); // Lưu link thật vào state
+        setQrConfirmed(true);         // Hiển thị QR Code
+        console.log("File đã lên mây:", data.secure_url);
+      } else {
+        alert("Có lỗi khi tạo link file. Thử lại nhé!");
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("Lỗi kết nối internet.");
+    } finally {
+      setIsUploading(false); // Tắt trạng thái đang tải
+    }
+  };
 
   // --- RENDER CONTENT ---
   const renderStepContent = () => {
@@ -301,7 +339,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                       placeholder="VD: 1997"
                       value={birthYear}
                       onChange={(e) => setBirthYear(e.target.value.slice(0, 4))}
-                      className="w-full text-center bg-white border border-[#C4B5A5] rounded-lg focus:border-[#715136] focus:ring-1 focus:ring-[#715136] outline-none py-2 font-brand text-lg text-[#715136] placeholder:text-gray-300 transition-all shadow-sm"
+                      className="w-full text-center bg-white border border-[#C4B5A5] rounded-lg focus:border-[#715136] focus:ring-1 focus:ring-[#715136] outline-none py-2 font-body text-lg text-[#715136] placeholder:text-gray-300 transition-all shadow-sm"
                     />
                     {userElement && (
                       <div className="mt-3 animate-in slide-in-from-top-2">
@@ -369,7 +407,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
             <div className="grid grid-cols-1 gap-2">
               <button
                 onClick={() => setCustomization(prev => ({ ...prev, base: 'none' }))}
-                className={`p-3 rounded-lg border text-left text-sm ${customization.base === 'none' ? 'border-[#715136] bg-[#715136]/5 font-bold' : 'border-gray-200'}`}
+                className={`p-3 rounded-lg border text-left text-sm font-body ${customization.base === 'none' ? 'border-[#715136] bg-[#715136]/5' : 'border-gray-200'}`}
               >
                 🚫 Không dùng đế
               </button>
@@ -379,7 +417,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                   onClick={() => setCustomization(prev => ({ ...prev, base: b.id }))}
                   className={`p-3 rounded-lg border text-left flex justify-between items-center ${customization.base === b.id ? 'border-[#715136] bg-[#715136]/5' : 'border-gray-200 hover:bg-white'}`}
                 >
-                  <span className="font-medium text-sm">{b.icon} {b.label}</span>
+                  <span className="font-body font-bold text-sm">{b.icon} {b.label}</span>
                   <span className="text-xs text-gray-500">+{b.price.toLocaleString()}đ</span>
                 </button>
               ))}
@@ -421,41 +459,62 @@ export default function ProductCustomizer({ productId, productName }: Customizer
               <p className="text-center font-brand font-bold text-[#715136] mb-4">Thẻ thông điệp đính kèm</p>
 
               <div className="space-y-3">
-                {/* Option 1: Văn bản */}
-                <div
-                  onClick={() => setCustomization(prev => ({ ...prev, messageType: 'text' }))}
-                  className={`flex items-center justify-between p-3 rounded-lg border-2 cursor-pointer transition-all ${customization.messageType === 'text'
-                    ? 'border-[#715136] bg-white shadow-sm'
-                    : 'border-transparent hover:bg-white/50'
-                    }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${customization.messageType === 'text' ? 'bg-[#DCAE96]' : 'bg-gray-200'}`}>
-                      <span className="text-lg">💌</span>
+                <div className="space-y-3">
+                  {/* --- LỰA CHỌN 1: KHÔNG DÙNG THẺ (Mới thêm) --- */}
+                  <div
+                    onClick={() => setCustomization(prev => ({ ...prev, messageType: 'none', sticker: false }))}
+                    className={`flex items-center justify-between p-3 rounded-lg border-2 cursor-pointer transition-all ${customization.messageType === 'none'
+                      ? 'border-[#715136] bg-white shadow-sm'
+                      : 'border-transparent hover:bg-white/50'
+                      }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${customization.messageType === 'none' ? 'bg-[#DCAE96]' : 'bg-gray-200'}`}>
+                        <span className="text-lg text-gray-500">✕</span>
+                      </div>
+                      <span className="font-body text-sm text-[#715136]">Không gửi thông điệp</span>
                     </div>
-                    <span className="font-brand text-sm text-[#715136]">In lời nhắn lên thẻ thiệp (+50.000đ)</span>
+                    <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${customization.messageType === 'none' ? 'bg-[#715136] border-[#715136]' : 'border-gray-400'}`}>
+                      {customization.messageType === 'none' && <Check size={12} className="text-white" />}
+                    </div>
                   </div>
-                  <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${customization.messageType === 'text' ? 'bg-[#715136] border-[#715136]' : 'border-gray-400'}`}>
-                    {customization.messageType === 'text' && <Check size={12} className="text-white" />}
-                  </div>
-                </div>
 
-                {/* Option 2: Ghi âm (Voice) */}
-                <div
-                  onClick={() => setCustomization(prev => ({ ...prev, messageType: 'voice' }))}
-                  className={`flex items-center justify-between p-3 rounded-lg border-2 cursor-pointer transition-all ${customization.messageType === 'voice'
-                    ? 'border-[#715136] bg-white shadow-sm'
-                    : 'border-transparent hover:bg-white/50'
-                    }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${customization.messageType === 'voice' ? 'bg-[#DCAE96]' : 'bg-gray-200'}`}>
-                      <span className="text-lg">🎙️</span>
+                  {/* --- LỰA CHỌN 2: TEXT (Giữ nguyên, chỉ đảm bảo sticker: true) --- */}
+                  <div
+                    onClick={() => setCustomization(prev => ({ ...prev, messageType: 'text', sticker: true }))}
+                    className={`flex items-center justify-between p-3 rounded-lg border-2 cursor-pointer transition-all ${customization.messageType === 'text'
+                      ? 'border-[#715136] bg-white shadow-sm'
+                      : 'border-transparent hover:bg-white/50'
+                      }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${customization.messageType === 'text' ? 'bg-[#DCAE96]' : 'bg-gray-200'}`}>
+                        <span className="text-lg">💌</span>
+                      </div>
+                      <span className="font-body font-bold text-sm text-[#715136]">In lời nhắn lên thẻ thiệp (+50.000đ)</span>
                     </div>
-                    <span className="font-brand text-sm text-[#715136]">In mã quét ra giọng nói (+100.000đ)</span>
+                    <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${customization.messageType === 'text' ? 'bg-[#715136] border-[#715136]' : 'border-gray-400'}`}>
+                      {customization.messageType === 'text' && <Check size={12} className="text-white" />}
+                    </div>
                   </div>
-                  <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${customization.messageType === 'voice' ? 'bg-[#715136] border-[#715136]' : 'border-gray-400'}`}>
-                    {customization.messageType === 'voice' && <Check size={12} className="text-white" />}
+
+                  {/* --- LỰA CHỌN 3: VOICE (Giữ nguyên, chỉ đảm bảo sticker: true) --- */}
+                  <div
+                    onClick={() => setCustomization(prev => ({ ...prev, messageType: 'voice', sticker: true }))}
+                    className={`flex items-center justify-between p-3 rounded-lg border-2 cursor-pointer transition-all ${customization.messageType === 'voice'
+                      ? 'border-[#715136] bg-white shadow-sm'
+                      : 'border-transparent hover:bg-white/50'
+                      }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${customization.messageType === 'voice' ? 'bg-[#DCAE96]' : 'bg-gray-200'}`}>
+                        <span className="text-lg">🎙️</span>
+                      </div>
+                      <span className="font-body font-bold text-sm text-[#715136]">In mã quét ra giọng nói (+100.000đ)</span>
+                    </div>
+                    <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${customization.messageType === 'voice' ? 'bg-[#715136] border-[#715136]' : 'border-gray-400'}`}>
+                      {customization.messageType === 'voice' && <Check size={12} className="text-white" />}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -531,15 +590,20 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                         {isPlaying ? <Pause size={24} fill="white" /> : <Play size={24} fill="white" className="ml-1" />}
                       </button>
 
-                      {/* Nút Hoàn thành */}
+                      {/* NÚT HOÀN THÀNH MỚI */}
                       <button
-                        onClick={() => setQrConfirmed(true)} // <--- THÊM SỰ KIỆN NÀY
+                        onClick={handleFinishAndUpload} // <--- GỌI HÀM UPLOAD
+                        disabled={isUploading || qrConfirmed} // Khóa nút khi đang tải hoặc đã xong
                         className={`px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-all ${qrConfirmed
-                          ? 'bg-gray-400 cursor-not-allowed text-white' // Đã bấm rồi thì làm mờ
-                          : 'bg-[#7B8B4C] text-white hover:bg-[#6A7A40] shadow-md' // Chưa bấm thì sáng
+                          ? 'bg-gray-400 cursor-not-allowed text-white'
+                          : 'bg-[#7B8B4C] text-white hover:bg-[#6A7A40] shadow-md'
                           }`}
                       >
-                        <Check size={14} /> {qrConfirmed ? "Đã in lên nến" : "Hoàn thành"}
+                        {isUploading ? (
+                          <>⏳ Đang tạo mã...</> // Hiển thị khi đang upload
+                        ) : (
+                          <><Check size={14} /> {qrConfirmed ? "Đã in lên nến" : "Hoàn thành"}</>
+                        )}
                       </button>
                     </div>
 
@@ -576,23 +640,31 @@ export default function ProductCustomizer({ productId, productName }: Customizer
       case 'box':
         return (
           <div className="grid grid-cols-3 gap-3">
+            {/* Nút "Không hộp" - GIỮ NGUYÊN */}
             <button
               onClick={() => setCustomization(prev => ({ ...prev, box: 'none' }))}
-              className={`aspect-square rounded-xl border-2 flex items-center justify-center text-gray-400 bg-white ${customization.box === 'none' ? 'border-[#715136] text-[#715136] font-bold' : 'border-dashed border-gray-300'}`}
+              className={`aspect-square rounded-xl border-2 flex items-center justify-center font-body text-gray-400 bg-white ${customization.box === 'none' ? 'border-[#715136] text-[#715136]' : 'border-dashed border-gray-300'}`}
             >
               Không hộp
             </button>
+
+            {/* Các nút Hộp quà - SỬA ĐỔI ĐỂ HIỆN ẢNH */}
             {GIFT_BOXES.map(box => (
               <button
                 key={box.id}
                 onClick={() => setCustomization(prev => ({ ...prev, box: box.id }))}
                 className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all ${customization.box === box.id ? 'border-[#715136] ring-2 ring-[#715136]/20' : 'border-transparent hover:border-gray-300'}`}
               >
-                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                  <span className="text-2xl">🎁</span>
-                </div>
+                {/* Thay thế icon cũ bằng thẻ img */}
+                <img
+                  src={box.image}
+                  alt="Hộp quà"
+                  className="w-full h-full object-cover"
+                />
+
+                {/* Dấu tích chọn - Giữ nguyên */}
                 {customization.box === box.id && (
-                  <div className="absolute top-1 right-1 w-5 h-5 bg-[#715136] rounded-full flex items-center justify-center">
+                  <div className="absolute top-1 right-1 w-5 h-5 bg-[#715136] rounded-full flex items-center justify-center shadow-sm">
                     <span className="text-white text-[10px]">✓</span>
                   </div>
                 )}
@@ -719,7 +791,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
 
             <div className="bg-white border border-[#715136] rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg">
               <div className="text-center md:text-left border-r border-gray-200 pr-6 mr-2">
-                <p className="text-xs text-gray-500 font-body">Tổng chi phí</p>
+                <p className="text-sm text-gray-500 font-body">Tổng chi phí</p>
                 <p className="text-2xl font-body font-bold text-[#715136]">
                   {calculatePrice().toLocaleString()}đ
                 </p>
@@ -735,11 +807,11 @@ export default function ProductCustomizer({ productId, productName }: Customizer
               </div>
 
               <div className="flex gap-2 w-full md:w-auto">
-                <button onClick={() => handleAddToCart(true)} className="flex-1 px-6 py-3 bg-[#B0A695] text-white font-bold rounded-lg hover:bg-[#8C7E72] transition-colors shadow-sm text-sm uppercase tracking-wide">
+                <button onClick={() => handleAddToCart(true)} className="flex-1 px-6 py-3 bg-[#B0A695] text-white font-body font-bold uppercase rounded-lg hover:bg-[#8C7E72] transition-colors shadow-sm text-sm uppercase tracking-wide">
                   Mua ngay
                 </button>
-                <button onClick={() => handleAddToCart(false)} className="flex-1 px-6 py-3 bg-[#6B8E23] text-white font-bold rounded-lg hover:bg-[#556B2F] transition-colors shadow-sm text-sm uppercase tracking-wide">
-                  Thêm vào giỏ
+                <button onClick={() => handleAddToCart(false)} className="flex-1 px-6 py-3 bg-[#6B8E23] text-white font-body font-bold uppercase rounded-lg hover:bg-[#556B2F] transition-colors shadow-sm text-sm uppercase tracking-wide">
+                  Thêm vào <p /> giỏ hàng
                 </button>
               </div>
             </div>

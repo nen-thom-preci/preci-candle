@@ -215,7 +215,7 @@ export default function Home() {
           <div className="flex justify-end mt-8 border-t border-gray-200 pt-8">
             <Link
               href={activeTab === 'candles' ? '/products?category=nen-thom' : '/products?category=phu-kien'}
-              className="bg-[#AFA192] text-white font-brand font-bold text-lg px-8 py-3 rounded-md hover:bg-[#8C7E72] transition-colors shadow-sm animate-in fade-in duration-300"
+              className="bg-primary text-white font-body font-bold text-lg px-8 py-3 rounded-md hover:bg-[#8C7E72] transition-colors shadow-sm animate-in fade-in duration-300"
             >
               {activeTab === 'candles' ? 'Bắt đầu tùy chỉnh nến thơm' : 'Chọn mua phụ kiện'}
             </Link>
@@ -294,9 +294,9 @@ export default function Home() {
                 */}
                 <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
                   <img
-                    src="/assets/nen-tach-nen.webp"
+                    src="/assets/nen-tach-nen.png"
                     alt="Nến thơm thiên nhiên"
-                    className="w-full h-full object-contain drop-shadow-2xl rotate-12 hover:rotate-0 transition-transform duration-700"
+                    className="w-full h-full object-contain drop-shadow-2xl"
                   />
                   {/* Hiệu ứng bóng mờ phía sau cho đẹp */}
                   <div className="absolute inset-0 bg-orange-100 rounded-full blur-3xl opacity-30 -z-10"></div>
@@ -326,19 +326,6 @@ export default function Home() {
                 {/* Mục 5 */}
                 <div className="flex flex-row lg:flex-row-reverse gap-4 md:gap-6 items-start lg:text-right">
                   <div className="flex-shrink-0 mt-1">
-                    <SlidersHorizontal size={48} strokeWidth={1.5} className="text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-body font-bold text-foreground mb-2">Thiết kế tùy chỉnh</h3>
-                    <p className="font-body text-base text-muted-foreground leading-relaxed text-justify lg:text-right">
-                      Công nghệ customize mẫu nến thơm theo nhu cầu với mô phỏng 3D thời gian thực.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Mục 6 */}
-                <div className="flex flex-row lg:flex-row-reverse gap-4 md:gap-6 items-start lg:text-right">
-                  <div className="flex-shrink-0 mt-1">
                     <div className="w-12 h-12 border-2 border-primary rounded-full flex items-center justify-center text-primary p-2">
                       <HeartHandshake size={32} strokeWidth={1.5} />
                     </div>
@@ -347,6 +334,19 @@ export default function Home() {
                     <h3 className="text-xl font-body font-bold text-foreground mb-2">Hoàn toàn thủ công</h3>
                     <p className="font-body text-base text-muted-foreground leading-relaxed text-justify lg:text-right">
                       Từng sản phẩm được phối trộn hoàn toàn thủ công dưới đôi bàn tay khéo léo của người thợ lành nghề.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Mục 6 */}
+                <div className="flex flex-row lg:flex-row-reverse gap-4 md:gap-6 items-start lg:text-right">
+                  <div className="flex-shrink-0 mt-1">
+                    <SlidersHorizontal size={48} strokeWidth={1.5} className="text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-body font-bold text-foreground mb-2">ĐẶC BIỆT</h3>
+                    <p className="font-body text-base text-muted-foreground leading-relaxed text-justify lg:text-right">
+                      Công nghệ customize mẫu nến thơm theo nhu cầu với mô phỏng 3D thời gian thực.
                     </p>
                   </div>
                 </div>

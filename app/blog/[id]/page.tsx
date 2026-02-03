@@ -81,7 +81,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
         <Header />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-serif font-bold text-foreground mb-4">Bài viết không tìm thấy</h1>
+            <h1 className="text-2xl font-body font-bold text-foreground mb-4">Bài viết không tìm thấy</h1>
             <Link href="/blog" className="text-primary font-semibold hover:underline">
               ← Quay lại cẩm nang
             </Link>
@@ -104,7 +104,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
               <ArrowLeft size={20} />
               Quay Lại
             </Link>
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-6">
+            <h1 className="text-4xl md:text-5xl font-body font-bold text-foreground mb-6">
               {post.title}
             </h1>
             <div className="flex items-center gap-4 text-muted-foreground">
@@ -123,7 +123,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
             {post.content.split('\n\n').map((paragraph: string, idx: number) => {
               if (paragraph.startsWith('##')) {
                 return (
-                  <h2 key={idx} className="text-2xl font-serif font-bold text-foreground mt-8 mb-4">
+                  <h2 key={idx} className="text-2xl font-body font-bold text-foreground mt-8 mb-4">
                     {paragraph.replace('## ', '')}
                   </h2>
                 )
@@ -152,7 +152,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
         {/* Related Posts CTA */}
         <section className="bg-secondary py-16 md:py-20">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h3 className="text-3xl font-serif font-bold text-foreground mb-6">
+            <h3 className="text-3xl font-brand uppercase font-bold text-foreground mb-6">
               Tìm Hiểu Thêm
             </h3>
             <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">

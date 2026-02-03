@@ -1,7 +1,7 @@
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import Link from 'next/link'
-import { Leaf, Heart, Sparkles } from 'lucide-react'
+import { Leaf, SlidersHorizontal, Sparkles } from 'lucide-react'
 import {
   ShieldCheck,
   Globe,
@@ -11,23 +11,6 @@ import {
 } from 'lucide-react'
 
 export default function AboutPage() {
-  const values = [
-    {
-      icon: Leaf,
-      title: 'Thiên Nhiên',
-      description: 'Chúng tôi cam kết sử dụng nguyên liệu thiên nhiên 100%, không chứa hóa chất độc hại',
-    },
-    {
-      icon: Heart,
-      title: 'Tình Yêu & Chăm Sóc',
-      description: 'Mỗi nến được chế tác với tình yêu và sự tỉ mỉ cao nhất',
-    },
-    {
-      icon: Sparkles,
-      title: 'Chất Lượng Cao',
-      description: 'Chúng tôi chỉ sử dụng những nguyên liệu tốt nhất để tạo ra sản phẩm hoàn hảo',
-    },
-  ]
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -46,11 +29,15 @@ export default function AboutPage() {
 
           {/* 2. Nội dung chữ phủ lên trên (Căn trái) */}
           <div className="relative z-10 h-full max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col justify-center">
-            <div className="md:max-w-xl"> {/* Giới hạn chiều rộng để chữ không tràn sang phải */}
-              <h1 className="text-6xl md:text-8xl font-brand text-[#3a3a3a] mb-6">
+            <div className="md:max-w-xl">
+              {/* TIÊU ĐỀ */}
+              <h1 className="text-6xl md:text-8xl font-brand text-[#3a3a3a] mb-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-forwards">
                 Về Préci
               </h1>
-              <p className="font-body text-xl md:text-xl text-[#3a3a3a] italic leading-relaxed">
+
+              {/* ĐOẠN VĂN */}
+              {/* Thêm delay-200 để nó hiện sau tiêu đề một chút cho đẹp */}
+              <p className="font-body text-xl md:text-xl text-[#3a3a3a] italic leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 fill-mode-forwards">
                 Préci được sinh ra từ đam mê tạo ra những sản phẩm độc bản dành cho những người thân yêu, trân quý của mình.
               </p>
             </div>
@@ -150,9 +137,9 @@ export default function AboutPage() {
               <div className="flex justify-center items-center py-8 lg:py-0">
                 <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
                   <img
-                    src="/assets/nen-tach-nen.png"
+                    src="/assets/nen-tach-nen.webp"
                     alt="Nến thơm thiên nhiên"
-                    className="w-full h-full object-contain drop-shadow-2xl rotate-12 hover:rotate-0 transition-transform duration-700"
+                    className="w-full h-full object-contain drop-shadow-2xl"
                   />
                   {/* Hiệu ứng bóng mờ phía sau cho đẹp */}
                   <div className="absolute inset-0 bg-orange-100 rounded-full blur-3xl opacity-30 -z-10"></div>
@@ -182,19 +169,6 @@ export default function AboutPage() {
                 {/* Mục 5 */}
                 <div className="flex flex-row lg:flex-row-reverse gap-4 md:gap-6 items-start lg:text-right">
                   <div className="flex-shrink-0 mt-1">
-                    <Recycle size={48} strokeWidth={1.5} className="text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-body font-bold text-foreground mb-2">Sản xuất bền vững</h3>
-                    <p className="font-body text-base text-muted-foreground leading-relaxed text-justify lg:text-right">
-                      Trong từng phân đoạn dù là sản xuất hay bán hàng, chúng tôi đều ưu tiên tái sử dụng, tái chế, phân hủy sinh học để phát triển bền vững.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Mục 6 */}
-                <div className="flex flex-row lg:flex-row-reverse gap-4 md:gap-6 items-start lg:text-right">
-                  <div className="flex-shrink-0 mt-1">
                     <div className="w-12 h-12 border-2 border-primary rounded-full flex items-center justify-center text-primary p-2">
                       <HeartHandshake size={32} strokeWidth={1.5} />
                     </div>
@@ -202,7 +176,20 @@ export default function AboutPage() {
                   <div>
                     <h3 className="text-xl font-body font-bold text-foreground mb-2">Hoàn toàn thủ công</h3>
                     <p className="font-body text-base text-muted-foreground leading-relaxed text-justify lg:text-right">
-                      Từng sản phẩm được phối trộn, chiết rót hoàn toàn thủ công dưới đôi bàn tay khéo léo của những người thợ lành nghề tại địa phương.
+                      Từng sản phẩm được phối trộn hoàn toàn thủ công dưới đôi bàn tay khéo léo của người thợ lành nghề.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Mục 6 */}
+                <div className="flex flex-row lg:flex-row-reverse gap-4 md:gap-6 items-start lg:text-right">
+                  <div className="flex-shrink-0 mt-1">
+                    <SlidersHorizontal size={48} strokeWidth={1.5} className="text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-body font-bold text-foreground mb-2">ĐẶC BIỆT</h3>
+                    <p className="font-body text-base text-muted-foreground leading-relaxed text-justify lg:text-right">
+                      Công nghệ customize mẫu nến thơm theo nhu cầu với mô phỏng 3D thời gian thực.
                     </p>
                   </div>
                 </div>
@@ -288,7 +275,7 @@ export default function AboutPage() {
                   <img
                     src="/assets/nen-tach-nen.webp"
                     alt="Nến thơm Préci"
-                    className="w-full h-full object-contain drop-shadow-2xl rotate-12 hover:rotate-0 transition-transform duration-700"
+                    className="w-full h-full object-contain drop-shadow-2xl"
                   />
                   {/* Hiệu ứng nền mờ */}
                   <div className="absolute inset-0 bg-orange-100 rounded-full blur-3xl opacity-30 -z-10"></div>

@@ -6,15 +6,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --font-brand: "Mallong", serif;
-  --font-body: "Cormorant Garamond Light", serif;
-}
-
-body {
-  font-family: var(--font-body);
-}
-
 @import 'tailwindcss';
 @import 'tw-animate-css';
 

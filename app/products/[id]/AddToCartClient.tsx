@@ -39,7 +39,7 @@ export default function AddToCartClient({ productId, productName, priceString }:
     return (
         <button
             onClick={handleAddToCart}
-            className="w-full px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-opacity-90 transition-all text-lg mb-4"
+            className="w-full px-8 py-4 bg-primary text-primary-foreground font-body uppercase rounded-lg hover:bg-opacity-90 transition-all text-lg mb-4"
         >
             Thêm Vào Giỏ Hàng
         </button>
