@@ -121,7 +121,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-brand font-bold text-xl text-[#3a3a3a] mb-1">Điện Thoại</h3>
-                    <p className="font-body text-gray-600">+84 (0)123 456 789</p>
+                    <p className="font-body text-gray-600">091 6446 265 </p>
                   </div>
                 </div>
 
