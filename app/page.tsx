@@ -103,23 +103,38 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Nút chỉ dẫn (Dots) ở dưới cùng */}
-          <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex gap-3 z-10">
+          {/* 2. PHẦN NỘI DUNG CHỮ NỔI (Lớp giữa - z-10) - MỚI THÊM VÀO ĐÂY */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-10 text-center text-white px-4 drop-shadow-lg">
+            {/* Tên thương hiệu */}
+            <h1 className="font-brand text-6xl md:text-8xl tracking-wider mb-4 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+              Préci
+            </h1>
+            {/* Tagline / Câu slogan */}
+            <p className="font-body font-light text-xl md:text-3xl tracking-widest opacity-90 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+              Độc bản, trọn ý - Trọn tâm tình"
+            </p>
+            {/* Bạn có thể thay đổi câu tagline trên theo ý thích */}
+          </div>
+
+          {/* 3. CÁC NÚT ĐIỀU KHIỂN (Lớp trên cùng - z-20) */}
+          {/* Nút chỉ dẫn (Dots) - Đã tăng lên z-20 */}
+          <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex gap-3 z-20">
             {[0, 1, 2, 3].map((index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
                 className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${currentSlide === index
-                  ? 'bg-white w-8' // Active: dài ra và màu trắng
-                  : 'bg-white/50 hover:bg-white/80' // Inactive: mờ
+                  ? 'bg-white w-8 shadow-sm' // Active
+                  : 'bg-white/50 hover:bg-white/80' // Inactive
                   }`}
+                aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>
 
-          {/* Nút Scroll cũ của bạn */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-white/80 z-10">
-            <span className="text-sm font-brand tracking-widest drop-shadow-md">SCROLL</span>
+          {/* Nút Scroll - Đã tăng lên z-20 */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-white/90 z-20">
+            <span className="text-sm font-brand tracking-[0.3em] drop-shadow-md">SCROLL</span>
           </div>
         </section>
 
