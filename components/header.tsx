@@ -29,6 +29,7 @@ export default function Header() {
   // ----------------------
 
   const navItems = [
+    { label: 'Trang chủ', href: '/' },
     { label: 'Về Préci', href: '/about' },
     { label: 'Sản phẩm', href: '/products' },
     { label: 'Cẩm nang', href: '/blog' },
