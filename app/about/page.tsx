@@ -55,15 +55,15 @@ export default function AboutPage() {
           {/* Nội dung căn giữa, đổi sang font-body (Cormorant) cho bay bổng */}
           <div className="font-body space-y-6 text-lg md:text-xl text-gray-500 leading-relaxed">
             <p>
-              Préci bắt đầu từ một ý tưởng đơn giản: tạo ra những nến thơm không chỉ đẹp mắt mà còn tốt cho sức khỏe và môi trường. Chúng tôi tin rằng mỗi không gian sống đều xứng đáng có một mùi hương đặc biệt, một cảm giác riêng.
+              Préci bắt đầu từ một ý tưởng đơn giản: tạo ra những nến thơm không chỉ đẹp mắt mà còn tốt cho sức khỏe và môi trường. Chúng mình tin rằng mỗi không gian sống đều xứng đáng có một mùi hương đặc biệt, một cảm giác riêng.
             </p>
 
             <p>
-              Từ những bước đầu tiên, chúng tôi đã cam kết không bao giờ thỏa hiệp về chất lượng. Mỗi nến Préci được tạo ra bằng cách kết hợp những kỹ thuật truyền thống với các nguyên liệu hiện đại, tạo nên một sản phẩm độc đáo.
+              Từ những bước đầu tiên, chúng mình đã cam kết không bao giờ thỏa hiệp về chất lượng. Mỗi nến Préci được tạo ra bằng cách kết hợp những kỹ thuật truyền thống với các nguyên liệu hiện đại, tạo nên một sản phẩm độc đáo.
             </p>
 
             <p>
-              Hôm nay, Préci tự hào phục vụ hàng ngàn khách hàng yêu thích, những người tin tưởng chúng tôi để mang đến vẻ đẹp và yên bình cho nhà của họ.
+              Hôm nay, Préci tự hào phục vụ hàng ngàn khách hàng yêu thích, những người tin tưởng chúng mình để mang đến vẻ đẹp và yên bình cho nhà của họ.
             </p>
           </div>
 

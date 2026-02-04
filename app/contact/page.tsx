@@ -44,7 +44,7 @@ export default function ContactPage() {
             {/* Left: Contact Form */}
             <div className="bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-[#E5E0D8]">
               <h2 className="text-3xl font-brand font-bold text-[#715136] mb-2">Gửi Tin Nhắn</h2>
-              <p className="font-body text-gray-500 mb-8">Để lại lời nhắn, chúng tôi sẽ phản hồi sớm nhất có thể.</p>
+              <p className="font-body text-gray-500 mb-8">Để lại lời nhắn, chúng mình sẽ phản hồi sớm nhất có thể.</p>
 
               <form className="space-y-5">
                 <div>
@@ -109,7 +109,7 @@ export default function ContactPage() {
               <div>
                 <h2 className="text-4xl font-brand font-bold text-[#715136] mb-4">Thông Tin Liên Hệ</h2>
                 <p className="font-body text-gray-500 leading-relaxed text-lg">
-                  Hãy ghé thăm cửa hàng của chúng tôi để trải nghiệm trực tiếp mùi hương hoặc liên hệ qua các kênh dưới đây.
+                  Hãy ghé thăm cửa hàng của chúng mình để trải nghiệm trực tiếp mùi hương hoặc liên hệ qua các kênh dưới đây.
                 </p>
               </div>
 
@@ -186,11 +186,11 @@ export default function ContactPage() {
                 },
                 {
                   q: 'Thời gian giao hàng bao lâu?',
-                  a: 'Chúng tôi giao hàng trong vòng 2-3 ngày làm việc tại các khu vực chính. Phí giao hàng miễn phí cho đơn hàng từ 500.000 đ.',
+                  a: 'Chúng mình giao hàng trong vòng 2-3 ngày làm việc tại các khu vực chính. Phí giao hàng miễn phí cho đơn hàng từ 500.000 đ.',
                 },
                 {
                   q: 'Tôi có thể tùy chỉnh hương thơm không?',
-                  a: 'Có! Chúng tôi cung cấp dịch vụ tùy chỉnh nến thơm hoàn toàn. Bạn có thể chọn hình dáng, màu sắc, mùi hương và các tùy chọn khác.',
+                  a: 'Có! Chúng mình cung cấp dịch vụ tùy chỉnh nến thơm hoàn toàn. Bạn có thể chọn hình dáng, màu sắc, mùi hương và các tùy chọn khác.',
                 },
                 {
                   q: 'Chính sách hoàn trả như thế nào?',

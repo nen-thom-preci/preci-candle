@@ -48,7 +48,7 @@ const blogPosts: Record<number, any> = {
     image: 'bg-gradient-to-br from-yellow-50 to-amber-100',
     content: `
       Tìm quà tặng hoàn hảo cho những người thân yêu không bao giờ dễ dàng. 
-      Hôm nay chúng tôi sẽ gợi ý một số ý tưởng quà tặng độc đáo với nến thơm cao cấp của Préci.
+      Hôm nay chúng mình sẽ gợi ý một số ý tưởng quà tặng độc đáo với nến thơm cao cấp của Préci.
 
       ## Quà Tặng Cho Bạn Thân
 

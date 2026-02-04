@@ -21,7 +21,7 @@ export default function Footer() {
             </Link>
 
             <p className="font-body text-base leading-relaxed text-[#715136]/80 max-w-md text-justify">
-              Préci (trong tiếng Pháp là précieux) nghĩa là trân quý. Việc lược bỏ hậu tố nhằm thể hiện tinh thần tinh tế, tối giản nhưng vẫn giữ trọn cốt lõi. Chúng tôi tin rằng mỗi mối quan hệ đều có giá trị cảm xúc riêng biệt cần được giữ gìn trân trọng.
+              Préci (trong tiếng Pháp là précieux) nghĩa là trân quý. Việc lược bỏ hậu tố nhằm thể hiện tinh thần tinh tế, tối giản nhưng vẫn giữ trọn cốt lõi. Chúng mình tin rằng mỗi mối quan hệ đều có giá trị cảm xúc riêng biệt cần được giữ gìn trân trọng.
             </p>
 
             {/* Social Icons */}

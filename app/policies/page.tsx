@@ -16,7 +16,7 @@ export default function PoliciesPage() {
       sections: [
         {
           heading: 'Quyền Lợi Khách Hàng',
-          content: 'Tất cả khách hàng của Préci có quyền mua sắm trên trang web của chúng tôi. Bạn có thể tùy chỉnh sản phẩm theo ý thích và nhận tư vấn từ đội ngũ của chúng tôi.',
+          content: 'Tất cả khách hàng của Préci có quyền mua sắm trên trang web của chúng mình. Bạn có thể tùy chỉnh sản phẩm theo ý thích và nhận tư vấn từ đội ngũ của chúng mình.',
         },
         {
           heading: 'Độ Tuổi',
@@ -35,11 +35,11 @@ export default function PoliciesPage() {
       sections: [
         {
           heading: 'Phương Thức Thanh Toán',
-          content: 'Chúng tôi chấp nhận thanh toán khi nhận hàng (COD), chuyển khoản ngân hàng và các ví điện tử như MoMo, Zalo Pay.',
+          content: 'Chúng mình chấp nhận thanh toán khi nhận hàng (COD), chuyển khoản ngân hàng và các ví điện tử như MoMo, Zalo Pay.',
         },
         {
           heading: 'Bảo Mật Thanh Toán',
-          content: 'Tất cả các giao dịch thanh toán trên trang web của chúng tôi được mã hóa và bảo vệ bằng công nghệ SSL 256-bit.',
+          content: 'Tất cả các giao dịch thanh toán trên trang web của chúng mình được mã hóa và bảo vệ bằng công nghệ SSL 256-bit.',
         },
         {
           heading: 'Chính Sách Hoàn Tiền',
@@ -77,7 +77,7 @@ export default function PoliciesPage() {
         },
         {
           heading: 'Quy Trình',
-          content: 'Liên hệ CSKH để đăng ký đổi trả. Sau khi chúng tôi nhận và kiểm tra sản phẩm, quy trình hoàn tiền/đổi hàng sẽ được kích hoạt.',
+          content: 'Liên hệ CSKH để đăng ký đổi trả. Sau khi chúng mình nhận và kiểm tra sản phẩm, quy trình hoàn tiền/đổi hàng sẽ được kích hoạt.',
         },
         {
           heading: 'Chi Phí',
@@ -94,7 +94,7 @@ export default function PoliciesPage() {
     },
     {
       q: 'Nến thơm của Préci có an toàn không?',
-      a: 'Tuyệt đối an toàn. Chúng tôi sử dụng sáp thực vật (sáp đậu nành, sáp cọ) và tinh dầu thiên nhiên, không chứa Paraffin độc hại.',
+      a: 'Tuyệt đối an toàn. Chúng mình sử dụng sáp thực vật (sáp đậu nành, sáp cọ) và tinh dầu thiên nhiên, không chứa Paraffin độc hại.',
     },
     {
       q: 'Thời gian cháy của nến là bao lâu?',
@@ -102,7 +102,7 @@ export default function PoliciesPage() {
     },
     {
       q: 'Tôi có thể yêu cầu giao hàng hỏa tốc không?',
-      a: 'Có. Chúng tôi hỗ trợ giao hỏa tốc 2H trong nội thành TP.HCM. Vui lòng chọn phương thức này khi thanh toán.',
+      a: 'Có. Chúng mình hỗ trợ giao hỏa tốc 2H trong nội thành TP.HCM. Vui lòng chọn phương thức này khi thanh toán.',
     },
     {
       q: 'Làm thế nào để bảo quản nến?',
@@ -134,7 +134,7 @@ export default function PoliciesPage() {
               Chính Sách
             </h1>
             <p className="font-body text-white/90 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
-              Chúng tôi cam kết minh bạch trong mọi hoạt động để mang lại trải nghiệm mua sắm an tâm nhất cho bạn.
+              Chúng mình cam kết minh bạch trong mọi hoạt động để mang lại trải nghiệm mua sắm an tâm nhất cho bạn.
             </p>
           </div>
         </section>
