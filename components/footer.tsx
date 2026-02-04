@@ -20,7 +20,7 @@ export default function Footer() {
               <h3 className="text-5xl font-brand text-[#715136]">Préci</h3>
             </Link>
 
-            <p className="font-body text-base leading-relaxed text-[#715136]/80 max-w-md text-justify">
+            <p className="font-body text-base leading-relaxed text-primary max-w-md text-justify">
               Préci (trong tiếng Pháp là précieux) nghĩa là trân quý. Việc lược bỏ hậu tố nhằm thể hiện tinh thần tinh tế, tối giản nhưng vẫn giữ trọn cốt lõi. Chúng mình tin rằng mỗi mối quan hệ đều có giá trị cảm xúc riêng biệt cần được giữ gìn trân trọng.
             </p>
 
@@ -58,7 +58,7 @@ export default function Footer() {
                   <li key={index}>
                     <Link
                       href={links[index]}
-                      className="font-body text-[#715136]/80 hover:text-[#715136] hover:translate-x-1 transition-all duration-300 inline-block"
+                      className="font-body text-primary hover:text-[#715136] hover:translate-x-1 transition-all duration-300 inline-block"
                     >
                       {item}
                     </Link>
@@ -71,7 +71,7 @@ export default function Footer() {
           {/* 3. Contact Info (Chiếm 3/12 cột) */}
           <div className="lg:col-span-3">
             <h4 className="font-brand font-bold text-lg uppercase tracking-[0.15em] mb-6">Liên hệ</h4>
-            <ul className="space-y-4 font-body text-[#715136]/80">
+            <ul className="space-y-4 font-body text-primary">
               <li className="flex items-start gap-3">
                 <Phone size={18} className="mt-1 flex-shrink-0" />
                 <span>+84 (0)123 456 789</span>
