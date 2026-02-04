@@ -29,6 +29,33 @@ export default function Home() {
     return () => clearInterval(timer); // Dọn dẹp timer khi component unmount
   }, []);
 
+  // Component Tooltip dành riêng cho Slogan to (Phiên bản không gạch chân)
+  const SloganTooltip = ({ text, desc }: { text: string, desc: string }) => {
+    return (
+      // Thẻ bao ngoài:
+      // - group: để kích hoạt hiệu ứng hover cho phần tử con
+      // - relative: để căn vị trí cho hộp thoại popup
+      // - cursor-help: đổi con trỏ chuột thành dấu ? để gợi ý có thông tin thêm
+      // - hover:text-[#715136]: đổi màu chữ khi hover để báo hiệu tương tác
+      <span className="group relative inline-block cursor-help hover:text-[#715136] transition-colors duration-300">
+
+        {/* Phần nội dung chữ chính */}
+        {text}
+
+        {/* Khối nội dung Tooltip hiện ra khi hover (Giữ nguyên như cũ) */}
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-6 w-[280px] md:w-[400px] p-5 
+        bg-[#2a2a2a]/95 backdrop-blur-md text-white text-sm md:text-base font-body font-normal tracking-normal normal-case leading-relaxed
+        rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+        transition-all duration-300 transform group-hover:-translate-y-2 z-50 text-left border border-white/10 pointer-events-none"
+        >
+          {/* Mũi tên nhỏ trỏ xuống */}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-[#2a2a2a]/95"></div>
+
+          {desc}
+        </div>
+      </span>
+    )
+  }
   const [activeTab, setActiveTab] = useState('candles')
 
   // 1. DANH SÁCH NẾN THƠM
@@ -155,9 +182,36 @@ export default function Home() {
         <section className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-20 md:py-28">
 
           <div className="text-center mb-12">
-            <h2 className="font-brand text-5xl md:text-7xl text-[#5e5046] mb-8 font-light tracking-wide">
-              “Độc bản, trọn ý – Trọn tâm tình”
-            </h2>
+            <div className="text-center mb-12">
+              <h2 className="font-brand text-4xl md:text-7xl text-[#5e5046] mb-8 font-light tracking-wide flex flex-wrap justify-center gap-x-3 gap-y-2">
+
+                <span>“</span>
+
+                <SloganTooltip
+                  text="Độc bản"
+                  desc="Món quà được thiết kế riêng biệt, mang sự độc quyền và duy nhất."
+                />
+
+                <span>,</span>
+
+                <SloganTooltip
+                  text="trọn ý"
+                  desc="Sản phẩm được làm ra một cách chỉnh chu, mọi chi tiết đều được chăm chút đúng như mong muốn và dụng ý của người tặng."
+                />
+
+                <span>–</span>
+
+                <SloganTooltip
+                  text="Trọn tâm tình"
+                  desc="Thể hiện sự chân thành và tình cảm của người tặng muốn gửi đến người nhận. Không chỉ là hành động tặng quà mà là cách người tặng bày tỏ sự quan tâm và trân trọng một mối quan hệ theo cách tinh tế và sâu sắc."
+                />
+
+                <span>”</span>
+
+              </h2>
+
+              {/* ... (Phần Tab Button chuyển đổi Nến/Phụ kiện giữ nguyên ở dưới) ... */}
+            </div>
 
             {/* TAB CHUYỂN ĐỔI */}
             <div className="flex items-center justify-center gap-8 mb-4">
