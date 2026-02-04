@@ -3,14 +3,29 @@
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BLOG_CATEGORIES, blogPosts } from '@/lib/blog-data' // Import dữ liệu
-import { BookOpen, ArrowRight } from 'lucide-react'
+import { BookOpen, ArrowRight, Heart } from 'lucide-react'
 
 export default function BlogPage() {
   const [activeCategory, setActiveCategory] = useState('all')
-
+  const [savedCount, setSavedCount] = useState(0) // <--- State mới
   // Lọc bài viết
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('saved_posts') || '[]')
+      setSavedCount(saved.length)
+
+      // Lắng nghe sự kiện nếu có thay đổi từ tab khác
+      const handleStorageChange = () => {
+        const newSaved = JSON.parse(localStorage.getItem('saved_posts') || '[]')
+        setSavedCount(newSaved.length)
+      }
+      window.addEventListener('saved-posts-updated', handleStorageChange)
+      return () => window.removeEventListener('saved-posts-updated', handleStorageChange)
+    } catch (e) { }
+  }, [])
   const filteredPosts = activeCategory === 'all'
     ? blogPosts
     : blogPosts.filter(p => p.category === activeCategory)
@@ -99,6 +114,17 @@ export default function BlogPage() {
                 </div>
               </nav>
 
+              {/* NÚT ĐẾN TRANG ĐÃ LƯU (MỚI) */}
+              {savedCount > 0 && (
+                <Link
+                  href="/blog/saved"
+                  className="flex items-center gap-2 px-5 py-2 bg-white border border-[#E5E0D8] rounded-full text-[#715136] font-brand font-bold shadow-sm hover:shadow-md hover:border-[#DCAE96] transition-all animate-in fade-in"
+                >
+                  <Heart size={18} className="fill-[#DCAE96] text-[#DCAE96]" />
+                  <span>Bài đã lưu ({savedCount})</span>
+                </Link>
+              )}
+
               {/* Posts Grid */}
               {filteredPosts.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -115,7 +141,7 @@ export default function BlogPage() {
                           ) : (
                             <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br from-[#F2EFE9] to-[#E5E0D8]`}><span className="text-4xl">🌿</span></div>
                           )}
-                          <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-[#715136] uppercase tracking-wide shadow-sm">
+                          <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-body text-[#715136] uppercase tracking-wide shadow-sm">
                             {BLOG_CATEGORIES.find(c => c.id === post.category)?.label}
                           </div>
                         </div>
@@ -125,7 +151,7 @@ export default function BlogPage() {
                           <p className="font-body text-sm text-gray-500 mb-6 line-clamp-3 leading-relaxed flex-1">{post.excerpt}</p>
                           <div className="flex items-center justify-between pt-4 border-t border-[#F2EFE9] mt-auto">
                             <span className="text-xs font-bold text-gray-400 font-brand uppercase tracking-wider">{post.author}</span>
-                            <span className="text-[#715136] font-bold text-sm group-hover:translate-x-1 transition-transform flex items-center gap-1">Đọc tiếp →</span>
+                            <span className="text-[#715136] font-body text-sm group-hover:translate-x-1 transition-transform flex items-center gap-1">Đọc tiếp →</span>
                           </div>
                         </div>
                       </article>
@@ -180,7 +206,7 @@ export default function BlogPage() {
             </form>
             <p className="mt-6 text-xs text-white/40 font-body">
 
-              Chúng tôi cam kết bảo mật thông tin và không spam.
+              Chúng mình cam kết bảo mật thông tin và không spam.
 
             </p>
 

@@ -239,7 +239,7 @@ export default function CheckoutPage() {
           <div className="space-y-8 animate-in fade-in slide-in-from-right-8 duration-500">
             <div className="text-center md:text-left">
               <h2 className="text-3xl md:text-4xl font-brand font-bold text-[#715136]">Thông tin giao hàng</h2>
-              <p className="font-body text-gray-500 mt-2">Chúng tôi sẽ giao hàng đến địa chỉ này.</p>
+              <p className="font-body text-gray-500 mt-2">Chúng mình sẽ giao hàng đến địa chỉ này.</p>
             </div>
 
             <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-[#E5E0D8]">

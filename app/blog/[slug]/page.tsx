@@ -3,6 +3,7 @@ import Footer from '@/components/footer'
 import Link from 'next/link'
 import { ArrowLeft, Share2, Heart, Calendar, Clock, User } from 'lucide-react'
 import { getPostBySlug } from '@/lib/blog-data'
+import BlogActions from '@/components/blog-actions'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -116,19 +117,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
           </div>
 
           {/* Action Buttons (Share/Like) */}
-          <div className="mt-16 pt-8 border-t border-[#E5E0D8] flex flex-col sm:flex-row items-center justify-between gap-6">
-            <p className="font-brand font-bold text-[#3a3a3a] text-lg">Bạn thấy bài viết này hữu ích?</p>
-            <div className="flex gap-4">
-              <button className="flex items-center gap-2 px-6 py-3 bg-white border border-[#E5E0D8] text-[#715136] font-bold rounded-full hover:bg-[#F2EFE9] hover:border-[#DCAE96] transition-all shadow-sm">
-                <Heart size={20} />
-                <span className="text-sm">Lưu bài viết</span>
-              </button>
-              <button className="flex items-center gap-2 px-6 py-3 bg-[#715136] text-white font-bold rounded-full hover:bg-[#5a402a] shadow-md hover:-translate-y-1 transition-all">
-                <Share2 size={20} />
-                <span className="text-sm">Chia sẻ</span>
-              </button>
-            </div>
-          </div>
+          <BlogActions slug={post.slug} title={post.title} />
         </article>
 
         {/* Newsletter CTA (Tái sử dụng thiết kế chuẩn) */}

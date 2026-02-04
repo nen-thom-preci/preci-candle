@@ -33,7 +33,7 @@ export default function Header() {
     { label: 'Sản phẩm', href: '/products' },
     { label: 'Cẩm nang', href: '/blog' },
     { label: 'Chính sách', href: '/policies' },
-    { label: 'Liên hệ', href: '/contact' }, // <--- MỚI THÊM
+    { label: 'Liên hệ', href: '/contact' },
   ]
 
   return (

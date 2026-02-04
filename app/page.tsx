@@ -266,9 +266,6 @@ export default function Home() {
 
               {/* CỘT GIỮA (Hình ảnh) */}
               <div className="flex justify-center items-center py-8 lg:py-0">
-                {/* LƯU Ý: Bạn cần thay đường dẫn ảnh bên dưới bằng ảnh cái hũ nến nghiêng của bạn.
-                   Nếu chưa có, tôi đang dùng tạm ảnh Picture2.webp 
-                */}
                 <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
                   <img
                     src="/assets/nen-tach-nen.png"

@@ -79,7 +79,7 @@ export default function ContactPage() {
                     type="tel"
                     id="phone"
                     className="w-full px-5 py-3 bg-[#F9F7F5] border border-[#E5E0D8] rounded-xl focus:outline-none focus:border-[#715136] focus:ring-1 focus:ring-[#715136] transition-all font-body text-[#3a3a3a]"
-                    placeholder="+84 (0)123 456 789"
+                    placeholder="091 6446 265"
                   />
                 </div>
 

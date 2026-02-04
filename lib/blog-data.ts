@@ -26,22 +26,18 @@ export const BLOG_CATEGORIES = [
 
 // 3. Dữ liệu bài viết (Đang để rỗng để hiện giao diện "Coming Soon")
 export const blogPosts: BlogPost[] = [
-    // Bạn có thể comment dữ liệu lại như bạn đã làm, 
-    // nhưng ĐỪNG XÓA interface ở mục 1 nhé!
-
-    /* {
-      id: '1',
-      slug: 'loi-ich-cua-nen-thom',
-      title: 'Lợi ích tuyệt vời...',
-      category: 'benefits',
-      excerpt: '...',
-      content: '...',
-      image: '/blog/loi-ich.webp',
-      date: '15/01/2024',
-      readTime: '5 phút',
-      author: 'Préci Team'
-    }
-    */
+    //*{
+    //id: '1',
+    //slug: 'loi-ich-cua-mui-huong',
+    //title: 'Vì sao mùi hương có thể giúp làm dịu nhẹ cảm xúc/tinh thần sau một ngày dài mệt mỏi?',
+    //category: 'benefits',
+    //excerpt: 'Căng thẳng sau giờ làm việc là điều khó tránh khỏi. Hãy cùng Préci tìm hiểu cơ chế tác động của mùi hương lên não bộ giúp bạn thư giãn tức thì.',
+    //content: '...',
+    //image: '/blog/5-2.jpg',
+    //date: '05/02/2026',
+    //readTime: '5 phút',
+    //author: 'Tiểu Vân'
+    //
 ];
 
 // 4. Helper function
