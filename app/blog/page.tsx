@@ -148,17 +148,45 @@ export default function BlogPage() {
           )}
         </section>
 
-        {/* Newsletter Section - Giữ nguyên thiết kế tối ưu trước đó */}
-        <section className="bg-[#715136] py-20 relative overflow-hidden">
-          {/* ... (Code section Newsletter bạn đã có ở câu trả lời trước) ... */}
-          {/* Để code ngắn gọn tôi không paste lại, bạn giữ nguyên phần này nhé */}
-          <div className="text-center">
-            <h3 className="text-3xl font-brand font-bold text-white mb-4">Đăng ký nhận tin</h3>
-            {/* ... */}
+        {/* Newsletter CTA - Updated Design */}
+        <section className="bg-[#715136] py-20 md:py-24 relative overflow-hidden">
+          {/* Họa tiết trang trí nền (Optional) */}
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+            <div className="absolute -top-[50%] -left-[20%] w-[80%] h-[200%] bg-white/20 blur-[100px] rounded-full mix-blend-overlay"></div>
+          </div>
+          <div className="max-w-3xl mx-auto px-6 relative z-10 text-center">
+            {/* Icon trang trí */}
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/10 backdrop-blur-sm mb-6 border border-white/20">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#F2EFE9]"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+            </div>
+            <h3 className="text-3xl md:text-5xl font-brand font-bold text-white mb-4 leading-tight">
+              Đừng bỏ lỡ những mùi hương mới
+            </h3>
+            <p className="font-body text-lg text-[#F2EFE9]/80 mb-10 max-w-lg mx-auto leading-relaxed">
+              Đăng ký nhận bản tin để cập nhật các bài viết về liệu pháp mùi hương, mẹo chăm sóc nến và ưu đãi độc quyền từ Préci.
+            </p>
+            <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Nhập email của bạn..."
+                className="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:bg-white focus:text-[#715136] focus:border-white transition-all font-body"
+              />
+              <button
+                type="submit"
+                className="px-8 py-4 bg-[#DCAE96] text-[#715136] font-bold rounded-full hover:bg-white hover:scale-105 transition-all duration-300 font-body uppercase tracking-wider text-sm shadow-lg"
+              >
+                Đăng Ký
+              </button>
+            </form>
+            <p className="mt-6 text-xs text-white/40 font-body">
+
+              Chúng tôi cam kết bảo mật thông tin và không spam.
+
+            </p>
+
           </div>
         </section>
       </main>
-
       <Footer />
     </div>
   )
