@@ -218,13 +218,23 @@ export default function ProductCustomizer({ productId, productName }: Customizer
 
   // Xử lý Xóa ghi âm
   const deleteRecording = () => {
+    // 1. Dọn sạch biến hiển thị
     setAudioUrl(null)
     setIsPlaying(false)
     setRecordingTime(0)
+    setQrConfirmed(false) // Ẩn QR code đi
+
+    // 2. QUAN TRỌNG: Dọn sạch dữ liệu file trong Customization
     setCustomization(prev => ({ ...prev, voiceData: null }))
-    setQrConfirmed(false)
+
+    // 3. QUAN TRỌNG: Hủy bộ nhớ trình phát nhạc (Fix lỗi nghe lại bài cũ)
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.src = "" // Ngắt source
+      audioRef.current = null   // Xóa hoàn toàn khỏi bộ nhớ
+    }
   }
-  // ... các state cũ
+
   const [isUploading, setIsUploading] = useState(false); // Trạng thái đang tải lên
 
   // --- SỬA LỖI DEBOUNCE ---
@@ -240,22 +250,22 @@ export default function ProductCustomizer({ productId, productName }: Customizer
     return () => clearTimeout(timer)
   }, [tempEngraving])
 
-  // Hàm upload file lên Cloudinary
   const handleFinishAndUpload = async () => {
+    // Luôn lấy file từ state mới nhất (customization.voiceData)
     if (!customization.voiceData) {
       alert("Chưa có file ghi âm!");
       return;
     }
 
-    setIsUploading(true); // Bật trạng thái đang tải
+    setIsUploading(true);
 
     const formData = new FormData();
+    // Đảm bảo dùng customization.voiceData (không dùng biến audioBlob cũ nào khác)
     formData.append("file", customization.voiceData);
-    formData.append("upload_preset", "preci_audio"); // <--- THAY TÊN PRESET CỦA BẠN VÀO ĐÂY (VD: preci_audio)
-    formData.append("resource_type", "video"); // Cloudinary xử lý audio như video
+    formData.append("upload_preset", "preci_audio");
+    formData.append("resource_type", "video");
 
     try {
-      // Gọi API của Cloudinary (Thay YOUR_CLOUD_NAME bằng tên cloud của bạn)
       const res = await fetch("https://api.cloudinary.com/v1_1/di6humtpc/upload", {
         method: "POST",
         body: formData,
@@ -264,18 +274,16 @@ export default function ProductCustomizer({ productId, productName }: Customizer
       const data = await res.json();
 
       if (data.secure_url) {
-        // Upload thành công!
-        setAudioUrl(data.secure_url); // Lưu link thật vào state
-        setQrConfirmed(true);         // Hiển thị QR Code
-        console.log("File đã lên mây:", data.secure_url);
+        setAudioUrl(data.secure_url);
+        setQrConfirmed(true);
       } else {
-        alert("Có lỗi khi tạo link file. Thử lại nhé!");
+        alert("Lỗi tạo link: " + (data.error?.message || "Thử lại sau"));
       }
     } catch (error) {
       console.error("Upload error:", error);
       alert("Lỗi kết nối internet.");
     } finally {
-      setIsUploading(false); // Tắt trạng thái đang tải
+      setIsUploading(false);
     }
   };
 
@@ -617,6 +625,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                         <div className="flex flex-col items-center">
                           <div className="p-1 bg-white">
                             <QRCode
+                              key={audioUrl} // <--- THÊM DÒNG NÀY (Bí quyết để fix lỗi cache hiển thị)
                               value={audioUrl || "https://preci.vn"}
                               size={60}
                               fgColor="#715136"
