@@ -103,17 +103,30 @@ export default function Home() {
             ))}
           </div>
 
-          {/* 2. PHẦN NỘI DUNG CHỮ NỔI (Lớp giữa - z-10) - MỚI THÊM VÀO ĐÂY */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-10 text-center text-white px-4 drop-shadow-lg">
-            {/* Tên thương hiệu */}
-            <h1 className="font-brand text-6xl md:text-8xl tracking-wider mb-4 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-              Préci
-            </h1>
-            {/* Tagline / Câu slogan */}
-            <p className="font-body font-light text-xl md:text-3xl tracking-widest opacity-90 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
-              Độc bản, trọn ý - Trọn tâm tình"
-            </p>
-            {/* Bạn có thể thay đổi câu tagline trên theo ý thích */}
+          {/* 2. PHẦN NỘI DUNG LOGO & CHỮ NỔI (Lớp giữa - z-10) */}
+          <div className="absolute inset-0 flex items-center justify-center z-10 px-4">
+
+            {/* KHỐI NỀN KÍNH MỜ (MỚI THÊM) */}
+            <div className="flex flex-col items-center justify-center text-center text-white 
+              bg-black/20 backdrop-blur-[3px] border border-white/10 
+              p-8 md:p-12 rounded-3xl shadow-2xl max-w-3xl mx-auto
+              animate-in fade-in zoom-in duration-1000"
+            >
+
+              {/* Tên thương hiệu */}
+              <h1 className="font-brand text-5xl md:text-7xl tracking-[0.1em] mb-2 drop-shadow-lg">
+                Préci
+              </h1>
+
+              {/* Đường kẻ trang trí nhỏ dưới tên */}
+              <div className="w-20 h-[1px] bg-white/70 mb-4"></div>
+
+              {/* Tagline */}
+              <p className="font-body font-light text-lg md:text-xl tracking-[0.2em] opacity-90 drop-shadow-md">
+                Độc bản, trọn ý - Trọn tâm tình
+              </p>
+            </div>
+
           </div>
 
           {/* 3. CÁC NÚT ĐIỀU KHIỂN (Lớp trên cùng - z-20) */}
