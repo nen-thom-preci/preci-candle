@@ -206,7 +206,7 @@ function OrderCheckContent() {
                                                             <div className="mt-1.5 font-body text-sm text-gray-500 space-y-1 bg-gray-50 p-2 rounded border border-gray-100">
                                                                 {/* 1. Hình & Màu */}
                                                                 <p>
-                                                                    <span className="uppercase">Kiểu:</span>{' '}
+                                                                    <span className="font-semibold">Kiểu:</span>{' '}
                                                                     {DICTIONARY.shapes[item.customization.shape] || item.customization.shape} - {' '}
                                                                     {DICTIONARY.colors[item.customization.color] || 'Tự chọn'}
                                                                 </p>
@@ -218,20 +218,20 @@ function OrderCheckContent() {
 
                                                                 {/* 3. Khắc tên (Nếu có) */}
                                                                 {item.customization.engraving && (
-                                                                    <p><span className="uppercase">Khắc:</span> "{item.customization.engraving}"</p>
+                                                                    <p><span className="font-semibold">Khắc:</span> "{item.customization.engraving}"</p>
                                                                 )}
 
                                                                 {/* 4. Thông điệp (Text hoặc Voice) */}
                                                                 {item.customization.messageType === 'text' && (
-                                                                    <p><span className="uppercase">Lời nhắn:</span> "{item.customization.message}"</p>
+                                                                    <p><span className="font-semibold">Lời nhắn:</span> "{item.customization.message}"</p>
                                                                 )}
                                                                 {item.customization.messageType === 'voice' && (
-                                                                    <p><span className="uppercase">Lời nhắn:</span> Kèm QR ghi âm</p>
+                                                                    <p><span className="font-semibold">Lời nhắn:</span> Kèm QR ghi âm</p>
                                                                 )}
 
                                                                 {/* 5. Hộp quà (Nếu có) */}
                                                                 {item.customization.box && item.customization.box !== 'none' && (
-                                                                    <p><span className="uppercase">Đóng gói:</span> Hộp quà tặng</p>
+                                                                    <p><span className="font-semibold">Đóng gói:</span> Hộp quà tặng</p>
                                                                 )}
                                                             </div>
                                                         )}
