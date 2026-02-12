@@ -37,7 +37,7 @@ const SURFACE_CONFIG: Record<string, { radius: number, heightRange: [number, num
   round: { radius: 0.6, heightRange: [-0.5, 0.5] },
   square: { radius: 0.65, heightRange: [-0.5, 0.5] },
   hexagon: { radius: 0.55, heightRange: [-0.5, 0.5] },
-  pyramid: { radius: 0.45, heightRange: [-0.8, -0.2], tilt: -0.2 },
+  pyramid: { radius: 0.6, heightRange: [-0.8, -0.2], tilt: -0.1 },
   taper: { radius: 0.5, heightRange: [-0.5, 0.2] },
   oval: { radius: 0.6, heightRange: [-0.5, 0.5] }
 }
@@ -47,7 +47,7 @@ const STICKER_CONFIG: Record<string, { pos: [number, number, number]; rot: [numb
   round: { pos: [0, 0.1, 0.61], rot: [0, 0, 0] },
   square: { pos: [0, 0.1, 0.61], rot: [0, 0, 0] },
   hexagon: { pos: [0, 0.1, 0.53], rot: [0, 0, 0] },
-  pyramid: { pos: [0, -0.3, 0.48], rot: [-0.36, 0, 0], scale: [0.7, 0.7, 1] },
+  pyramid: { pos: [0, -0.2, 0.68], rot: [-0.25, 0, 0], scale: [0.7, 0.7, 1] },
   taper: { pos: [0, -0.1, 0.55], rot: [0, 0, 0] },
   oval: { pos: [0, 0.1, 0.49], rot: [0, 0, 0] }
 }
@@ -245,7 +245,7 @@ function ProceduralsCandle({ shape, color, sticker, base, message, engraving, is
         {shape === 'square' && <mesh castShadow receiveShadow><boxGeometry args={[1.2, 1.8, 1.2]} /><meshPhysicalMaterial {...materialProps} /></mesh>}
         {shape === 'round' && <mesh castShadow receiveShadow><cylinderGeometry args={[0.6, 0.6, 1.8, 48]} /><meshPhysicalMaterial {...materialProps} /></mesh>}
         {shape === 'hexagon' && <mesh castShadow receiveShadow rotation={[0, Math.PI / 6, 0]}><cylinderGeometry args={[0.6, 0.6, 1.8, 6]} /><meshPhysicalMaterial {...materialProps} /></mesh>}
-        {shape === 'pyramid' && <mesh castShadow receiveShadow><cylinderGeometry args={[0, 0.9, 1.8, 4]} /><meshPhysicalMaterial {...materialProps} /></mesh>}
+        {shape === 'pyramid' && <mesh castShadow receiveShadow><cylinderGeometry args={[0.4, 0.9, 1.8, 4]} /><meshPhysicalMaterial {...materialProps} /></mesh>}
         {shape === 'taper' && <group><mesh castShadow receiveShadow><cylinderGeometry args={[0.42, 0.65, 1.8, 48]} /><meshPhysicalMaterial {...materialProps} /></mesh><mesh position={[0, 0.75, 0]}><cylinderGeometry args={[0.32, 0.42, 0.3, 32]} /><meshPhysicalMaterial {...materialProps} /></mesh></group>}
         {shape === 'oval' && <mesh castShadow receiveShadow scale={[1.2, 1, 0.8]}><cylinderGeometry args={[0.6, 0.6, 1.8, 48]} /><meshPhysicalMaterial {...materialProps} /></mesh>}
       </group>

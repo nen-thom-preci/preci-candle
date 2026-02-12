@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react' // Đã có useEffect
-import { Menu, X, ShoppingCart } from 'lucide-react'
+import { Menu, X, ShoppingCart, PackageSearch } from 'lucide-react'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -82,6 +82,11 @@ export default function Header() {
                 </span>
               )}
             </Link>
+
+            <Link href="/order-check" className="p-2 hover:bg-[#F2EFE9] rounded-full transition-colors" title="Tra cứu đơn hàng">
+              <PackageSearch size={22} className="text-[#3a3a3a]" />
+            </Link>
+
           </div>
 
           {/* 3. NÚT MENU MOBILE (CHỈ HIỆN TRÊN ĐIỆN THOẠI) */}

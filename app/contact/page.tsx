@@ -174,7 +174,7 @@ export default function ContactPage() {
         <section className="bg-[#F2EFE9] py-20 border-t border-[#E5E0D8]">
           <div className="max-w-5xl mx-auto px-6 sm:px-8">
             <div className="text-center mb-12">
-              <span className="text-[#DCAE96] font-bold tracking-widest text-sm uppercase mb-2 block">Hỗ trợ</span>
+              <span className="text-gray-500 font-body font-bold tracking-widest text-sm uppercase mb-2 block">Hỗ trợ</span>
               <h2 className="text-3xl md:text-4xl font-brand font-bold text-[#715136]">Câu Hỏi Thường Gặp</h2>
             </div>
 
@@ -186,7 +186,7 @@ export default function ContactPage() {
                 },
                 {
                   q: 'Thời gian giao hàng bao lâu?',
-                  a: 'Chúng mình giao hàng trong vòng 2-3 ngày làm việc tại các khu vực chính. Phí giao hàng miễn phí cho đơn hàng từ 500.000 đ.',
+                  a: 'Chúng mình giao hàng trong vòng 2-3 ngày làm việc tại các khu vực chính. Phí giao hàng miễn phí cho đơn hàng từ 300.000 đ.',
                 },
                 {
                   q: 'Tôi có thể tùy chỉnh hương thơm không?',
@@ -199,7 +199,7 @@ export default function ContactPage() {
               ].map((item, index) => (
                 <div key={index} className="bg-[#FFFDFA] border border-[#E5E0D8] rounded-xl p-8 hover:shadow-md transition-shadow duration-300">
                   <h3 className="font-brand font-bold text-xl text-[#715136] mb-3">{item.q}</h3>
-                  <p className="font-body text-gray-600 text-sm leading-relaxed">{item.a}</p>
+                  <p className="font-body text-gray-600 text-base leading-relaxed">{item.a}</p>
                 </div>
               ))}
             </div>

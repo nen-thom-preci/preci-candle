@@ -1,7 +1,7 @@
 'use client'
 
 import QRCode from "react-qr-code";
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight, Minus, Plus, Check, Mic, Square, Play, Pause, Trash2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
@@ -305,7 +305,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                 <div className="mb-2 transform scale-110">
                   <ShapeIcon id={s.id} />
                 </div>
-                <span className="text-xs font-bold">{s.label}</span>
+                <span className="text-sm font-body font-bold">{s.label}</span>
               </button>
             ))}
           </div>
@@ -323,13 +323,13 @@ export default function ProductCustomizer({ productId, productName }: Customizer
               <div className="flex bg-[#EFEBE7] p-1 rounded-full shadow-inner">
                 <button
                   onClick={() => setColorMode('fengshui')}
-                  className={`px-5 py-2 rounded-full text-xs font-bold font-brand transition-all duration-300 ${colorMode === 'fengshui' ? 'bg-[#7B8B4C] text-white shadow-sm' : 'text-[#8C7E72] hover:text-[#715136]'}`}
+                  className={`px-5 py-2 rounded-full text-sm font-bold font-brand transition-all duration-300 ${colorMode === 'fengshui' ? 'bg-[#7B8B4C] text-white shadow-sm' : 'text-[#8C7E72] hover:text-[#715136]'}`}
                 >
                   Chọn theo phong thủy
                 </button>
                 <button
                   onClick={() => setColorMode('custom')}
-                  className={`px-5 py-2 rounded-full text-xs font-bold font-brand transition-all duration-300 ${colorMode === 'custom' ? 'bg-[#7B8B4C] text-white shadow-sm' : 'text-[#8C7E72] hover:text-[#715136]'}`}
+                  className={`px-5 py-2 rounded-full text-sm font-bold font-brand transition-all duration-300 ${colorMode === 'custom' ? 'bg-[#7B8B4C] text-white shadow-sm' : 'text-[#8C7E72] hover:text-[#715136]'}`}
                 >
                   Tùy chọn
                 </button>
@@ -341,7 +341,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
               {colorMode === 'fengshui' ? (
                 <div className="flex flex-col items-center">
                   <div className="w-full max-w-[200px] text-center mb-6">
-                    <label className="block text-[#715136] font-brand font-bold mb-2 text-sm">Nhập năm sinh của bạn</label>
+                    <label className="block text-[#715136] font-brand font-bold mb-2 text-base">Nhập năm sinh của bạn</label>
                     <input
                       type="number"
                       placeholder="VD: 1997"
@@ -351,7 +351,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                     />
                     {userElement && (
                       <div className="mt-3 animate-in slide-in-from-top-2">
-                        <span className="text-xs text-gray-500 font-brand">Bạn thuộc mệnh</span>
+                        <span className="text-sm text-gray-800 font-brand">Bạn thuộc mệnh</span>
                         <div className="text-[#7B8B4C] font-bold font-brand text-xl uppercase tracking-wider">
                           {getElementLabel(userElement)}
                         </div>
@@ -363,7 +363,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                     <div className="w-full animate-in fade-in duration-500">
                       <div className="flex items-center gap-2 mb-4 justify-center">
                         <div className="h-[1px] w-8 bg-[#C4B5A5]"></div>
-                        <p className="text-center text-[#715136] font-brand italic text-sm">Màu sắc hợp mệnh</p>
+                        <p className="text-center text-[#715136] font-brand font-bold italic text-base">Màu sắc hợp mệnh</p>
                         <div className="h-[1px] w-8 bg-[#C4B5A5]"></div>
                       </div>
                       {suggestedColors.length > 0 ? (
@@ -375,23 +375,23 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                               className={`aspect-square rounded-xl border-2 flex flex-col items-center justify-center gap-1 transition-all p-1 group ${customization.color === c.id ? 'border-[#7B8B4C] bg-white shadow-md ring-1 ring-[#7B8B4C] ring-offset-1' : 'border-transparent hover:bg-white/60 hover:shadow-sm'}`}
                             >
                               <div className="w-8 h-8 rounded-full shadow-inner border border-black/5 group-hover:scale-110 transition-transform" style={{ backgroundColor: c.hex }} />
-                              <span className="text-[10px] font-medium text-gray-600 text-center leading-tight line-clamp-2 font-brand">{c.label}</span>
+                              <span className="text-xs font-medium text-gray-600 text-center leading-tight line-clamp-2 font-brand">{c.label}</span>
                             </button>
                           ))}
                         </div>
                       ) : (
-                        <p className="text-center text-xs text-gray-400">Đang cập nhật dữ liệu...</p>
+                        <p className="text-center text-sm text-gray-400">Đang cập nhật dữ liệu...</p>
                       )}
                     </div>
                   ) : (
                     <div className="opacity-40 w-full text-center mt-4">
-                      <p className="font-body text-sm text-gray-700">Nhập năm sinh để xem gợi ý</p>
+                      <p className="font-body text-base text-gray-700">Nhập năm sinh để xem gợi ý</p>
                     </div>
                   )}
                 </div>
               ) : (
                 <div className="animate-in fade-in duration-300">
-                  <p className="text-center text-[#715136] font-brand font-bold text-sm mb-4">Bảng màu Préci</p>
+                  <p className="text-center text-[#715136] font-brand font-bold text-base mb-4">Bảng màu Préci</p>
                   <div className="grid grid-cols-3 gap-3">
                     {COLORS.map(c => (
                       <button
@@ -415,7 +415,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
             <div className="grid grid-cols-1 gap-2">
               <button
                 onClick={() => setCustomization(prev => ({ ...prev, base: 'none' }))}
-                className={`p-3 rounded-lg border text-left text-sm font-body ${customization.base === 'none' ? 'border-[#715136] bg-[#715136]/5' : 'border-gray-200'}`}
+                className={`p-3 rounded-lg border text-left text-base font-body ${customization.base === 'none' ? 'border-[#715136] bg-[#715136]/5' : 'border-gray-200'}`}
               >
                 🚫 Không dùng đế
               </button>
@@ -425,8 +425,8 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                   onClick={() => setCustomization(prev => ({ ...prev, base: b.id }))}
                   className={`p-3 rounded-lg border text-left flex justify-between items-center ${customization.base === b.id ? 'border-[#715136] bg-[#715136]/5' : 'border-gray-200 hover:bg-white'}`}
                 >
-                  <span className="font-body font-bold text-sm">{b.icon} {b.label}</span>
-                  <span className="text-xs text-gray-500">+{b.price.toLocaleString()}đ</span>
+                  <span className="font-body font-bold text-base">{b.icon} {b.label}</span>
+                  <span className="text-sm text-gray-500">+{b.price.toLocaleString()}đ</span>
                 </button>
               ))}
             </div>
@@ -434,10 +434,10 @@ export default function ProductCustomizer({ productId, productName }: Customizer
             {customization.base !== 'none' && (
               <div className="border-t border-dashed border-[#E5E0D8] pt-4 animate-in slide-in-from-top-2">
                 <div className="flex justify-between items-center mb-2">
-                  <label className="text-sm font-bold text-[#715136] flex items-center gap-2">
+                  <label className="text-base font-body font-bold uppercase text-[#715136] flex items-center gap-2">
                     <span>✨</span> Khắc tên lên đế
                   </label>
-                  <span className="text-xs text-gray-500">+45.000đ</span>
+                  <span className="text-sm text-gray-500">+45.000đ</span>
                 </div>
                 {/* SỬA LỖI: Input dùng tempEngraving, không dùng customization.engraving trực tiếp */}
                 <input
@@ -446,7 +446,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                   placeholder="Nhập tên muốn khắc (Tối đa 25 ký tự)"
                   value={tempEngraving}
                   onChange={(e) => setTempEngraving(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-[#E5E0D8] bg-white focus:outline-none focus:border-[#715136] text-sm text-center font-body text-[#715136]"
+                  className="w-full px-4 py-3 rounded-xl border border-[#E5E0D8] bg-white focus:outline-none focus:border-[#715136] text-base text-center font-body text-[#715136]"
                 />
                 {tempEngraving && (
                   <p className="text-[10px] text-center mt-2 text-gray-400 italic">
@@ -480,7 +480,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center ${customization.messageType === 'none' ? 'bg-[#DCAE96]' : 'bg-gray-200'}`}>
                         <span className="text-lg text-gray-500">✕</span>
                       </div>
-                      <span className="font-body text-sm text-[#715136]">Không gửi thông điệp</span>
+                      <span className="font-body text-base text-[#715136]">Không gửi thông điệp</span>
                     </div>
                     <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${customization.messageType === 'none' ? 'bg-[#715136] border-[#715136]' : 'border-gray-400'}`}>
                       {customization.messageType === 'none' && <Check size={12} className="text-white" />}
@@ -499,7 +499,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center ${customization.messageType === 'text' ? 'bg-[#DCAE96]' : 'bg-gray-200'}`}>
                         <span className="text-lg">💌</span>
                       </div>
-                      <span className="font-body font-bold text-sm text-[#715136]">In lời nhắn lên thẻ thiệp (+50.000đ)</span>
+                      <span className="font-body font-bold text-base text-[#715136]">In lời nhắn lên thẻ thiệp (+50.000đ)</span>
                     </div>
                     <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${customization.messageType === 'text' ? 'bg-[#715136] border-[#715136]' : 'border-gray-400'}`}>
                       {customization.messageType === 'text' && <Check size={12} className="text-white" />}
@@ -518,7 +518,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center ${customization.messageType === 'voice' ? 'bg-[#DCAE96]' : 'bg-gray-200'}`}>
                         <span className="text-lg">🎙️</span>
                       </div>
-                      <span className="font-body font-bold text-sm text-[#715136]">In mã quét ra giọng nói (+100.000đ)</span>
+                      <span className="font-body font-bold text-base text-[#715136]">In mã quét ra giọng nói (+50.000đ)</span>
                     </div>
                     <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${customization.messageType === 'voice' ? 'bg-[#715136] border-[#715136]' : 'border-gray-400'}`}>
                       {customization.messageType === 'voice' && <Check size={12} className="text-white" />}
@@ -533,117 +533,121 @@ export default function ProductCustomizer({ productId, productName }: Customizer
             {/* --- GIAO DIỆN VĂN BẢN --- */}
             {customization.messageType === 'text' && (
               <div>
-                <p className="text-xs font-bold text-[#715136] uppercase mb-2 ml-1">Nội dung lời nhắn</p>
+                <p className="text-base font-body font-bold text-primary uppercase mb-2 ml-1">Nội dung lời nhắn</p>
                 <textarea
                   value={customization.message}
                   onChange={e => setCustomization(prev => ({ ...prev, message: e.target.value }))}
                   placeholder="Nhập lời nhắn gửi đến người nhận (Tối đa 50 ký tự)..."
                   maxLength={50}
-                  className="w-full p-4 rounded-xl border border-[#E5E0D8] bg-white focus:outline-none focus:border-[#715136] min-h-[120px] text-sm resize-none shadow-inner font-brand text-[#715136]"
+                  className="w-full p-4 rounded-xl border border-[#E5E0D8] bg-white focus:outline-none focus:border-[#715136] min-h-[120px] text-base resize-none shadow-inner font-body text-[#715136]"
                 />
                 <div className="flex justify-between items-center mt-2 px-1">
-                  <span className="text-xs text-gray-400 italic">Préci sẽ in đẹp đẽ lên thiệp cho bạn</span>
+                  <span className="text-xs text-gray-400 italic">Lời nhắn của bạn sẽ được <p> khắc lên thẻ thông điệp </p>
+                  </span>
                   <span className="text-xs text-gray-400">{customization.message.length}/50 ký tự</span>
                 </div>
               </div>
-            )}
+            )
+            }
 
             {/* --- GIAO DIỆN GHI ÂM (VOICE) --- */}
-            {customization.messageType === 'voice' && (
-              <div className="flex flex-col items-center justify-center py-4">
+            {
+              customization.messageType === 'voice' && (
+                <div className="flex flex-col items-center justify-center py-4">
 
-                {/* Trạng thái 1: Chưa có file ghi âm */}
-                {!audioUrl ? (
-                  <>
-                    <p className="font-brand text-[#715136] italic mb-6">
-                      {isRecording ? `Đang ghi âm... (${formatTime(recordingTime)})` : "Bắt đầu ghi âm lời chúc (dưới 30s)"}
-                    </p>
-
-                    <button
-                      onClick={isRecording ? stopRecording : startRecording}
-                      className={`w-16 h-16 rounded-full flex items-center justify-center transition-all shadow-lg ${isRecording
-                        ? 'bg-red-500 hover:bg-red-600 animate-pulse'
-                        : 'bg-[#715136] hover:bg-[#8C7E72]'
-                        }`}
-                    >
-                      {isRecording ? <Square size={24} className="text-white fill-white" /> : <Mic size={32} className="text-white" />}
-                    </button>
-
-                    {/* Hình sóng âm giả lập khi đang ghi */}
-                    {isRecording && (
-                      <div className="flex gap-1 h-8 items-center mt-6">
-                        {[...Array(10)].map((_, i) => (
-                          <div key={i} className="w-1 bg-[#DCAE96] animate-bounce" style={{ height: `${Math.random() * 100}%`, animationDelay: `${i * 0.1}s` }}></div>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  // Trạng thái 2: Đã ghi âm xong (Review)
-                  <div className="w-full flex flex-col items-center">
-
-                    {/* Controls (Nghe lại / Xóa) */}
-                    <div className="flex items-center gap-6 mb-8">
-                      <button
-                        onClick={deleteRecording}
-                        className="px-4 py-2 bg-[#EFEBE7] text-[#715136] rounded-lg text-xs font-bold hover:bg-gray-200 flex items-center gap-2"
-                      >
-                        <Trash2 size={14} /> Xóa
-                      </button>
+                  {/* Trạng thái 1: Chưa có file ghi âm */}
+                  {!audioUrl ? (
+                    <>
+                      <p className="font-body text-[#715136] italic mb-6">
+                        {isRecording ? `Đang ghi âm... (${formatTime(recordingTime)})` : "Bắt đầu ghi âm lời chúc (dưới 30s)"}
+                      </p>
 
                       <button
-                        onClick={togglePlayback}
-                        className="w-14 h-14 bg-[#715136] rounded-full flex items-center justify-center text-white shadow-lg hover:scale-105 transition-transform"
-                      >
-                        {isPlaying ? <Pause size={24} fill="white" /> : <Play size={24} fill="white" className="ml-1" />}
-                      </button>
-
-                      {/* NÚT HOÀN THÀNH MỚI */}
-                      <button
-                        onClick={handleFinishAndUpload} // <--- GỌI HÀM UPLOAD
-                        disabled={isUploading || qrConfirmed} // Khóa nút khi đang tải hoặc đã xong
-                        className={`px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-all ${qrConfirmed
-                          ? 'bg-gray-400 cursor-not-allowed text-white'
-                          : 'bg-[#7B8B4C] text-white hover:bg-[#6A7A40] shadow-md'
+                        onClick={isRecording ? stopRecording : startRecording}
+                        className={`w-16 h-16 rounded-full flex items-center justify-center transition-all shadow-lg ${isRecording
+                          ? 'bg-red-500 hover:bg-red-600 animate-pulse'
+                          : 'bg-[#715136] hover:bg-[#8C7E72]'
                           }`}
                       >
-                        {isUploading ? (
-                          <>⏳ Đang tạo mã...</> // Hiển thị khi đang upload
-                        ) : (
-                          <><Check size={14} /> {qrConfirmed ? "Đã in lên nến" : "Hoàn thành"}</>
-                        )}
+                        {isRecording ? <Square size={24} className="text-white fill-white" /> : <Mic size={32} className="text-white" />}
                       </button>
-                    </div>
 
-                    {/* PHẦN HIỂN THỊ MÃ QR */}
-                    <div className="text-center w-full">
-                      <p className="text-xs font-bold text-[#715136] uppercase tracking-widest mb-2">Mã in trên thẻ</p>
-
-                      <div className="flex flex-row items-center justify-center gap-4 bg-white p-3 rounded-lg border border-[#E5E0D8]">
-
-                        {/* 1. MÃ QR */}
-                        <div className="flex flex-col items-center">
-                          <div className="p-1 bg-white">
-                            <QRCode
-                              key={audioUrl} // <--- THÊM DÒNG NÀY (Bí quyết để fix lỗi cache hiển thị)
-                              value={audioUrl || "https://preci.vn"}
-                              size={60}
-                              fgColor="#715136"
-                            />
-                          </div>
-                          <span className="text-[9px] text-gray-400 mt-1">Quét để nghe</span>
+                      {/* Hình sóng âm giả lập khi đang ghi */}
+                      {isRecording && (
+                        <div className="flex gap-1 h-8 items-center mt-6">
+                          {[...Array(10)].map((_, i) => (
+                            <div key={i} className="w-1 bg-[#DCAE96] animate-bounce" style={{ height: `${Math.random() * 100}%`, animationDelay: `${i * 0.1}s` }}></div>
+                          ))}
                         </div>
+                      )}
+                    </>
+                  ) : (
+                    // Trạng thái 2: Đã ghi âm xong (Review)
+                    <div className="w-full flex flex-col items-center">
 
+                      {/* Controls (Nghe lại / Xóa) */}
+                      <div className="flex items-center gap-6 mb-8">
+                        <button
+                          onClick={deleteRecording}
+                          className="px-4 py-2 bg-[#EFEBE7] text-[#715136] rounded-lg text-sm font-bold hover:bg-gray-200 flex items-center gap-2"
+                        >
+                          <Trash2 size={14} /> Xóa
+                        </button>
+
+                        <button
+                          onClick={togglePlayback}
+                          className="w-14 h-14 bg-[#715136] rounded-full flex items-center justify-center text-white shadow-lg hover:scale-105 transition-transform"
+                        >
+                          {isPlaying ? <Pause size={24} fill="white" /> : <Play size={24} fill="white" className="ml-1" />}
+                        </button>
+
+                        {/* NÚT HOÀN THÀNH MỚI */}
+                        <button
+                          onClick={handleFinishAndUpload} // <--- GỌI HÀM UPLOAD
+                          disabled={isUploading || qrConfirmed} // Khóa nút khi đang tải hoặc đã xong
+                          className={`px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-all ${qrConfirmed
+                            ? 'bg-gray-400 cursor-not-allowed text-white'
+                            : 'bg-[#7B8B4C] text-white hover:bg-[#6A7A40] shadow-md'
+                            }`}
+                        >
+                          {isUploading ? (
+                            <>⏳ Đang tạo mã...</> // Hiển thị khi đang upload
+                          ) : (
+                            <><Check size={14} /> {qrConfirmed ? "Đã in lên nến" : "Hoàn thành"}</>
+                          )}
+                        </button>
                       </div>
+
+                      {/* PHẦN HIỂN THỊ MÃ QR */}
+                      <div className="text-center w-full">
+                        <p className="text-sm font-bold text-[#715136] uppercase tracking-widest mb-2">Mã in trên thẻ</p>
+
+                        <div className="flex flex-row items-center justify-center gap-4 bg-white p-3 rounded-lg border border-[#E5E0D8]">
+
+                          {/* 1. MÃ QR */}
+                          <div className="flex flex-col items-center">
+                            <div className="p-1 bg-white">
+                              <QRCode
+                                key={audioUrl} // <--- THÊM DÒNG NÀY (Bí quyết để fix lỗi cache hiển thị)
+                                value={audioUrl || "https://preci.vn"}
+                                size={60}
+                                fgColor="#715136"
+                              />
+                            </div>
+                            <span className="text-[9px] text-gray-400 mt-1">Quét để nghe</span>
+                          </div>
+
+                        </div>
+                      </div>
+
                     </div>
+                  )}
 
-                  </div>
-                )}
+                </div>
+              )
+            }
 
-              </div>
-            )}
-
-          </div>
+          </div >
         )
 
       case 'box':
@@ -686,7 +690,8 @@ export default function ProductCustomizer({ productId, productName }: Customizer
   }
 
   // --- TÍNH GIÁ ---
-  const calculatePrice = () => {
+  // --- TỐI ƯU: Dùng useMemo để không phải tính lại giá khi đang gõ phím ---
+  const totalPrice = useMemo(() => {
     let price = PRICES.base
     if (customization.sticker) price += PRICES.sticker
     if (customization.box !== 'none') price += PRICES.box
@@ -694,15 +699,15 @@ export default function ProductCustomizer({ productId, productName }: Customizer
     if (customization.base !== 'none') {
       const selectedBase = BASE_OPTIONS.find(b => b.id === customization.base)
       if (selectedBase) price += selectedBase.price
-      // Tính phí khắc nếu có nội dung
+      // Tính phí khắc nếu có nội dung (Lấy từ customization đã debounce, không lấy từ tempEngraving)
       if (customization.engraving.length > 0) price += PRICES.engraving
     }
     return price * quantity
-  }
+  }, [customization, quantity]) // <- Chỉ tính lại khi customization hoặc số lượng thay đổi
 
   // --- XỬ LÝ CART ---
   const handleAddToCart = (redirect = false) => {
-    const finalPrice = calculatePrice()
+    const finalPrice = totalPrice
     const item = {
       productId,
       name: `Nến ${SHAPES.find(s => s.id === customization.shape)?.label || 'Custom'}`,
@@ -746,7 +751,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
                 <button
                   key={step.id}
                   onClick={() => setCurrentStep(index)}
-                  className={`text-left text-sm font-bold transition-colors relative pb-1 ${index === currentStep ? 'text-[#715136] border-b-2 border-[#715136]' : 'text-gray-400 hover:text-gray-600'}`}
+                  className={`text-left text-base font-body font-bold uppercase transition-colors relative pb-1 ${index === currentStep ? 'text-[#715136] border-b-2 border-[#715136]' : 'text-gray-400 hover:text-gray-600'}`}
                 >
                   {step.label}
                 </button>
@@ -756,7 +761,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
             {/* OPTIONS CARD */}
             <div className="flex-1 flex flex-col">
               <div className="bg-[#F2EFE9] rounded-3xl p-6 flex-1 shadow-sm border border-[#E5E0D8] relative">
-                <h3 className="text-center font-body text-[#715136] mb-6 text-lg">{STEPS[currentStep].title}</h3>
+                <h3 className="text-center font-body uppercase font-bold italic text-[#715136] mb-6 text-lg">{STEPS[currentStep].title}</h3>
                 <div className="custom-scrollbar overflow-y-auto max-h-[350px]">
                   {renderStepContent()}
                 </div>
@@ -800,27 +805,37 @@ export default function ProductCustomizer({ productId, productName }: Customizer
 
             <div className="bg-white border border-[#715136] rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg">
               <div className="text-center md:text-left border-r border-gray-200 pr-6 mr-2">
-                <p className="text-sm text-gray-500 font-body">Tổng chi phí</p>
+                <p className="text-base text-gray-500 font-body">Tổng chi phí</p>
                 <p className="text-2xl font-body font-bold text-[#715136]">
-                  {calculatePrice().toLocaleString()}đ
+                  {totalPrice.toLocaleString('vi-VN')}đ
                 </p>
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="text-sm font-body italic text-gray-600">Số lượng:</span>
+                <span className="text-base font-body italic text-gray-600">Số lượng:</span>
                 <div className="flex items-center gap-3">
                   <button onClick={() => setQuantity(q => Math.max(1, q - 1))} className="w-6 h-6 flex items-center justify-center hover:text-[#715136]"><Minus size={16} /></button>
-                  <span className="w-6 text-center font-bold bg-[#715136] text-white rounded-full text-sm h-6 flex items-center justify-center">{quantity}</span>
+                  <span className="w-6 text-center font-bold bg-[#715136] text-white rounded-full text-base h-6 flex items-center justify-center">{quantity}</span>
                   <button onClick={() => setQuantity(q => q + 1)} className="w-6 h-6 flex items-center justify-center hover:text-[#715136]"><Plus size={16} /></button>
                 </div>
               </div>
 
               <div className="flex gap-2 w-full md:w-auto">
-                <button onClick={() => handleAddToCart(true)} className="flex-1 px-6 py-3 bg-[#B0A695] text-white font-body font-bold uppercase rounded-lg hover:bg-[#8C7E72] transition-colors shadow-sm text-sm uppercase tracking-wide">
+                {/* Nút Mua Ngay */}
+                <button
+                  onClick={() => handleAddToCart(true)}
+                  className="flex-1 px-6 py-3 bg-primary text-white font-body font-bold uppercase rounded-lg hover:bg-[#8C7E72] transition-colors shadow-sm text-base tracking-wide"
+                >
                   Mua ngay
                 </button>
-                <button onClick={() => handleAddToCart(false)} className="flex-1 px-6 py-3 bg-[#6B8E23] text-white font-body font-bold uppercase rounded-lg hover:bg-[#556B2F] transition-colors shadow-sm text-sm uppercase tracking-wide">
-                  Thêm vào <p /> giỏ hàng
+                {/* Nút Thêm vào giỏ hàng */}
+                <button
+                  onClick={() => handleAddToCart(false)}
+                  className="flex-1 px-6 py-3 bg-[#6B8E23] text-white font-body font-bold uppercase rounded-lg hover:bg-[#556B2F] transition-colors shadow-sm text-base tracking-wide flex items-center justify-center" >
+                  <span className="flex flex-col items-center leading-6">
+                    <span>Thêm vào</span>
+                    <span>giỏ hàng</span>
+                  </span>
                 </button>
               </div>
             </div>

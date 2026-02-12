@@ -54,7 +54,7 @@ export default function PoliciesPage() {
       sections: [
         {
           heading: 'Phí Vận Chuyển',
-          content: 'Miễn phí vận chuyển cho đơn hàng từ 500.000đ. Các đơn hàng nhỏ hơn sẽ áp dụng mức phí tiêu chuẩn 30.000đ.',
+          content: 'Miễn phí vận chuyển cho đơn hàng từ 300.000đ. Các đơn hàng nhỏ hơn sẽ áp dụng mức phí tiêu chuẩn 30.000đ.',
         },
         {
           heading: 'Thời Gian Giao Hàng',
@@ -180,7 +180,7 @@ export default function PoliciesPage() {
                         <h3 className="font-brand text-lg font-bold text-[#715136] mb-2">
                           {section.heading}
                         </h3>
-                        <p className="font-body text-gray-600 leading-relaxed text-[15px]">
+                        <p className="font-body text-gray-600 leading-relaxed text-base">
                           {section.content}
                         </p>
                       </div>
@@ -193,9 +193,11 @@ export default function PoliciesPage() {
 
           {/* 3. FAQ SECTION - Style Grid Card */}
           <div className="mt-24 pt-16 border-t border-[#E5E0D8]">
-            <div className="text-center mb-12">
-              <span className="text-secondary font-brand uppercase font-bold tracking-widest text-sm uppercase mb-2 block">Giải đáp thắc mắc</span>
-              <h2 className="text-3xl md:text-4xl font-brand text-[#715136]">
+            <div className="text-center mb-16 md:mb-24">
+              <p className="text-base font-body font-bold text-gray-500 uppercase tracking-widest mb-3">
+                Giải đáp thắc mắc
+              </p>
+              <h2 className="text-4xl md:text-6xl font-brand text-primary uppercase">
                 Câu hỏi thường gặp
               </h2>
             </div>
@@ -212,7 +214,7 @@ export default function PoliciesPage() {
                       {item.q}
                     </h3>
                   </div>
-                  <p className="font-body text-gray-600 text-sm leading-relaxed pl-8">
+                  <p className="font-body text-gray-600 text-base leading-relaxed pl-8">
                     {item.a}
                   </p>
                 </div>
@@ -235,7 +237,7 @@ export default function PoliciesPage() {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a
                   href="/contact"
-                  className="inline-flex items-center gap-2 px-8 py-3 bg-white text-[#715136] font-bold rounded-full hover:bg-[#F2EFE9] transition-all transform hover:-translate-y-1 shadow-lg"
+                  className="inline-flex items-center gap-2 px-8 py-3 bg-white text-[#715136] font-body uppercase font-bold rounded-full hover:bg-[#F2EFE9] transition-all transform hover:-translate-y-1 shadow-lg"
                 >
                   <Phone size={18} />
                   Liên Hệ Ngay

@@ -115,7 +115,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   priceString={product.priceFormatted}
                 />
 
-                <Link href="/products" className="block w-full text-center py-4 border border-primary text-primary font-body uppercase rounded-lg hover:bg-[#F2EFE9] transition-colors font-body">
+                <Link href="/products" className="block w-full text-center py-4 border border-primary text-primary font-body font-bold uppercase rounded-lg hover:bg-[#F2EFE9] transition-colors font-body">
                   Tiếp Tục Mua Sắm
                 </Link>
               </div>

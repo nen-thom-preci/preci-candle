@@ -50,7 +50,7 @@ export default function Footer() {
 
           {/* 2. Quick Links (Chiếm 3/12 cột) */}
           <div className="lg:col-span-3">
-            <h4 className="font-brand font-bold text-lg uppercase tracking-[0.15em] mb-6">Liên kết</h4>
+            <h4 className="font-brand text-[36px] tracking-[0.15em] mb-6">Liên kết</h4>
             <ul className="space-y-4">
               {['Về Préci', 'Sản phẩm', 'Cẩm nang', 'Liên hệ'].map((item, index) => {
                 const links = ['/about', '/products', '/blog', '/contact'];
@@ -70,7 +70,7 @@ export default function Footer() {
 
           {/* 3. Contact Info (Chiếm 3/12 cột) */}
           <div className="lg:col-span-3">
-            <h4 className="font-brand font-bold text-lg uppercase tracking-[0.15em] mb-6">Liên hệ</h4>
+            <h4 className="font-brand text-[36px] tracking-[0.15em] mb-6">Liên hệ</h4>
             <ul className="space-y-4 font-body text-primary">
               <li className="flex items-start gap-3">
                 <Phone size={18} className="mt-1 flex-shrink-0" />

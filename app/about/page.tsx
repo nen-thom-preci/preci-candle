@@ -75,7 +75,7 @@ export default function AboutPage() {
 
             {/* TIÊU ĐỀ CHÍNH */}
             <div className="text-center mb-16 md:mb-24">
-              <p className="text-sm font-body font-bold text-gray-500 uppercase tracking-widest mb-3">
+              <p className="text-base font-body font-bold text-gray-500 uppercase tracking-widest mb-3">
                 Sản phẩm chủ đạo
               </p>
               <h1 className="text-4xl md:text-6xl font-brand text-primary uppercase">
@@ -206,7 +206,7 @@ export default function AboutPage() {
 
             {/* TIÊU ĐỀ CHÍNH */}
             <div className="text-center mb-16 md:mb-24">
-              <p className="text-sm font-body font-bold text-gray-500 uppercase tracking-widest mb-3">
+              <p className="text-base font-body font-bold text-gray-500 uppercase tracking-widest mb-3">
                 Sự tỉ mỉ trong từng công đoạn
               </p>
               <h1 className="text-4xl md:text-6xl font-brand text-primary uppercase">

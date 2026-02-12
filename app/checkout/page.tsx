@@ -4,34 +4,48 @@ import Header from '@/components/header'
 import Footer from '@/components/footer'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Check, ChevronLeft, ChevronRight, CreditCard, Banknote, Truck, Wallet } from 'lucide-react' // Thêm icon
+import { Check, ChevronLeft, ChevronRight, CreditCard, Banknote, Truck, Wallet } from 'lucide-react'
 import { getProductById } from '@/lib/products'
+import emailjs from '@emailjs/browser';
+
+// --- 1. TỪ ĐIỂN DỊCH THUẬT (Đặt ngoài component để code gọn và không lỗi) ---
+const DICTIONARY: any = {
+  shapes: {
+    round: 'Tròn', square: 'Vuông', hexagon: 'Lục giác',
+    pyramid: 'Tam giác', taper: 'Thon dài', oval: 'Bầu dục'
+  },
+  colors: {
+    paraffin: 'Trắng tinh', palm: 'Trắng sữa', beige: 'Kem (Soy)',
+    beeswax: 'Vàng sáp ong', sand: 'Màu cát', terracotta: 'Cam đất',
+    dustyrose: 'Hồng tro', burgundy: 'Đỏ rượu', lavender: 'Oải hương',
+    forestgreen: 'Xanh rừng', sagegreen: 'Xanh xám', charcoal: 'Than chì'
+  },
+  bases: {
+    wood: 'Đế Gỗ', marble: 'Đá Cẩm Thạch', ceramic: 'Gốm'
+  }
+}
 
 export default function CheckoutPage() {
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState(0)
+
+  // Form Data
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    district: '',
-    zipCode: '',
+    firstName: '', lastName: '', email: '', phone: '',
+    address: '', city: '', district: '', zipCode: '',
     paymentMethod: 'cod',
   })
 
-  // State giỏ hàng
+  // State giỏ hàng (Dùng any[] để tránh lỗi TS khắt khe với object custom)
   const [cart, setCart] = useState<any[]>([])
 
-  // Load cart từ localStorage khi mount
+  // Load cart
   useEffect(() => {
     try {
       const raw = localStorage.getItem('cart')
       if (raw) setCart(JSON.parse(raw))
     } catch (err) {
-      console.error('Không thể load cart từ localStorage', err)
+      console.error('Lỗi load cart', err)
     }
   }, [])
 
@@ -41,48 +55,30 @@ export default function CheckoutPage() {
     { id: 'payment', title: 'Thanh Toán', label: '3' },
   ]
 
-  // Hàm kiểm tra hợp lệ trước khi chuyển bước
+  // --- VALIDATION ---
   const validateStep = (stepIndex: number) => {
-    // BƯỚC 1: KIỂM TRA GIỎ HÀNG
     if (stepIndex === 0) {
       if (cart.length === 0) {
-        alert("Giỏ hàng của bạn đang trống! Vui lòng thêm sản phẩm trước khi thanh toán.");
+        alert("Giỏ hàng trống! Hãy thêm sản phẩm.");
         return false;
       }
     }
-
-    // BƯỚC 2: KIỂM TRA THÔNG TIN GIAO HÀNG
     if (stepIndex === 1) {
-      // Danh sách các trường bắt buộc
       const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address', 'city', 'district'];
-
-      // Kiểm tra xem có trường nào bị bỏ trống không
       const missingField = requiredFields.find(field => !formData[field as keyof typeof formData]?.trim());
-
       if (missingField) {
-        alert("Vui lòng điền đầy đủ thông tin giao hàng (Họ tên, SĐT, Địa chỉ...).");
+        alert("Vui lòng điền đầy đủ thông tin giao hàng.");
         return false;
       }
-
-      // Kiểm tra định dạng Email cơ bản (Optional)
-      if (!formData.email.includes('@')) {
-        alert("Vui lòng nhập địa chỉ Email hợp lệ.");
-        return false;
-      }
-
-      // Kiểm tra độ dài SĐT (Optional)
-      if (formData.phone.length < 10) {
-        alert("Vui lòng nhập số điện thoại hợp lệ.");
+      if (!formData.email.includes('@') || formData.phone.length < 10) {
+        alert("Email hoặc số điện thoại không hợp lệ.");
         return false;
       }
     }
-
     return true;
   };
 
-  // Hàm Next mới (Đã tích hợp validate)
   const handleNext = () => {
-    // Nếu kiểm tra hợp lệ thì mới cho đi tiếp
     if (validateStep(currentStep)) {
       if (currentStep < steps.length - 1) {
         setCurrentStep(currentStep + 1);
@@ -92,11 +88,8 @@ export default function CheckoutPage() {
   };
 
   const handlePrev = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1)
-    } else {
-      router.back()
-    }
+    if (currentStep > 0) setCurrentStep(currentStep - 1)
+    else router.back()
   }
 
   const handleInputChange = (field: string, value: string) => {
@@ -107,41 +100,100 @@ export default function CheckoutPage() {
     const copy = [...cart]
     copy.splice(index, 1)
     setCart(copy)
-    try {
-      localStorage.setItem('cart', JSON.stringify(copy))
-    } catch (err) { console.error(err) }
+    localStorage.setItem('cart', JSON.stringify(copy))
+    window.dispatchEvent(new Event('cart-updated')) // Cập nhật số lượng trên header nếu có
   }
 
+  // 1. Tính tổng tiền hàng (Tạm tính)
   const totalPrice = cart.reduce((s, it) => s + (it.price || 0) * (it.qty || 1), 0)
 
-  const handlePlaceOrder = () => {
-    // Kiểm tra bước cuối cùng (Thanh toán)
-    if (!formData.paymentMethod) {
-      alert("Vui lòng chọn một phương thức thanh toán.");
-      return;
-    }
+  // 2. LOGIC VẬN CHUYỂN (Theo chính sách Préci)
+  const FREE_SHIP_THRESHOLD = 300000; // Mốc 300k
+  const STANDARD_SHIP_FEE = 30000;    // Phí 30k
 
-    // Kiểm tra lại toàn bộ lần cuối để chắc chắn không bị hack bypass
-    if (cart.length === 0) {
-      alert("Giỏ hàng trống.");
-      return;
-    }
+  // Nếu mua >= 500k thì phí = 0, ngược lại là 30k
+  const shippingFee = totalPrice >= FREE_SHIP_THRESHOLD ? 0 : STANDARD_SHIP_FEE;
 
-    // TODO: Gọi API đặt hàng thực tế ở đây
+  // 3. Tổng thanh toán cuối cùng
+  const finalTotal = totalPrice + shippingFee;
+
+  // ... (giữ nguyên các đoạn code trên)
+
+  const handlePlaceOrder = async () => { // Thêm async vào đây
+    if (!formData.paymentMethod) return alert("Vui lòng chọn phương thức thanh toán.");
+    if (cart.length === 0) return alert("Giỏ hàng trống.");
+
+    // 1. Tạo Mã Đơn Hàng ngẫu nhiên (VD: PRECI-8392)
+    const orderId = `PRECI-${Math.floor(1000 + Math.random() * 9000)}`;
+    const orderDate = new Date().toISOString();
+
+    // 2. Tạo object Đơn Hàng hoàn chỉnh
+    const newOrder = {
+      id: orderId,
+      date: orderDate,
+      customer: formData,
+      items: cart,
+      // Lưu lại các con số tài chính
+      subtotal: totalPrice,
+      shipping: shippingFee,
+      total: finalTotal,
+      paymentMethod: formData.paymentMethod,
+      status: 'Đang xử lý' // Trạng thái mặc định
+    };
+
     try {
-      localStorage.removeItem('cart')
-      setCart([])
-      alert(`Đặt hàng thành công!\nCảm ơn ${formData.lastName} ${formData.firstName} đã mua sắm tại Préci.`)
-      router.push('/')
+      try {
+        // Chuẩn bị dữ liệu để gửi
+        const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLScoVi9VmCGZEtzVNQ0HGJ8jxLh8WF3-1P8oqxlImTEXRaFTSw/formResponse"; // Thay XXXXX bằng ID form của bạn
+
+        // Tạo form data ảo
+        const formBody = new FormData();
+
+        // Thay các mã entry.xxxxx bằng mã bạn lấy được ở BƯỚC 2
+        formBody.append("entry.2005620554", orderId);                 // Mã đơn
+        formBody.append("entry.1045781291", `${formData.lastName} ${formData.firstName}`); // Tên
+        formBody.append("entry.1065046570", formData.phone);          // SĐT
+        formBody.append("entry.1166974658", finalTotal.toLocaleString('vi-VN')); // Tổng tiền
+
+        // Gom danh sách món ăn thành 1 chuỗi text
+        const itemsDetail = cart.map(item => `${item.name} (x${item.qty})`).join(", ");
+        formBody.append("entry.839337160", itemsDetail);             // Chi tiết
+
+        // Gửi ngầm (No-cors để không bị lỗi chặn trình duyệt)
+        await fetch(googleFormUrl, {
+          method: "POST",
+          mode: "no-cors",
+          body: formBody
+        });
+
+      } catch (err) {
+        console.error("Lỗi gửi sheet:", err);
+        // Không chặn quy trình đặt hàng dù gửi lỗi
+      }
+      // --- KẾT THÚC ĐOẠN CODE GỬI ---
+      // 3. Lưu vào Lịch sử đơn hàng (LocalStorage)
+      const currentHistory = JSON.parse(localStorage.getItem('order_history') || '[]');
+      currentHistory.unshift(newOrder); // Thêm đơn mới vào đầu danh sách
+      localStorage.setItem('order_history', JSON.stringify(currentHistory));
+
+      // 4. Xóa giỏ hàng
+      localStorage.removeItem('cart');
+      setCart([]);
+      window.dispatchEvent(new Event('cart-updated'));
+
+      // 5. Chuyển hướng sang trang Tra Cứu (kèm mã đơn hàng vừa tạo)
+      router.push(`/order-check?id=${orderId}&new=true`);
+
     } catch (err) {
-      console.error('Place order error', err)
+      console.error('Lỗi đặt hàng', err);
+      alert("Có lỗi xảy ra, vui lòng thử lại.");
     }
   }
 
   // --- RENDER STEPS ---
   const renderStep = () => {
     switch (steps[currentStep].id) {
-      // BƯỚC 1: REVIEW
+      // BƯỚC 1: REVIEW (ĐÃ SỬA LỖI HIỂN THỊ)
       case 'review':
         return (
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -159,11 +211,29 @@ export default function CheckoutPage() {
               ) : (
                 <div className="space-y-6">
                   {cart.map((item, idx) => {
-                    const pid = item.productId || item.id;
-                    const product = getProductById(Number(pid));
-                    const displayName = product?.name || item.name || 'Sản phẩm không xác định';
-                    const displayPrice = product?.price || item.price || 0;
-                    const displayImage = product?.image || '/assets/placeholder.webp';
+                    // 1. Xác định đây là sản phẩm Custom hay Thường để hiển thị chi tiết bên dưới
+                    const isCustomItem = !!item.customization;
+
+                    // 2. Lấy thông tin gốc từ Database dựa vào ID sản phẩm
+                    // (Để đảm bảo luôn hiện: "Nến thơm Biển Cả", "Nến thơm Hoa Nhài"...)
+                    const product = getProductById(Number(item.productId || item.id));
+
+                    // 3. Thiết lập biến hiển thị
+                    // Mặc định lấy trong giỏ, nhưng nếu tìm thấy trong DB thì GHI ĐÈ bằng tên gốc
+                    let displayName = item.name;
+                    let displayImage = '/assets/placeholder.webp';
+
+                    // Logic giá: Hàng custom dùng giá trong giỏ (vì đã cộng phụ phí), hàng thường dùng giá gốc
+                    let displayPrice = item.price || 0;
+
+                    if (product) {
+                      displayName = product.name; // <--- QUAN TRỌNG: Luôn lấy tên gốc (VD: Nến thơm Biển Cả)
+                      displayImage = product.image; // Luôn lấy ảnh gốc
+
+                      if (!isCustomItem) {
+                        displayPrice = product.price;
+                      }
+                    }
 
                     return (
                       <div key={idx} className="flex flex-col sm:flex-row items-start gap-6 pb-6 border-b border-[#F2EFE9] last:border-b-0 last:pb-0">
@@ -184,19 +254,82 @@ export default function CheckoutPage() {
                         {/* Thông tin */}
                         <div className="flex-1 w-full">
                           <div className="flex justify-between items-start">
-                            <div>
+                            <div className="flex-1">
+                              {/* Tên sản phẩm gốc hiển thị ở đây */}
                               <h4 className="font-brand font-bold text-xl text-[#3a3a3a]">{displayName}</h4>
-                              {product?.category === 'candles' ? (
-                                <div className="text-sm text-gray-500 mt-2 space-y-1 font-body">
-                                  <p className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#DCAE96]"></span> Hình dáng: <span className="text-[#715136] font-body">{item.customization?.shape || 'Tròn'}</span></p>
-                                  <p className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#DCAE96]"></span> Mùi hương: <span className="text-[#715136] font-body">{item.customization?.color ? 'Theo màu' : 'Tự chọn'}</span></p>
-                                  {item.customization?.engraving && <p className="flex items-center gap-2">✨ Khắc: <span className="italic">"{item.customization.engraving}"</span></p>}
+
+                              {/* --- PHẦN HIỂN THỊ CHI TIẾT CUSTOM (GIỮ NGUYÊN NHƯ ĐỀ XUẤT) --- */}
+                              {isCustomItem && item.customization ? (
+                                <div className="text-sm text-gray-500 mt-3 space-y-1.5 font-body bg-[#F9F7F5] p-3 rounded-lg border border-[#E5E0D8]">
+                                  {/* Hình dáng */}
+                                  <p className="flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#DCAE96]"></span>
+                                    <span>Hình dáng:</span>
+                                    <span className="text-[#715136] font-bold">
+                                      {DICTIONARY.shapes[item.customization.shape] || item.customization.shape}
+                                    </span>
+                                  </p>
+
+                                  {/* Màu sắc */}
+                                  <p className="flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#DCAE96]"></span>
+                                    <span>Màu sắc:</span>
+                                    <span className="text-[#715136] font-bold">
+                                      {DICTIONARY.colors[item.customization.color] || 'Tự chọn'}
+                                    </span>
+                                  </p>
+
+                                  {/* Đế nến */}
+                                  {item.customization.base && item.customization.base !== 'none' && (
+                                    <p className="flex items-center gap-2">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-[#DCAE96]"></span>
+                                      <span>Đế nến:</span>
+                                      <span className="text-[#715136] font-bold">
+                                        {DICTIONARY.bases[item.customization.base] || item.customization.base}
+                                      </span>
+                                    </p>
+                                  )}
+
+                                  {/* Khắc tên */}
+                                  {item.customization.engraving && (
+                                    <p className="flex items-start gap-2">
+                                      <span className="text-xs">✨</span>
+                                      <span>Khắc:</span>
+                                      <span className="text-[#715136] font-bold italic">"{item.customization.engraving}"</span>
+                                    </p>
+                                  )}
+
+                                  {/* Thông điệp */}
+                                  {item.customization.messageType === 'text' && (
+                                    <p className="flex items-start gap-2">
+                                      <span className="text-xs">💌</span>
+                                      <span>Lời nhắn:</span>
+                                      <span className="text-[#715136] font-medium line-clamp-1">"{item.customization.message}"</span>
+                                    </p>
+                                  )}
+
+                                  {item.customization.messageType === 'voice' && (
+                                    <p className="flex items-center gap-2">
+                                      <span className="text-xs">🎙️</span>
+                                      <span className="text-[#715136] font-bold">Kèm mã QR giọng nói</span>
+                                    </p>
+                                  )}
+
+                                  {/* Hộp quà */}
+                                  {item.customization.box && item.customization.box !== 'none' && (
+                                    <p className="flex items-center gap-2">
+                                      <span className="text-xs">🎁</span>
+                                      <span className="text-[#715136]">Đóng gói hộp quà</span>
+                                    </p>
+                                  )}
                                 </div>
                               ) : (
-                                <p className="text-sm text-gray-500 mt-2 font-body italic">{product?.description}</p>
+                                <p className="text-sm text-gray-500 mt-2 font-body italic">
+                                  Sản phẩm có sẵn
+                                </p>
                               )}
                             </div>
-                            <button onClick={() => removeCartItem(idx)} className="text-gray-400 hover:text-red-500 transition-colors p-1"><span className="sr-only">Xóa</span>✕</button>
+                            <button onClick={() => removeCartItem(idx)} className="text-gray-400 hover:text-red-500 transition-colors p-2"><span className="sr-only">Xóa</span>✕</button>
                           </div>
                         </div>
 
@@ -215,30 +348,44 @@ export default function CheckoutPage() {
               )}
             </div>
 
-            {/* Summary Box */}
+            {/* Summary Box - Đã cập nhật chính sách vận chuyển */}
             <div className="bg-[#F9F7F5] rounded-2xl p-6 border border-[#E5E0D8]">
-              <div className="flex justify-between mb-3 text-gray-600 font-body font-bold">
+              {/* Tạm tính */}
+              <div className="flex justify-between mb-3 text-gray-600 font-body">
                 <span>Tạm tính</span>
                 <span>{totalPrice.toLocaleString('vi-VN')} đ</span>
               </div>
-              <div className="flex justify-between mb-4 text-gray-600 font-body font-bold">
+
+              {/* Phí vận chuyển */}
+              <div className="flex justify-between mb-2 text-gray-600 font-body">
                 <span>Phí vận chuyển</span>
-                <span className="text-[#715136]">Miễn phí</span>
+                <span className={shippingFee === 0 ? "text-[#6B8E23]" : "text-[#3a3a3a]"}>
+                  {shippingFee === 0 ? "Miễn phí" : `${shippingFee.toLocaleString('vi-VN')} đ`}
+                </span>
               </div>
+
+              {/* Gợi ý mua thêm (Upsell) - Rất tốt cho trải nghiệm khách hàng */}
+              {shippingFee > 0 && (
+                <p className="font-body font-bold text-xs text-gray-400 italic mb-4 text-right border-b border-dashed border-gray-300 pb-2">
+                  Mua thêm <span className="text-[#715136] font-brand">{(FREE_SHIP_THRESHOLD - totalPrice).toLocaleString('vi-VN')}đ</span> để được Freeship
+                </p>
+              )}
+
+              {/* Tổng cộng */}
               <div className="border-t border-[#E5E0D8] pt-4 flex justify-between items-center">
                 <span className="font-body font-bold text-lg text-[#3a3a3a]">Tổng cộng</span>
-                <span className="text-3xl font-brand font-bold text-[#715136]">{totalPrice.toLocaleString('vi-VN')} đ</span>
+                <span className="text-3xl font-brand font-bold text-[#715136]">{finalTotal.toLocaleString('vi-VN')} đ</span>
               </div>
             </div>
           </div>
         )
 
-      // BƯỚC 2: SHIPPING
+      // BƯỚC 2: SHIPPING (GIỮ NGUYÊN)
       case 'shipping':
         return (
           <div className="space-y-8 animate-in fade-in slide-in-from-right-8 duration-500">
             <div className="text-center md:text-left">
-              <h2 className="text-3xl md:text-4xl font-brand font-bold text-[#715136]">Thông tin giao hàng</h2>
+              <h2 className="text-3xl md:text-4xl font-brand font-bold uppercase text-[#715136]">Thông tin giao hàng</h2>
               <p className="font-body text-gray-500 mt-2">Chúng mình sẽ giao hàng đến địa chỉ này.</p>
             </div>
 
@@ -277,12 +424,12 @@ export default function CheckoutPage() {
           </div>
         )
 
-      // BƯỚC 3: PAYMENT
+      // BƯỚC 3: PAYMENT (GIỮ NGUYÊN)
       case 'payment':
         return (
           <div className="space-y-8 animate-in fade-in slide-in-from-right-8 duration-500">
             <div className="text-center md:text-left">
-              <h2 className="text-3xl md:text-4xl font-brand font-bold text-[#715136]">Thanh toán & Xác nhận</h2>
+              <h2 className="text-3xl md:text-4xl font-brand font-bold uppercase text-[#715136]">Thanh toán & Xác nhận</h2>
               <p className="font-body text-gray-500 mt-2">Chọn phương thức thanh toán an toàn.</p>
             </div>
 
@@ -328,10 +475,20 @@ export default function CheckoutPage() {
                       <span className="font-body text-right">{formData.address}, {formData.district}, {formData.city}</span>
                     </div>
                   </div>
+                  {/* ... Bên trong Payment Summary ... */}
                   <div className="mt-8 pt-6 border-t border-white/20">
-                    <div className="flex justify-between items-end">
+                    <div className="flex justify-between items-center mb-2 text-white/80 text-sm">
+                      <span>Tạm tính:</span>
+                      <span>{totalPrice.toLocaleString('vi-VN')} đ</span>
+                    </div>
+                    <div className="flex justify-between items-center mb-4 text-white/80 text-sm">
+                      <span>Vận chuyển:</span>
+                      <span>{shippingFee === 0 ? "Miễn phí" : `${shippingFee.toLocaleString('vi-VN')} đ`}</span>
+                    </div>
+                    <div className="flex justify-between items-end border-t border-white/20 pt-4">
                       <span className="text-sm">Tổng thanh toán</span>
-                      <span className="text-3xl font-brand font-bold">{totalPrice.toLocaleString('vi-VN')} đ</span>
+                      {/* Dùng biến finalTotal */}
+                      <span className="text-3xl font-brand font-bold">{finalTotal.toLocaleString('vi-VN')} đ</span>
                     </div>
                   </div>
                 </div>
@@ -348,13 +505,11 @@ export default function CheckoutPage() {
       <Header />
 
       <main className="flex-1 pb-20">
-        {/* Progress Indicator - Redesigned */}
+        {/* Progress Indicator */}
         <section className="pt-8 pb-12">
           <div className="max-w-3xl mx-auto px-4">
             <div className="relative flex justify-between">
-              {/* Line background */}
               <div className="absolute top-1/2 left-0 w-full h-0.5 bg-[#E5E0D8] -z-10 -translate-y-1/2 rounded-full"></div>
-              {/* Active Line */}
               <div
                 className="absolute top-1/2 left-0 h-0.5 bg-[#715136] -z-10 -translate-y-1/2 rounded-full transition-all duration-500"
                 style={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
@@ -362,7 +517,6 @@ export default function CheckoutPage() {
 
               {steps.map((step, idx) => {
                 const isActive = idx <= currentStep;
-                const isCurrent = idx === currentStep;
                 return (
                   <div key={step.id} className="flex flex-col items-center bg-[#FFFDFA] px-2">
                     <div
@@ -388,7 +542,7 @@ export default function CheckoutPage() {
           {renderStep()}
         </section>
 
-        {/* Navigation Buttons - Fixed Bottom Mobile or Inline Desktop */}
+        {/* Navigation Buttons */}
         <section className="max-w-5xl mx-auto px-4 mt-12">
           <div className="flex justify-between items-center pt-8 border-t border-[#E5E0D8]">
             <button
