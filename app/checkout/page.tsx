@@ -120,6 +120,10 @@ export default function CheckoutPage() {
   // ... (giữ nguyên các đoạn code trên)
 
   const handlePlaceOrder = async () => { // Thêm async vào đây
+    // Thêm 3 dòng này vào ngay đầu hàm để hết gạch đỏ
+    const cartTotal = cart.reduce((s, it) => s + (it.price || 0) * (it.qty || 1), 0);
+    const shippingFee = cartTotal >= 500000 ? 0 : 30000;
+    const finalTotal = cartTotal + shippingFee;
     if (!formData.paymentMethod) return alert("Vui lòng chọn phương thức thanh toán.");
     if (cart.length === 0) return alert("Giỏ hàng trống.");
 

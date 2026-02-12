@@ -2,7 +2,7 @@
 
 import Header from '@/components/header'
 import Footer from '@/components/footer'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { CheckCircle, Package, Truck, Clock, MapPin, Phone, Search } from 'lucide-react'
 import Link from 'next/link'
@@ -36,7 +36,7 @@ const DICTIONARY: any = {
     }
 }
 
-export default function OrderCheckPage() {
+function OrderCheckContent() {
     const searchParams = useSearchParams()
     const router = useRouter()
     const [orders, setOrders] = useState<any[]>([])
@@ -45,7 +45,6 @@ export default function OrderCheckPage() {
     // Lấy ID đơn hàng vừa đặt xong (nếu có)
     const newOrderId = searchParams.get('id');
     const isNew = searchParams.get('new') === 'true';
-
     useEffect(() => {
         // 1. Lấy dữ liệu thô từ LocalStorage
         const rawHistory = JSON.parse(localStorage.getItem('order_history') || '[]');
@@ -92,7 +91,6 @@ export default function OrderCheckPage() {
     return (
         <div className="min-h-screen flex flex-col bg-[#FFFDFA]">
             <Header />
-
             <main className="flex-1 py-12 px-4 max-w-4xl mx-auto w-full">
 
                 {/* 1. THÔNG BÁO ĐẶT HÀNG THÀNH CÔNG (Chỉ hiện khi vừa mua xong) */}
@@ -280,5 +278,13 @@ export default function OrderCheckPage() {
             </main>
             <Footer />
         </div>
+    )
+}
+// --- Hàm default export mới để bọc Suspense ---
+export default function OrderCheckPage() {
+    return (
+        <Suspense fallback={<div className="p-20 text-center">Đang tải thông tin đơn hàng...</div>}>
+            <OrderCheckContent />
+        </Suspense>
     )
 }
