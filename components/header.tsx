@@ -123,13 +123,14 @@ export default function Header() {
             {/* Link tra cứu đơn hàng */}
             <Link
               href="/order-check"
-              className="block py-3 text-base font-medium text-gray-600 hover:text-[#715136] border-b border-gray-100"
+              className="flex items-center gap-2 text-base font-medium text-foreground hover:text-primary hover:bg-secondary/50 px-3 py-2 rounded-md transition-colors"
+              onClick={() => setIsOpen(false)}
             >
-              Tra cứu đơn hàng
+              <PackageSearch size={20} /> Tra cứu đơn hàng
             </Link>
           </nav>
         )}
       </div>
-    </header>
+    </header >
   )
 }
