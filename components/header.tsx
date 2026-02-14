@@ -120,6 +120,13 @@ export default function Header() {
             >
               <ShoppingCart size={20} /> Giỏ hàng ({cartCount})
             </Link>
+            {/* Link tra cứu đơn hàng */}
+            <Link
+              href="/order-check"
+              className="block py-3 text-base font-medium text-gray-600 hover:text-[#715136] border-b border-gray-100"
+            >
+              Tra cứu đơn hàng
+            </Link>
           </nav>
         )}
       </div>

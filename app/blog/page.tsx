@@ -1,10 +1,32 @@
 import { getPosts, WPPost } from '@/lib/wordpress'
-import BlogUI from '@/components/blog-ui' // Import file UI vừa tạo
+import BlogUI from '@/components/blog-ui'
 
 export default async function BlogPage() {
-  // Lấy 100 bài viết mới nhất từ WordPress (để lọc client-side cho mượt)
-  const posts: WPPost[] = await getPosts(1, 100);
+  // 1. Lấy dữ liệu từ WordPress
+  const allPosts: WPPost[] = await getPosts(1, 100);
 
-  // Truyền dữ liệu xuống Component giao diện
-  return <BlogUI posts={posts} />
+  // 2. LỌC BÀI VIẾT (Logic mới thêm vào)
+  const filteredPosts = allPosts.filter((post) => {
+    // Lấy tiêu đề bài viết (xử lý an toàn nếu tiêu đề là object hoặc string)
+    // Trong WordPress API chuẩn, tiêu đề thường nằm trong post.title.rendered
+    const title = typeof post.title === 'string' ? post.title : post.title.rendered;
+
+    // Kiểm tra xem tiêu đề có bắt đầu bằng cụm "[nhap]" không (không phân biệt hoa thường)
+    const isDraft = title.trim().toLowerCase().startsWith('[nhap]');
+
+    // Kiểm tra môi trường: 'production' là web chính, 'development' là localhost
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    // NẾU là bài nháp VÀ đang ở trên web chính -> ẨN ĐI (return false)
+    if (isDraft && isProduction) {
+      return false;
+    }
+
+    // Các trường hợp còn lại -> HIỆN (return true)
+    return true;
+  });
+
+  // 3. Truyền danh sách ĐÃ LỌC xuống Component giao diện
+  // (Thay vì truyền allPosts, giờ ta truyền filteredPosts)
+  return <BlogUI posts={filteredPosts} />
 }

@@ -60,14 +60,33 @@ export default async function BlogDetailPage({ params }: PageProps) {
   const post = await getPostBySlug(slug)
   if (!post) return <NotFoundState />
 
-  // 2. Lấy danh sách bài viết mới nhất cho Sidebar (Lấy 5 bài để trừ hao bài hiện tại)
-  const allRecentPosts = await getPosts(1, 5);
-  // Lọc bỏ bài hiện tại ra khỏi danh sách "Bài viết liên quan"
+  const titleToCheck = post.title.rendered || "";
+  const isDraft = titleToCheck.trim().toLowerCase().startsWith('[nhap]');
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  if (isDraft && isProduction) {
+    return <NotFoundState />
+  }
+
+  // 2. Lấy danh sách bài viết mới nhất cho Sidebar
+  const allRecentPosts = await getPosts(1, 10);
+
   const relatedPosts = Array.isArray(allRecentPosts)
-    ? allRecentPosts.filter((p: WPPost) => p.id !== post.id).slice(0, 3)
+    ? allRecentPosts.filter((p: WPPost) => {
+      // Điều kiện 1: Không phải bài đang xem
+      if (p.id === post.id) return false;
+
+      // Điều kiện 2: Nếu ở Production, ẩn các bài [nhap] khỏi sidebar luôn
+      const pTitle = p.title.rendered || "";
+      if (isProduction && pTitle.trim().toLowerCase().startsWith('[nhap]')) {
+        return false;
+      }
+
+      return true;
+    }).slice(0, 3) // Chỉ lấy 3 bài sau khi lọc sạch sẽ
     : [];
 
-  // Xử lý dữ liệu hiển thị
+  // Xử lý dữ liệu hiển thị (Giữ nguyên code cũ của bạn)
   const title = post.title.rendered
   const rawContent = post.content.rendered
   const contentWithIds = addIdsToHeadings(rawContent)
@@ -100,8 +119,12 @@ export default async function BlogDetailPage({ params }: PageProps) {
           />
 
           <div className="flex items-center gap-4 border-y border-gray-100 py-4">
-            <div className="w-10 h-10 bg-[#715136] rounded-full flex items-center justify-center text-white font-bold">
-              {authorName.charAt(0)}
+            <div className="w-10 h-10 rounded-full overflow-hidden border border-gray-200 relative bg-white">
+              <img
+                src="/favicon.png"
+                alt="Préci Logo"
+                className="w-full h-full object-contain p-1"
+              />
             </div>
             <div className="flex-1">
               <div className="font-bold text-base text-[#3a3a3a] flex items-center gap-2">
