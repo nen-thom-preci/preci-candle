@@ -3,7 +3,7 @@ import { Mail, Phone, MapPin, Facebook, Instagram } from 'lucide-react'
 
 export default function Footer() {
   return (
-    <footer className="bg-[#F2EFE9] text-[#715136] border-t border-[#E5E0D8]">
+    <footer className="bg-primary/90 text-background border-t border-background/20">
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-16">
 
         {/* Main Grid */}
@@ -15,12 +15,12 @@ export default function Footer() {
               <img
                 src="/assets/Logo.webp"
                 alt="Préci Logo"
-                className="w-14 h-14 object-cover rounded-full border border-[#E5E0D8] group-hover:opacity-90 transition-opacity"
+                className="w-14 h-14 bg-white object-cover rounded-full border border-[#E5E0D8] group-hover:opacity-90 transition-opacity"
               />
-              <h3 className="text-5xl font-brand text-[#715136]">Préci</h3>
+              <h3 className="text-5xl font-brand">Préci</h3>
             </Link>
 
-            <p className="font-body text-base leading-relaxed text-primary max-w-md text-justify">
+            <p className="font-body text-base leading-relaxed max-w-md text-justify">
               Préci (trong tiếng Pháp là précieux) nghĩa là trân quý. Việc lược bỏ hậu tố nhằm thể hiện tinh thần tinh tế, tối giản nhưng vẫn giữ trọn cốt lõi. Chúng mình tin rằng mỗi mối quan hệ đều có giá trị cảm xúc riêng biệt cần được giữ gìn trân trọng.
             </p>
 
@@ -30,7 +30,7 @@ export default function Footer() {
                 href="https://www.facebook.com/profile.php?id=61587106565203"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-white rounded-full border border-[#E5E0D8] hover:bg-[#715136] hover:text-white hover:border-[#715136] transition-all duration-300"
+                className="p-2 rounded-full border border-[#E5E0D8] hover:bg-[#3a3a3a] hover:text-white hover:border-[#715136] transition-all duration-300"
               >
                 <Facebook size={18} />
               </a>
@@ -38,7 +38,7 @@ export default function Footer() {
                 href="https://www.instagram.com/preci005"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-white rounded-full border border-[#E5E0D8] hover:bg-[#715136] hover:text-white hover:border-[#715136] transition-all duration-300"
+                className="p-2 rounded-full border border-[#E5E0D8] hover:bg-[#3a3a3a] hover:text-white hover:border-[#715136] transition-all duration-300"
               >
                 <Instagram size={18} />
               </a>
@@ -58,7 +58,7 @@ export default function Footer() {
                   <li key={index}>
                     <Link
                       href={links[index]}
-                      className="font-body text-primary hover:text-[#715136] hover:translate-x-1 transition-all duration-300 inline-block"
+                      className="font-body hover:text-background/70 hover:translate-x-1 transition-all duration-300 inline-block"
                     >
                       {item}
                     </Link>
@@ -71,7 +71,7 @@ export default function Footer() {
           {/* 3. Contact Info (Chiếm 3/12 cột) */}
           <div className="lg:col-span-3">
             <h4 className="font-brand text-[36px] tracking-[0.15em] mb-6">Liên hệ</h4>
-            <ul className="space-y-4 font-body text-primary">
+            <ul className="space-y-4 font-body">
               <li className="flex items-start gap-3">
                 <Phone size={18} className="mt-1 flex-shrink-0" />
                 <span>091 6446 265</span>
@@ -90,14 +90,10 @@ export default function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-[#715136]/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-body text-[#715136]/60">
+        <div className="border-t border-background/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-body text-background/90">
           <p>&copy; {new Date().getFullYear()} Préci. All rights reserved.</p>
-          <div className="flex gap-8">
-            <Link href="/policies" className="hover:text-[#715136] transition-colors">Chính sách bảo mật</Link>
-            <Link href="/policies" className="hover:text-[#715136] transition-colors">Điều khoản sử dụng</Link>
-          </div>
         </div>
       </div>
-    </footer>
+    </footer >
   )
 }

@@ -54,18 +54,27 @@ export default function BlogUI({ posts }: { posts: WPPost[] }) {
                         className="absolute inset-0 w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-black/40" />
-
-                    <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-                        <span className="text-white/90 font-brand text-lg tracking-[0.2em] uppercase mb-4 block animate-in fade-in slide-in-from-bottom-4 duration-700">
-                            Préci Blog
-                        </span>
-                        <h1 className="text-5xl md:text-7xl font-brand text-white mb-6 leading-tight animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
-                            Cẩm nang & Cảm hứng
-                        </h1>
-                        <p className="font-body text-white/90 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
-                            Các bài viết giúp bạn tìm hiểu thêm về nến thơm và cách tận hưởng chúng
-                        </p>
+                    <div className="relative z-10 h-full max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col justify-center">
+                        <div className="flex flex-col items-center justify-center text-center text-white 
+             bg-black/20 backdrop-blur-[3px] border border-white/10 
+             p-6 md:p-12 rounded-2xl md:rounded-3xl shadow-2xl max-w-[90%] md:max-w-3xl mx-auto
+             animate-in fade-in zoom-in duration-1000"
+                        >
+                            <div className="md:max-w-xl">
+                                {/* TIÊU ĐỀ */}
+                                <span className="text-white/90 font-brand text-lg tracking-[0.2em] uppercase mb-4 block animate-in fade-in slide-in-from-bottom-4 duration-700">
+                                    Préci Blog
+                                </span>
+                                <h1 className="font-brand text-white text-4xl md:text-7xl mb-2 drop-shadow-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-forwards">
+                                    Cẩm nang
+                                </h1>
+                                <p className="font-body text-xl text-white italic drop-shadow-lg leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 fill-mode-forwards">
+                                    Các bài viết giúp bạn tìm hiểu thêm về nến thơm và cách tận hưởng chúng
+                                </p>
+                            </div>
+                        </div>
                     </div>
+
                 </section>
 
                 {/* Blog Section */}
@@ -99,7 +108,7 @@ export default function BlogUI({ posts }: { posts: WPPost[] }) {
                                         <button
                                             key={index}
                                             onClick={() => setActiveCategory(cat)}
-                                            className={`text-sm md:text-base font-brand font-bold uppercase px-6 py-2.5 rounded-full transition-all duration-300 border ${activeCategory === cat
+                                            className={`text-base md:text-lg font-brand font-bold px-6 py-2.5 rounded-full transition-all duration-300 border ${activeCategory === cat
                                                 ? 'bg-[#715136] text-white border-[#715136] shadow-md'
                                                 : 'bg-transparent text-gray-500 border-transparent hover:text-[#715136] hover:bg-[#F2EFE9] hover:border-[#E5E0D8]'
                                                 }`}

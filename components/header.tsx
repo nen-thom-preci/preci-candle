@@ -38,7 +38,7 @@ export default function Header() {
   ]
 
   return (
-    <header className="font-brand border-b border-border sticky top-0 z-50 bg-background/95 backdrop-blur-sm">
+    <header className="font-brand text-[#3a3a3a] border-b border-border sticky top-0 z-50 bg-background backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex items-center justify-between">
 
@@ -49,7 +49,7 @@ export default function Header() {
               alt="Préci"
               className="w-10 h-10 object-contain group-hover:opacity-80 transition-opacity"
             />
-            <h1 className="text-3xl ml-2 font-brand text-primary">Préci</h1>
+            <h1 className="text-3xl ml-2 font-brand">Préci</h1>
           </Link>
 
           {/* 2. CỤM MENU + GIỎ HÀNG (GOM CHUNG VÀO 1 KHỐI) */}

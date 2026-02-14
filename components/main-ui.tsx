@@ -93,13 +93,13 @@ export default function MainUI({ posts }: { posts: WPPost[] }) {
              animate-in fade-in zoom-in duration-1000"
                         >
                             {/* Mobile: Text nhỏ hơn (4xl) */}
-                            <h1 className="font-brand text-4xl md:text-7xl tracking-[0.1em] mb-2 drop-shadow-lg">
+                            <h1 className="font-brand text-6xl md:text-8xl tracking-[0.1em] mb-2 drop-shadow-lg">
                                 Préci
                             </h1>
 
                             <div className="w-16 md:w-20 h-[1px] bg-white/70 mb-3 md:mb-4"></div>
 
-                            <p className="font-body font-light text-base md:text-xl tracking-[0.2em] opacity-90 drop-shadow-md text-nowrap">
+                            <p className="font-body font-light text-lg md:text-2xl tracking-[0.2em] opacity-90 drop-shadow-md text-nowrap">
                                 Độc bản, trọn ý - Trọn tâm tình
                             </p>
                         </div>

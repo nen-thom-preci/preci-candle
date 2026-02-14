@@ -29,17 +29,20 @@ export default function AboutPage() {
 
           {/* 2. Nội dung chữ phủ lên trên (Căn trái) */}
           <div className="relative z-10 h-full max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col justify-center">
-            <div className="md:max-w-xl">
-              {/* TIÊU ĐỀ */}
-              <h1 className="text-6xl md:text-8xl font-brand text-[#3a3a3a] mb-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-forwards">
-                Về Préci
-              </h1>
-
-              {/* ĐOẠN VĂN */}
-              {/* Thêm delay-200 để nó hiện sau tiêu đề một chút cho đẹp */}
-              <p className="font-body text-xl md:text-xl text-[#3a3a3a] italic leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 fill-mode-forwards">
-                Préci được sinh ra từ đam mê tạo ra những sản phẩm độc bản dành cho những người thân yêu, trân quý của mình.
-              </p>
+            <div className="flex flex-col items-center justify-center text-center text-white 
+             bg-primary/50 backdrop-blur-[3px] border border-white/10 
+             p-6 md:p-12 rounded-2xl md:rounded-3xl shadow-2xl max-w-[90%] md:max-w-3xl mx-auto
+             animate-in fade-in zoom-in duration-1000"
+            >
+              <div className="md:max-w-xl">
+                {/* TIÊU ĐỀ */}
+                <h1 className="font-brand text-white text-4xl md:text-7xl mb-2 drop-shadow-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-forwards">
+                  Về Préci
+                </h1>
+                <p className="font-body text-xl text-white italic drop-shadow-lg leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 fill-mode-forwards">
+                  Préci được sinh ra từ đam mê tạo ra những sản phẩm độc bản dành cho những người thân yêu, trân quý của mình.
+                </p>
+              </div>
             </div>
           </div>
         </section>
