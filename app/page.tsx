@@ -2,11 +2,12 @@
 import { getPosts, WPPost } from '@/lib/wordpress'
 import MainUI from '@/components/main-ui' // Import cái file to đùng vừa tạo
 
-export default async function Home() {
-  // 1. Lấy dữ liệu từ WordPress ngay tại Server (Chuẩn SEO, Nhanh)
-  const posts: WPPost[] = await getPosts(1, 3);
+export default async function BlogPage() {
+  // 1. Lấy dữ liệu từ WordPress
+  const allPosts: WPPost[] = await getPosts(1, 100);
+
   // 2. LỌC BÀI VIẾT (Logic mới thêm vào)
-  const filteredPosts = posts.filter((post) => {
+  const filteredPosts = allPosts.filter((post) => {
     // Lấy tiêu đề bài viết (xử lý an toàn nếu tiêu đề là object hoặc string)
     // Trong WordPress API chuẩn, tiêu đề thường nằm trong post.title.rendered
     const title = typeof post.title === 'string' ? post.title : post.title.rendered;
