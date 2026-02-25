@@ -4,7 +4,7 @@ import MainUI from '@/components/main-ui' // Import cái file to đùng vừa t�
 
 export default async function BlogPage() {
   // 1. Lấy dữ liệu từ WordPress
-  const allPosts: WPPost[] = await getPosts(1, 100);
+  const allPosts: WPPost[] = await getPosts(1, 6);
 
   // 2. LỌC BÀI VIẾT (Logic mới thêm vào)
   const filteredPosts = allPosts.filter((post) => {

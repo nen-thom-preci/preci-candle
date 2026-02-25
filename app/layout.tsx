@@ -34,8 +34,8 @@ const _geistMono = Geist_Mono({
 
 // --- PHẦN METADATA CŨ (GIỮ NGUYÊN 100%) ---
 export const metadata: Metadata = {
-  title: 'Préci - Nến Thơm Cao Cấp',
-  description: 'Khám phá bộ sưu tập nến thơm tự nhiên và các phụ kiện cao cấp từ Préci',
+  title: 'Préci - Nến Thơm Customize',
+  description: 'Cùng khám phá hũ nến thơm mà bạn tự thiết kế cùng các phụ kiện tinh tế đi kèm từ Préci',
   generator: 'v0.app',
   icons: {
     icon: '/favicon.png', // Dấu / ở đầu nghĩa là tìm trong thư mục public
