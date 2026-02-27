@@ -1,31 +1,31 @@
 import React from "react"
 import type { Metadata } from 'next'
-// 1. Thêm localFont và đổi Playfair sang Cormorant (cho đúng thiết kế)
 import localFont from 'next/font/local'
 import { Geist, Geist_Mono, Cormorant_Garamond } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { GoogleAnalytics } from '@next/third-parties/google' // 1. THÊM IMPORT NÀY Ở ĐÂY
 import './globals.css'
 
-// 2. Cấu hình Font Mallong (Local - Để sửa lỗi không hiện trên máy khác)
+// Cấu hình Font Mallong
 const mallong = localFont({
-  src: './fonts/Mallong-Regular.ttf', // Đảm bảo file nằm trong app/fonts/
+  src: './fonts/Mallong-Regular.ttf',
   variable: '--font-mallong',
   display: 'swap',
 })
 
-// 3. Cấu hình Font Tiêu đề (Cormorant Garamond - Cho đúng ảnh thiết kế)
+// Cấu hình Font Tiêu đề
 const cormorant = Cormorant_Garamond({
   subsets: ["latin", "vietnamese"],
   weight: ["300", "400", "500", "600", "700"],
   style: ["normal", "italic"],
-  variable: '--font-cormorant', // Đặt tên biến để dùng trong Tailwind
+  variable: '--font-cormorant',
   display: 'swap',
 });
 
 // Giữ nguyên Geist như cũ
 const _geist = Geist({
   subsets: ["latin"],
-  variable: "--font-geist-sans", // Thêm biến để Tailwind dùng
+  variable: "--font-geist-sans",
 });
 const _geistMono = Geist_Mono({
   subsets: ["latin"],
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   description: 'Cùng khám phá hũ nến thơm mà bạn tự thiết kế cùng các phụ kiện tinh tế đi kèm từ Préci',
   generator: 'v0.app',
   icons: {
-    icon: '/favicon.png', // Dấu / ở đầu nghĩa là tìm trong thư mục public
+    icon: '/favicon.png',
     shortcut: '/favicon.png',
     apple: '/favicon.png',
   },
@@ -51,11 +51,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi">
-      {/* 4. Thêm các biến font vào body để Tailwind nhận diện được */}
       <body className={`${mallong.variable} ${cormorant.variable} ${_geist.variable} ${_geistMono.variable} font-sans antialiased bg-background text-foreground`}>
         {children}
-        {/* Giữ nguyên Analytics */}
+        {/* Giữ nguyên Analytics của Vercel */}
         <Analytics />
+
+        {/* 2. THÊM COMPONENT GA4 VÀO ĐÂY (TRƯỚC KHI ĐÓNG THẺ BODY) */}
+        <GoogleAnalytics gaId="G-YHFBBPP2FR" />
       </body>
     </html>
   )

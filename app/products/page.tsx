@@ -50,7 +50,7 @@ function ProductContent() {
                   Sản phẩm
                 </h1>
                 <p className="font-body text-xl text-white italic drop-shadow-lg leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 fill-mode-forwards">
-                  Khám phá bộ sưu tập nến thơm và phụ kiện cao cấp được chế tác tỉ mỉ
+                  Khám phá bộ sưu tập nến thơm customize và phụ kiện đi kèm được chế tác tỉ mỉ từ Préci.
                 </p>
               </div>
             </div>
