@@ -130,7 +130,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
               <div className="font-bold text-base text-[#3a3a3a] flex items-center gap-2">
                 {authorName} <CheckCircle size={14} className="text-blue-500" fill="white" />
               </div>
-              <div className="text-sm text-gray-500">Kiểm duyệt bởi Đội ngũ Chuyên gia từ Préci</div>
+              <div className="text-sm text-gray-500">Nội dung đã được kiểm duyệt bởi chuyên gia</div>
             </div>
             <div className="font-brand font-semibold text-sm text-gray-800 flex items-center gap-4">
               <span className="flex items-center gap-1"><Calendar size={14} /> {dateFormatted}</span>

@@ -696,7 +696,7 @@ export default function ProductCustomizer({ productId, productName }: Customizer
         <div className="flex flex-col-reverse lg:flex-row gap-0 lg:gap-12 h-auto lg:h-[600px]">
 
           {/* 1. KHU VỰC ĐIỀU KHIỂN (CONTROLS) - NẰM DƯỚI Ở MOBILE, TRÁI Ở PC */}
-          <div className="flex flex-col gap-4 md:gap-6 w-full lg:w-[450px] flex-shrink-0 px-4 py-6 md:p-0">
+          <div className="flex flex-col lg:flex-row gap-4 md:gap-6 w-full lg:w-[450px] flex-shrink-0 px-4 py-6 md:p-0">
             {/* NAV STEPS - MOBILE DẠNG SCROLL NGANG */}
             {/* NAV STEPS: Mobile (Ngang) - Desktop (Dọc y hệt cũ) */}
             <div className="flex flex-row lg:flex-col gap-4 lg:gap-6 w-full lg:w-24 flex-shrink-0 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 lg:pt-4 custom-scrollbar">
