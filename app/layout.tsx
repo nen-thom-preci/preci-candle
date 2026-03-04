@@ -53,11 +53,8 @@ export default function RootLayout({
     <html lang="vi">
       <body className={`${mallong.variable} ${cormorant.variable} ${_geist.variable} ${_geistMono.variable} font-sans antialiased bg-background text-foreground`}>
         {children}
-        {/* Giữ nguyên Analytics của Vercel */}
-        <Analytics />
-
         {/* 2. THÊM COMPONENT GA4 VÀO ĐÂY (TRƯỚC KHI ĐÓNG THẺ BODY) */}
-        <GoogleAnalytics gaId="G-YHFBBPP2FR" />
+        <GoogleAnalytics gaId="G-526327574" />
       </body>
     </html>
   )
