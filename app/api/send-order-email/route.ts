@@ -35,7 +35,7 @@ export async function POST(request: Request) {
         const info = await transporter.sendMail({
             from: `"Préci Candle" <${process.env.SMTP_USER}>`,
             to: customerEmail,
-            bcc: process.env.PROFESSOR_EMAIL, // BCC cho thầy giáo
+            // bcc: process.env.PROFESSOR_EMAIL, // BCC cho thầy giáo
             subject: `[Préci] Xác nhận đơn hàng #${orderId} thành công`,
             html: finalHtml,
         });
