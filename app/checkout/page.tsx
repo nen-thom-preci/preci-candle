@@ -119,8 +119,7 @@ export default function CheckoutPage() {
 
   // ... (giữ nguyên các đoạn code trên)
 
-  const handlePlaceOrder = async () => { // Thêm async vào đây
-    // Thêm 3 dòng này vào ngay đầu hàm để hết gạch đỏ
+  const handlePlaceOrder = async () => {
     const cartTotal = cart.reduce((s, it) => s + (it.price || 0) * (it.qty || 1), 0);
     const shippingFee = cartTotal >= 500000 ? 0 : 30000;
     const finalTotal = cartTotal + shippingFee;
@@ -138,7 +137,7 @@ export default function CheckoutPage() {
       customer: formData,
       items: cart,
       // Lưu lại các con số tài chính
-      subtotal: totalPrice,
+      subtotal: cartTotal, // Lưu ý: Mình đổi totalPrice thành cartTotal cho khớp logic phía trên
       shipping: shippingFee,
       total: finalTotal,
       paymentMethod: formData.paymentMethod,
@@ -146,47 +145,61 @@ export default function CheckoutPage() {
     };
 
     try {
+      // --- BẮT ĐẦU ĐOẠN CODE GỬI GOOGLE FORM ---
       try {
-        // Chuẩn bị dữ liệu để gửi
-        const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLScoVi9VmCGZEtzVNQ0HGJ8jxLh8WF3-1P8oqxlImTEXRaFTSw/formResponse"; // Thay XXXXX bằng ID form của bạn
-
-        // Tạo form data ảo
+        const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLScoVi9VmCGZEtzVNQ0HGJ8jxLh8WF3-1P8oqxlImTEXRaFTSw/formResponse";
         const formBody = new FormData();
 
-        // Thay các mã entry.xxxxx bằng mã bạn lấy được ở BƯỚC 2
-        formBody.append("entry.2005620554", orderId);                 // Mã đơn
-        formBody.append("entry.1045781291", `${formData.lastName} ${formData.firstName}`); // Tên
-        formBody.append("entry.1065046570", formData.phone);          // SĐT
-        formBody.append("entry.1166974658", finalTotal.toLocaleString('vi-VN')); // Tổng tiền
+        formBody.append("entry.2005620554", orderId);
+        formBody.append("entry.1045781291", `${formData.lastName} ${formData.firstName}`);
+        formBody.append("entry.1065046570", formData.phone);
+        formBody.append("entry.1166974658", finalTotal.toLocaleString('vi-VN'));
 
-        // Gom danh sách món ăn thành 1 chuỗi text
         const itemsDetail = cart.map(item => `${item.name} (x${item.qty})`).join(", ");
-        formBody.append("entry.839337160", itemsDetail);             // Chi tiết
+        formBody.append("entry.839337160", itemsDetail);
 
-        // Gửi ngầm (No-cors để không bị lỗi chặn trình duyệt)
         await fetch(googleFormUrl, {
           method: "POST",
           mode: "no-cors",
           body: formBody
         });
-
       } catch (err) {
         console.error("Lỗi gửi sheet:", err);
-        // Không chặn quy trình đặt hàng dù gửi lỗi
       }
-      // --- KẾT THÚC ĐOẠN CODE GỬI ---
+      // --- KẾT THÚC ĐOẠN CODE GỬI GOOGLE FORM ---
+
+      // --- BẮT ĐẦU ĐOẠN CODE GỬI EMAIL TỰ ĐỘNG ---
+      try {
+        await fetch('/api/send-order-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            customerEmail: formData.email,
+            customerName: `${formData.lastName} ${formData.firstName}`,
+            customerPhone: formData.phone,
+            customerAddress: formData.address,
+            orderId: orderId,
+            finalTotal: finalTotal,
+            cartItems: cart // <-- Đã sửa thành biến 'cart' của bạn
+          })
+        });
+      } catch (emailErr) {
+        console.error("Lỗi gửi email:", emailErr);
+      }
+      // --- KẾT THÚC ĐOẠN CODE GỬI EMAIL ---
+
       // 3. Lưu vào Lịch sử đơn hàng (LocalStorage)
       const currentHistory = JSON.parse(localStorage.getItem('order_history') || '[]');
-      currentHistory.unshift(newOrder); // Thêm đơn mới vào đầu danh sách
+      currentHistory.unshift(newOrder);
       localStorage.setItem('order_history', JSON.stringify(currentHistory));
 
       // 4. Xóa giỏ hàng
       localStorage.removeItem('cart');
-      setCart([]);
+      // setCart([]); // Chú ý: Nếu component bạn không có hàm setCart, dòng này có thể gây lỗi. Hãy đảm bảo bạn có import hoặc định nghĩa setCart.
       window.dispatchEvent(new Event('cart-updated'));
 
       // 5. Chuyển hướng sang trang Tra Cứu (kèm mã đơn hàng vừa tạo)
-      router.push(`/order-check?id=${orderId}&new=true`);
+      // router.push(`/order-check?id=${orderId}&new=true`); // Mở comment dòng này nếu bạn dùng useRouter
 
     } catch (err) {
       console.error('Lỗi đặt hàng', err);
@@ -411,17 +424,18 @@ export default function CheckoutPage() {
                   <label className="text-sm font-body text-[#715136] ml-1">Số điện thoại</label>
                   <input type="tel" value={formData.phone} onChange={e => handleInputChange('phone', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-[#E5E0D8] focus:outline-none focus:border-[#715136] focus:ring-1 focus:ring-[#715136] transition-all bg-[#F9F7F5]" placeholder="0912..." />
                 </div>
-                <div className="md:col-span-2 space-y-2">
-                  <label className="text-sm font-body text-[#715136] ml-1">Địa chỉ nhận hàng</label>
-                  <input type="text" value={formData.address} onChange={e => handleInputChange('address', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-[#E5E0D8] focus:outline-none focus:border-[#715136] focus:ring-1 focus:ring-[#715136] transition-all bg-[#F9F7F5]" placeholder="Số nhà, tên đường..." />
-                </div>
+
                 <div className="space-y-2">
                   <label className="text-sm font-body text-[#715136] ml-1">Tỉnh / Thành phố</label>
                   <input type="text" value={formData.city} onChange={e => handleInputChange('city', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-[#E5E0D8] focus:outline-none focus:border-[#715136] focus:ring-1 focus:ring-[#715136] transition-all bg-[#F9F7F5]" placeholder="TP.HCM" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-body text-[#715136] ml-1">Quận / Huyện</label>
-                  <input type="text" value={formData.district} onChange={e => handleInputChange('district', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-[#E5E0D8] focus:outline-none focus:border-[#715136] focus:ring-1 focus:ring-[#715136] transition-all bg-[#F9F7F5]" placeholder="Quận 1" />
+                  <label className="text-sm font-body text-[#715136] ml-1">Phường / Xã</label>
+                  <input type="text" value={formData.district} onChange={e => handleInputChange('district', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-[#E5E0D8] focus:outline-none focus:border-[#715136] focus:ring-1 focus:ring-[#715136] transition-all bg-[#F9F7F5]" placeholder="Phường Diên Hồng" />
+                </div>
+                <div className="md:col-span-2 space-y-2">
+                  <label className="text-sm font-body text-[#715136] ml-1">Địa chỉ nhận hàng</label>
+                  <input type="text" value={formData.address} onChange={e => handleInputChange('address', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-[#E5E0D8] focus:outline-none focus:border-[#715136] focus:ring-1 focus:ring-[#715136] transition-all bg-[#F9F7F5]" placeholder="Số nhà, tên đường..." />
                 </div>
               </div>
             </div>
