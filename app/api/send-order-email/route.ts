@@ -8,12 +8,13 @@ export async function POST(request: Request) {
         const { customerEmail, customerName, customerPhone, customerAddress, orderId, finalTotal, cartItems } = data;
 
         const transporter = nodemailer.createTransport({
+            service: 'gmail', // Dòng này báo cho Nodemailer biết đang dùng Google
             host: process.env.SMTP_HOST,
             port: Number(process.env.SMTP_PORT),
             secure: true,
             auth: {
                 user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
+                pass: process.env.SMTP_PASS, // Dùng Mật khẩu ứng dụng 16 ký tự ở đây
             },
         });
 

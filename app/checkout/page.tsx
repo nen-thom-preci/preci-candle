@@ -170,7 +170,8 @@ export default function CheckoutPage() {
 
       // --- BẮT ĐẦU ĐOẠN CODE GỬI EMAIL TỰ ĐỘNG ---
       try {
-        await fetch('/api/send-order-email', {
+        // Chúng ta gọi fetch nhưng không bắt trình duyệt phải chờ nó xong mới đi tiếp
+        fetch('/api/send-order-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -180,11 +181,13 @@ export default function CheckoutPage() {
             customerAddress: formData.address,
             orderId: orderId,
             finalTotal: finalTotal,
-            cartItems: cart // <-- Đã sửa thành biến 'cart' của bạn
+            cartItems: cart
           })
-        });
-      } catch (emailErr) {
-        console.error("Lỗi gửi email:", emailErr);
+        }).catch(err => console.error("Email background error:", err));
+
+      } catch (error) {
+        // Nếu có lỗi ở đây, web vẫn sẽ chạy tiếp xuống dưới
+        console.error("Lỗi chuẩn bị gửi mail:", error);
       }
       // --- KẾT THÚC ĐOẠN CODE GỬI EMAIL ---
 
@@ -199,7 +202,7 @@ export default function CheckoutPage() {
       window.dispatchEvent(new Event('cart-updated'));
 
       // 5. Chuyển hướng sang trang Tra Cứu (kèm mã đơn hàng vừa tạo)
-      // router.push(`/order-check?id=${orderId}&new=true`); // Mở comment dòng này nếu bạn dùng useRouter
+      router.push(`/order-check?id=${orderId}&new=true`); // Mở comment dòng này nếu bạn dùng useRouter
 
     } catch (err) {
       console.error('Lỗi đặt hàng', err);
