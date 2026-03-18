@@ -218,7 +218,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
           <aside className="lg:col-span-4 space-y-8">
 
             {/* Box 1: CTA Sản phẩm (Luôn hiển thị vì đây là điều hướng quan trọng) */}
-            <div className="bg-[#715136] rounded-xl p-6 text-white text-center sticky top-28 z-10 shadow-xl">
+            <div className="bg-[#715136] rounded-xl p-6 text-white text-center top-28 z-10 shadow-xl">
               <h3 className="text-xl font-brand font-bold mb-2">Bạn đang tìm món quà độc bản để gửi trọn tâm tình cho người thân yêu?</h3>
               <p className="text-white/80 text-sm mb-6">Khám phá bộ sưu tập nến thơm thiên nhiên từ Préci</p>
               <Link href="/products" className="block w-full bg-white text-[#715136] font-bold py-3 rounded-full hover:bg-gray-100 transition-colors shadow-md">
